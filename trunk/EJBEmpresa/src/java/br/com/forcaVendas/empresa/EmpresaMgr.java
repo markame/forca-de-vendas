@@ -8,11 +8,15 @@ import br.com.forcaVendas.empresa.entidade.PedidoItem;
 import br.com.forcaVendas.empresa.entidade.Vendedor;
 import br.com.forcaVendas.empresa.persistencia.EmpresaJpaController;
 import br.com.forcaVendas.empresa.persistencia.ItemJpaController;
+import br.com.forcaVendas.empresa.persistencia.NotaFiscalJpaController;
 import br.com.forcaVendas.empresa.persistencia.PedidoJpaController;
 import br.com.forcaVendas.empresa.persistencia.VendedorJpaController;
+import br.com.forcaVendas.empresa.persistencia.exceptions.RollbackFailureException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 
 /**
@@ -129,6 +133,18 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
             pedido = null;
         }
 
+        //Gera a nota fiscal do pedido
+        //De acordo com a especificação "6.1.4 Sequence Diagram - FazerPedido"
+        gerarNota(
+                pedido,                                         //Objeto Pedido
+                NotaFiscal.NOTA_FISCAL_SAIDA,                   //Tipo de Nota Fiscal
+                NotaFiscal.FRETE_CONTA_DESTINATARIO,            //Tipo de Frete
+                null, null, null, null,                         //Informações sobre o transportador
+                new Double(0),                                  //Valor dos Serviços (Frete + outros)
+                new Double(0),                                  //Valor impostos
+                "Vendedor: "+pedido.getVendedor()+
+                "\nData Entrega: "+pedido.getDataEntrega());    //Dados Adicionais
+
         return pedido;
     }
 
@@ -164,8 +180,47 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
         return pedidos;
     }
 
-    public NotaFiscal gerarNota() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public NotaFiscal gerarNota(Pedido pedido, short tipoNota,
+                        short fretePorConta,
+                        String NomeTransp,
+                        String enderecoTransp,
+                        Long cnpjTransp,
+                        String telefoneTransp,
+                        Double valorServicos,
+                        Double valorImpostos,
+                        String dadosAdicionais)
+    {
+        //Coleta informações da empresa (emitente da nota fiscal)
+        Empresa e = getEmpresa();
+
+        //Instancia a entidade NotaFiscal
+        NotaFiscal nota = new NotaFiscal(
+                tipoNota,
+                fretePorConta,
+                e.getNome(),
+                e.getEndereco(),
+                e.getCnpj(),
+                e.getTelefone(),
+                NomeTransp,
+                enderecoTransp,
+                cnpjTransp,
+                telefoneTransp,
+                pedido.getDataSolicitacao(),
+                pedido.getCodigo(),
+                pedido.getValorTotal(),
+                valorServicos,
+                valorImpostos,
+                dadosAdicionais);
+
+        //Persiste a Nota Fiscal
+        try {
+            NotaFiscalJpaController notaJpa = new NotaFiscalJpaController();
+            notaJpa.create(nota);
+        } catch (Exception ex) {
+            System.err.println(ex);
+        }
+
+        return nota;
     }
 
     public Item createItem(String nome, float preco) {

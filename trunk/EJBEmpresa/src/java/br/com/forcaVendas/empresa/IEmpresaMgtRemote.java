@@ -40,7 +40,16 @@ public interface IEmpresaMgtRemote {
 
     public List<Pedido> getPedidos();
 
-    public NotaFiscal gerarNota();//TODO debulhar
+    //Refatorado: gerarNota() agora recebe como parametro o pedido
+    public NotaFiscal gerarNota(Pedido pedido, short tipoNota,
+                        short fretePorConta,
+                        String NomeTransp,
+                        String enderecoTransp,
+                        Long cnpjTransp,
+                        String telefoneTransp,
+                        Double valorServicos,
+                        Double valorImpostos,
+                        String dadosAdicionais);//TODO debulhar
 
     public Item createItem(String nome, float preco);
 
@@ -51,5 +60,4 @@ public interface IEmpresaMgtRemote {
     public boolean updateItem(Item item);
 
     public boolean deleteItem(long codigo);
-
 }
