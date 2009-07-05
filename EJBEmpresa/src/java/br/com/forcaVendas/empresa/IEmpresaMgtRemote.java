@@ -24,28 +24,32 @@ public interface IEmpresaMgtRemote {
 
     public Empresa getEmpresa();
 
-    public void createVendedor(String nome, String endereco, String telefone, long cpf, float salario);
+    public Vendedor createVendedor(String nome, String endereco, String telefone, long cpf, float salario);
 
-    public void updateVendedor(Vendedor vendedor);
+    public boolean updateVendedor(Vendedor vendedor);
 
-    public void deleteVendedor(Vendedor vendedor);
+    public boolean deleteVendedor(Vendedor vendedor);
 
-    public Vendedor getVendedor(int codigo);
+    public Vendedor getVendedor(long codigo);
 
     public List<Vendedor> getVendedores();
 
-    public Pedido fazerPedido(int cliente, Vendedor vendedor, List<PedidoItem> itens);
+    public Pedido fazerPedido(long cliente, Vendedor vendedor, List<PedidoItem> itens);
+
+    public Pedido getPedido(long codigo);
+
+    public List<Pedido> getPedidos();
 
     public NotaFiscal gerarNota();//TODO debulhar
 
     public Item createItem(String nome, float preco);
 
-    public Item getItem(int codigo);
+    public Item getItem(long codigo);
 
     public List<Item> getItens();
 
-    public Item updateItem(Item item);
+    public boolean updateItem(Item item);
 
-    public void deleteItem(int codigo);
+    public boolean deleteItem(long codigo);
 
 }
