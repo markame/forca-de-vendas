@@ -15,6 +15,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Persistence;
 import javax.transaction.UserTransaction;
 
 /**
@@ -27,8 +28,15 @@ public class PedidoJpaController {
     @PersistenceUnit(unitName = "EJBEmpresaPU")
     private EntityManagerFactory emf = null;
 
+    private EntityManagerFactory getEmf() {
+        if(emf == null){
+            emf = Persistence.createEntityManagerFactory("EJBEmpresaPU");
+        }
+        return emf;
+    }
+
     public EntityManager getEntityManager() {
-        return emf.createEntityManager();
+        return getEmf().createEntityManager();
     }
 
     public void create(Pedido pedido) throws RollbackFailureException, Exception {
