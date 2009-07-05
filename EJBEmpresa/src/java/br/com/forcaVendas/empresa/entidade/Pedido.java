@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package br.com.forcaVendas.empresa.entidade;
 
 import java.io.Serializable;
@@ -12,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -36,14 +32,18 @@ public class Pedido implements Serializable {
     @Column
     private Double valorTotal;
 
+    @ManyToOne
+    private Vendedor vendedor;
+
     public Pedido() {
     }
 
-    public Pedido(Long cliente, Date dataSolicitacao, Date dataEntrega, double valorTotal) {
+    public Pedido(Long cliente, Date dataSolicitacao, Date dataEntrega, double valorTotal, Vendedor vendedor) {
         this.cliente = cliente;
         this.dataSolicitacao = dataSolicitacao;
         this.dataEntrega = dataEntrega;
         this.valorTotal = valorTotal;
+        this.vendedor = vendedor;
     }
 
     public Long getCliente() {
@@ -52,6 +52,14 @@ public class Pedido implements Serializable {
 
     public void setCliente(Long cliente) {
         this.cliente = cliente;
+    }
+
+    public Vendedor getVendedor() {
+        return vendedor;
+    }
+
+    public void setVendedor(Vendedor vendedor) {
+        this.vendedor = vendedor;
     }
 
     public Long getCodigo() {
@@ -78,7 +86,7 @@ public class Pedido implements Serializable {
         this.dataSolicitacao = dataSolicitacao;
     }
 
-    public double getValorTotal() {
+    public Double getValorTotal() {
         return valorTotal;
     }
 

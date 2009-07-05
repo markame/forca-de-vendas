@@ -11,6 +11,7 @@ import br.com.forcaVendas.empresa.entidade.NotaFiscal;
 import br.com.forcaVendas.empresa.entidade.Pedido;
 import br.com.forcaVendas.empresa.entidade.PedidoItem;
 import br.com.forcaVendas.empresa.entidade.Vendedor;
+import br.com.forcaVendas.empresa.persistencia.EmpresaJpaController;
 import java.util.List;
 import javax.ejb.Stateless;
 
@@ -22,9 +23,9 @@ import javax.ejb.Stateless;
 public class EmpresaMgr implements IEmpresaMgtRemote {
 
     public Empresa getEmpresa() {
-        //Fazer busca
-        Empresa empresa = new Empresa();
-        empresa.setNome("Força de Vendas");
+        EmpresaJpaController empresaJpa = new EmpresaJpaController();
+
+        Empresa empresa = empresaJpa.findEmpresa(Long.valueOf(1));
 
         return empresa;
     }

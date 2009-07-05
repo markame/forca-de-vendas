@@ -6,7 +6,7 @@
 package br.com.forcaVendas.client;
 
 import br.com.forcaVendas.empresa.IEmpresaMgtRemote;
-import br.com.forcaVendas.empresa.entidades.Empresa;
+import br.com.forcaVendas.empresa.entidade.Empresa;
 import javax.ejb.EJB;
 
 /**
