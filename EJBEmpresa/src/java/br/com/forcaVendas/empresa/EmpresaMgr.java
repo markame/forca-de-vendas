@@ -18,9 +18,15 @@ import javax.ejb.Stateless;
 public class EmpresaMgr implements IEmpresaMgtRemote {
 
     public Empresa getEmpresa() {
-        EmpresaJpaController empresaJpa = new EmpresaJpaController();
+        Empresa empresa = null;
 
-        Empresa empresa = empresaJpa.findEmpresa(Long.valueOf(1));
+        try{
+            EmpresaJpaController empresaJpa = new EmpresaJpaController();
+
+            empresa = empresaJpa.findEmpresa(Long.valueOf(1));
+        }catch(Exception ex){
+            System.err.println(ex);
+        }
 
         return empresa;
     }
