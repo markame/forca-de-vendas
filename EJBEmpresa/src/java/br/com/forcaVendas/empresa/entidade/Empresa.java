@@ -26,7 +26,7 @@ public class Empresa implements Serializable {
     @Column
     private String endereco;
 
-    @Column
+    @Column(unique=true)
     private Long cnpj;
 
     @Column

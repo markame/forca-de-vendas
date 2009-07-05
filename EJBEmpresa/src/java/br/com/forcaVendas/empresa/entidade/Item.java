@@ -20,7 +20,7 @@ public class Item implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long codigo;
 
-    @Column
+    @Column(unique=true)
     private String nome;
 
     @Column
