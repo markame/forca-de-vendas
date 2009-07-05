@@ -24,7 +24,7 @@ public interface IEmpresaMgtRemote {
 
     public Empresa getEmpresa();
 
-    public void createVendedor(String nome, String endereco, String telefone, int cpf, float salario);
+    public void createVendedor(String nome, String endereco, String telefone, long cpf, float salario);
 
     public void updateVendedor(Vendedor vendedor);
 

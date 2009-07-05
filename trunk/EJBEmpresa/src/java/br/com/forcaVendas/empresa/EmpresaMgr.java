@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package br.com.forcaVendas.empresa;
 
 import br.com.forcaVendas.empresa.entidade.Empresa;
@@ -30,7 +25,7 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
         return empresa;
     }
 
-    public void createVendedor(String nome, String endereco, String telefone, int cpf, float salario) {
+    public void createVendedor(String nome, String endereco, String telefone, long cpf, float salario) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
