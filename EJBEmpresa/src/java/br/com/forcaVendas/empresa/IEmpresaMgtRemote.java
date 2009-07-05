@@ -5,12 +5,12 @@
 
 package br.com.forcaVendas.empresa;
 
-import br.com.forcaVendas.empresa.entidades.Empresa;
-import br.com.forcaVendas.empresa.entidades.Item;
-import br.com.forcaVendas.empresa.entidades.NotaFiscal;
-import br.com.forcaVendas.empresa.entidades.Pedido;
-import br.com.forcaVendas.empresa.entidades.PedidoItem;
-import br.com.forcaVendas.empresa.entidades.Vendedor;
+import br.com.forcaVendas.empresa.entidade.Empresa;
+import br.com.forcaVendas.empresa.entidade.Item;
+import br.com.forcaVendas.empresa.entidade.NotaFiscal;
+import br.com.forcaVendas.empresa.entidade.Pedido;
+import br.com.forcaVendas.empresa.entidade.PedidoItem;
+import br.com.forcaVendas.empresa.entidade.Vendedor;
 import java.util.List;
 import javax.ejb.Remote;
 
