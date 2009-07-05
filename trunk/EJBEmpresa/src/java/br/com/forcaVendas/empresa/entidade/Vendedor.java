@@ -28,7 +28,7 @@ public class Vendedor implements Serializable {
     @Column
     private String telefone;
 
-    @Column
+    @Column(unique=true)
     private Long cpf;
 
     @Column

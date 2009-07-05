@@ -317,11 +317,13 @@ exists or setup the property manually. For example like this:
     </target>
     <target depends="compile" name="library-inclusion-in-archive">
         <copyfiles files="${file.reference.mysql-connector-java-5.0.3-bin.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${libs.hibernate-persistence.classpath}" todir="${build.classes.dir}"/>
     </target>
     <target depends="compile" name="library-inclusion-in-manifest">
         <copyfiles files="${file.reference.mysql-connector-java-5.0.3-bin.jar}" manifestproperty="manifest.file.reference.mysql-connector-java-5.0.3-bin.jar" todir="${dist.ear.dir}"/>
+        <copyfiles files="${libs.hibernate-persistence.classpath}" manifestproperty="manifest.libs.hibernate-persistence.classpath" todir="${dist.ear.dir}"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Class-Path" value="${manifest.file.reference.mysql-connector-java-5.0.3-bin.jar} "/>
+            <attribute name="Class-Path" value="${manifest.file.reference.mysql-connector-java-5.0.3-bin.jar} ${manifest.libs.hibernate-persistence.classpath} "/>
         </manifest>
     </target>
     <target name="-copy-meta-inf">
