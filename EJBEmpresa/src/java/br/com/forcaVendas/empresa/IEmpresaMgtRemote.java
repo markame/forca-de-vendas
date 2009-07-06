@@ -49,7 +49,7 @@ public interface IEmpresaMgtRemote {
                         String telefoneTransp,
                         Double valorServicos,
                         Double valorImpostos,
-                        String dadosAdicionais);//TODO debulhar
+                        String dadosAdicionais);
 
     public Item createItem(String nome, float preco);
 
