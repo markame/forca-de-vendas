@@ -1,5 +1,6 @@
 package br.com.forcaVendas.empresa.entidade;
 
+import br.com.forcaVendas.dto.interfaces.IItem;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +15,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "item")
-public class Item implements Serializable {
+public class Item implements IItem, Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -50,7 +51,7 @@ public class Item implements Serializable {
         this.nome = nome;
     }
 
-    public float getPreco() {
+    public Float getPreco() {
         return preco;
     }
 
@@ -83,4 +84,16 @@ public class Item implements Serializable {
         return "br.com.forcaVendas.empresa.entidade.Item[codigo=" + codigo + "]";
     }
 
+    public static Item copy(IItem it){
+        Item item = null;
+
+        if(it != null){
+            item = new Item();
+
+            item.setCodigo(it.getCodigo());
+            item.setNome(it.getNome());
+            item.setPreco(it.getPreco());
+        }
+        return item;
+    }
 }

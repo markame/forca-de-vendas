@@ -1,5 +1,7 @@
 package br.com.forcaVendas.empresa.entidade;
 
+import br.com.forcaVendas.dto.interfaces.IItem;
+import br.com.forcaVendas.dto.interfaces.IPedidoItem;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +15,7 @@ import javax.persistence.ManyToOne;
  * @author Henrique
  */
 @Entity
-public class PedidoItem implements Serializable {
+public class PedidoItem implements IPedidoItem, Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -44,7 +46,7 @@ public class PedidoItem implements Serializable {
         return codigo;
     }
 
-    public void setCodigo(Long codigo) {
+    public void setCodigo(long codigo) {
         this.codigo = codigo;
     }
 
@@ -52,11 +54,11 @@ public class PedidoItem implements Serializable {
         return pedido;
     }
 
-    public void setPedido(Long pedido) {
+    public void setPedido(long pedido) {
         this.pedido = pedido;
     }
 
-    public float getComissao() {
+    public Float getComissao() {
         return comissao;
     }
 
@@ -64,12 +66,12 @@ public class PedidoItem implements Serializable {
         this.comissao = comissao;
     }
 
-    public Item getItem() {
+    public IItem getItem() {
         return item;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
+    public void setItem(IItem item) {
+        this.item = (Item) item;
     }
 
     public Float getQuantidade() {
@@ -105,4 +107,20 @@ public class PedidoItem implements Serializable {
         return "br.com.forcaVendas.empresa.entidade.PedidoItem[codigo=" + codigo + "]";
     }
 
+    public static PedidoItem copy(IPedidoItem ped){
+        PedidoItem pedidoItem = null;
+
+        if(pedidoItem != null){
+            pedidoItem = new PedidoItem();
+
+            pedidoItem.setCodigo(ped.getCodigo());
+            pedidoItem.setComissao(ped.getComissao());
+            Item item = Item.copy(ped.getItem());
+            pedidoItem.setItem(item);
+
+            pedidoItem.setPedido(ped.getPedido());
+            pedidoItem.setQuantidade(ped.getQuantidade());
+        }
+        return pedidoItem;
+    }
 }
