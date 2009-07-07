@@ -1,5 +1,6 @@
 package br.com.forcaVendas.empresa.entidade;
 
+import br.com.forcaVendas.dto.interfaces.IEmpresa;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +15,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "empresa")
-public class Empresa implements Serializable {
+public class Empresa implements IEmpresa, Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -105,6 +106,21 @@ public class Empresa implements Serializable {
     @Override
     public String toString() {
         return "br.com.forcaVendas.empresa.entidade.Empresa[id=" + id + "]";
+    }
+
+    public static Empresa copy(IEmpresa em){
+        Empresa empresa = null;
+
+        if(em != null){
+            empresa = new Empresa();
+
+            empresa.setCnpj(em.getCnpj());
+            empresa.setEndereco(em.getEndereco());
+            empresa.setId(em.getId());
+            empresa.setNome(em.getNome());
+            empresa.setTelefone(em.getTelefone());
+        }
+        return empresa;
     }
 
 }

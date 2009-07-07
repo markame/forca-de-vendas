@@ -1,5 +1,7 @@
 package br.com.forcaVendas.empresa.entidade;
 
+import br.com.forcaVendas.dto.interfaces.IPedido;
+import br.com.forcaVendas.dto.interfaces.IVendedor;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
@@ -8,13 +10,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author Henrique
  */
 @Entity
-public class Pedido implements Serializable {
+public class Pedido implements IPedido, Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,9 +27,11 @@ public class Pedido implements Serializable {
     private Long cliente; //ou objeto
 
     @Column
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataSolicitacao;
 
     @Column
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataEntrega;
 
     @Column
@@ -54,12 +59,12 @@ public class Pedido implements Serializable {
         this.cliente = cliente;
     }
 
-    public Vendedor getVendedor() {
+    public IVendedor getVendedor() {
         return vendedor;
     }
 
-    public void setVendedor(Vendedor vendedor) {
-        this.vendedor = vendedor;
+    public void setVendedor(IVendedor vendedor) {
+        this.vendedor = (Vendedor) vendedor; //TODO ver se essa é a melhor opção
     }
 
     public Long getCodigo() {

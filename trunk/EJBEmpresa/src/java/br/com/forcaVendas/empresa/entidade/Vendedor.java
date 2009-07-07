@@ -1,5 +1,6 @@
 package br.com.forcaVendas.empresa.entidade;
 
+import br.com.forcaVendas.dto.interfaces.IVendedor;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +13,7 @@ import javax.persistence.Id;
  * @author Henrique
  */
 @Entity
-public class Vendedor implements Serializable {
+public class Vendedor implements IVendedor, Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -49,7 +50,7 @@ public class Vendedor implements Serializable {
         return codigo;
     }
 
-    public void setCodigo(Long codigo) {
+    public void setCodigo(long codigo) {
         this.codigo = codigo;
     }
 
@@ -118,4 +119,19 @@ public class Vendedor implements Serializable {
         return "br.com.forcaVendas.empresa.entidade.Vendedor[codigo=" + codigo + "]";
     }
 
+    public static Vendedor copy(IVendedor vend){
+        Vendedor vendedor = null;
+
+        if(vendedor != null){
+            vendedor = new Vendedor();
+
+            vendedor.setCodigo(vend.getCodigo());
+            vendedor.setCpf(vend.getCpf());
+            vendedor.setEndereco(vend.getEndereco());
+            vendedor.setNome(vend.getNome());
+            vendedor.setSalario(vend.getSalario());
+            vendedor.setTelefone(vend.getTelefone());
+        }
+        return vendedor;
+    }
 }
