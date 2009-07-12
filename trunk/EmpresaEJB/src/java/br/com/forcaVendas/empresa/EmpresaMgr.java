@@ -340,7 +340,7 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
         return ItemDTO.copy(item);
     }
 
-    public ItemDTO getItem(long codigo) {
+    public ItemDTO getItem(long codigo) throws EmpresaException {
         Item item = null;
 
         try{
@@ -350,13 +350,13 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
 
         }catch(Exception ex){
             System.err.println(ex);
-            item = null;
+            throw new EmpresaException(ex.toString());
         }
 
         return ItemDTO.copy(item);
     }
 
-    public List<ItemDTO> getItens() {
+    public List<ItemDTO> getItens() throws EmpresaException{
         List<Item> itens = null;
 
         try{
@@ -366,6 +366,7 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
 
         }catch(Exception ex){
             System.err.println(ex);
+            throw new EmpresaException(ex.toString());
         }
 
         if(itens == null)
