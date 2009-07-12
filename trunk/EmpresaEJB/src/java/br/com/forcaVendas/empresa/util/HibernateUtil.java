@@ -27,7 +27,7 @@ public class HibernateUtil {
 
         // OBS: default eh o nome de meu persistence-unit no persistence.xml.
         // O configure vai procurar o persistence.xml dentro da pasta META-INF que tem que estar no classpath
-        cfg.configure("EJBEmpresaPU", null);
+        cfg.configure("EmpresaEJBPU", null);
         Configuration hbmcfg = cfg.getHibernateConfiguration();
         SchemaExport schemaExport = new SchemaExport(hbmcfg);
         schemaExport.create(true, true);

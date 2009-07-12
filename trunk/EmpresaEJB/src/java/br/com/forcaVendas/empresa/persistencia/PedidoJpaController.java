@@ -25,12 +25,12 @@ import javax.transaction.UserTransaction;
 public class PedidoJpaController {
     @Resource
     private UserTransaction utx = null;
-    @PersistenceUnit(unitName = "EJBEmpresaPU")
+    @PersistenceUnit(unitName = "EmpresaEJBPU")
     private EntityManagerFactory emf = null;
 
     private EntityManagerFactory getEmf() {
         if(emf == null){
-            emf = Persistence.createEntityManagerFactory("EJBEmpresaPU");
+            emf = Persistence.createEntityManagerFactory("EmpresaEJBPU");
         }
         return emf;
     }

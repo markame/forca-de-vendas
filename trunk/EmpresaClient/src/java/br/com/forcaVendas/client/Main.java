@@ -5,9 +5,8 @@
 
 package br.com.forcaVendas.client;
 
+import br.com.forcaVendas.dto.EmpresaDTO;
 import br.com.forcaVendas.empresa.remote.IEmpresaMgtRemote;
-import br.com.forcaVendas.dto.interfaces.IEmpresa;
-import javax.ejb.EJB;
 
 /**
  *
@@ -25,7 +24,19 @@ public class Main {
         //Quando vc faz o lookup vc passa o caminho completo da interface local ou remote.
         IEmpresaMgtRemote empresaMgr = (IEmpresaMgtRemote) EJBUtil.getFacade("br.com.forcaVendas.empresa.remote.IEmpresaMgtRemote");
 
-        IEmpresa empresa = empresaMgr.getEmpresa();
+        EmpresaDTO empresa = empresaMgr.getEmpresa();
+        System.out.println(empresa);
+
+        if(empresa == null)
+            empresa = new EmpresaDTO();
+
+        empresa.setCnpj(1234);
+        empresa.setEndereco("Rua A");
+        empresa.setNome("Força de Vendas");
+
+        empresaMgr.setEmpresa(empresa);
+
+        empresa = empresaMgr.getEmpresa();
 
         System.out.println(empresa);
     }
