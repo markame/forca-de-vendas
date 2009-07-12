@@ -17,25 +17,25 @@ import javax.ejb.Remote;
 public interface IEmpresaMgtRemote {
 
 
-    public EmpresaDTO getEmpresa();
+    public EmpresaDTO getEmpresa() throws EmpresaException;
 
-    public boolean setEmpresa(EmpresaDTO empresa);
+    public boolean setEmpresa(EmpresaDTO empresa) throws EmpresaException;
 
-    public VendedorDTO createVendedor(String nome, String endereco, String telefone, long cpf, float salario);
+    public VendedorDTO createVendedor(String nome, String endereco, String telefone, long cpf, float salario) throws EmpresaException;
 
-    public boolean updateVendedor(VendedorDTO vendedor);
+    public boolean updateVendedor(VendedorDTO vendedor) throws EmpresaException;
 
-    public boolean deleteVendedor(long codigo);
+    public boolean deleteVendedor(long codigo) throws EmpresaException;
 
-    public VendedorDTO getVendedor(long codigo);
+    public VendedorDTO getVendedor(long codigo) throws EmpresaException;
 
-    public List<VendedorDTO> getVendedores();
+    public List<VendedorDTO> getVendedores() throws EmpresaException;
 
-    public PedidoDTO fazerPedido(long cliente, VendedorDTO vendedor, List<PedidoItemDTO> itens);
+    public PedidoDTO fazerPedido(long cliente, VendedorDTO vendedor, List<PedidoItemDTO> itens) throws EmpresaException;
 
-    public PedidoDTO getPedido(long codigo);
+    public PedidoDTO getPedido(long codigo) throws EmpresaException;
 
-    public List<PedidoDTO> getPedidos();
+    public List<PedidoDTO> getPedidos() throws EmpresaException;
 
     //Refatorado: gerarNota() agora recebe como parametro o pedido
     public NotaFiscalDTO gerarNota(PedidoDTO pedido, short tipoNota,
@@ -46,16 +46,16 @@ public interface IEmpresaMgtRemote {
                         String telefoneTransp,
                         Double valorServicos,
                         Double valorImpostos,
-                        String dadosAdicionais);
+                        String dadosAdicionais) throws EmpresaException;
 
-    public ItemDTO createItem(String nome, float preco);
+    public ItemDTO createItem(String nome, float preco) throws EmpresaException;
 
-    public ItemDTO getItem(long codigo);
+    public ItemDTO getItem(long codigo) throws EmpresaException;
 
-    public List<ItemDTO> getItens();
+    public List<ItemDTO> getItens() throws EmpresaException;
 
-    public boolean updateItem(ItemDTO itemDTO);
+    public boolean updateItem(ItemDTO itemDTO) throws EmpresaException;
 
-    public boolean deleteItem(long codigo);
+    public boolean deleteItem(long codigo) throws EmpresaException;
 
 }
