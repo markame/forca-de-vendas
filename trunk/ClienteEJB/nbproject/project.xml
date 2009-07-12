@@ -6,6 +6,7 @@
             <name>ClienteEJB</name>
             <minimum-ant-version>1.6.5</minimum-ant-version>
             <included-library>libs.hibernate-support.classpath</included-library>
+            <included-library>reference.EmpresaEJB.dist</included-library>
             <included-library>reference.ForcaVendas-commons.jar</included-library>
             <source-roots>
                 <root id="src.dir"/>
@@ -15,6 +16,14 @@
             </test-roots>
         </data>
         <references xmlns="http://www.netbeans.org/ns/ant-project-references/1">
+            <reference>
+                <foreign-project>EmpresaEJB</foreign-project>
+                <artifact-type>jar</artifact-type>
+                <script>build.xml</script>
+                <target>dist</target>
+                <clean-target>clean</clean-target>
+                <id>dist</id>
+            </reference>
             <reference>
                 <foreign-project>ForcaVendas-commons</foreign-project>
                 <artifact-type>jar</artifact-type>
