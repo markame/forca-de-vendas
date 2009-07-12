@@ -318,8 +318,16 @@ exists or setup the property manually. For example like this:
     <!--
                 COMPILATION SECTION
             -->
-    <target depends="init" if="no.dist.ear.dir" name="-deps-module-jar" unless="no.deps"/>
-    <target depends="init" if="dist.ear.dir" name="-deps-ear-jar" unless="no.deps"/>
+    <target depends="init" if="no.dist.ear.dir" name="-deps-module-jar" unless="no.deps">
+        <ant antfile="${project.ForcaVendas-commons}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+    </target>
+    <target depends="init" if="dist.ear.dir" name="-deps-ear-jar" unless="no.deps">
+        <ant antfile="${project.ForcaVendas-commons}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+    </target>
     <target depends="init, -deps-module-jar, -deps-ear-jar" name="deps-jar"/>
     <target depends="init,deps-jar" name="-pre-pre-compile">
         <mkdir dir="${build.classes.dir}"/>
@@ -331,13 +339,13 @@ exists or setup the property manually. For example like this:
     </target>
     <target depends="compile" name="library-inclusion-in-archive">
         <copyfiles files="${libs.hibernate-support.classpath}" todir="${build.classes.dir}"/>
-        <copyfiles files="${file.reference.ForcaVendas-commons.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${reference.ForcaVendas-commons.jar}" todir="${build.classes.dir}"/>
     </target>
     <target depends="compile" name="library-inclusion-in-manifest">
         <copyfiles files="${libs.hibernate-support.classpath}" manifestproperty="manifest.libs.hibernate-support.classpath" todir="${dist.ear.dir}"/>
-        <copyfiles files="${file.reference.ForcaVendas-commons.jar}" manifestproperty="manifest.file.reference.ForcaVendas-commons.jar" todir="${dist.ear.dir}"/>
+        <copyfiles files="${reference.ForcaVendas-commons.jar}" manifestproperty="manifest.reference.ForcaVendas-commons.jar" todir="${dist.ear.dir}"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Class-Path" value="${manifest.libs.hibernate-support.classpath} ${manifest.file.reference.ForcaVendas-commons.jar} "/>
+            <attribute name="Class-Path" value="${manifest.libs.hibernate-support.classpath} ${manifest.reference.ForcaVendas-commons.jar} "/>
         </manifest>
     </target>
     <target name="-copy-meta-inf">
@@ -619,7 +627,9 @@ exists or setup the property manually. For example like this:
     <!--
                 CLEANUP SECTION
             -->
-    <target depends="init" if="no.dist.ear.dir" name="deps-clean" unless="no.deps"/>
+    <target depends="init" if="no.dist.ear.dir" name="deps-clean" unless="no.deps">
+        <ant antfile="${project.ForcaVendas-commons}/build.xml" inheritall="false" target="clean"/>
+    </target>
     <target depends="init" name="-do-clean">
         <delete dir="${build.dir}"/>
         <delete dir="${dist.dir}"/>
