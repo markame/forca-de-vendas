@@ -11,8 +11,11 @@ import br.com.forcaVendas.dto.NotaFiscalDTO;
 import br.com.forcaVendas.dto.PedidoDTO;
 import br.com.forcaVendas.dto.PedidoItemDTO;
 import br.com.forcaVendas.dto.VendedorDTO;
+import br.com.forcaVendas.empresa.remote.EmpresaException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -34,13 +37,13 @@ public class EmpresaMgrTest {
     }
 
     @BeforeClass
-    public static void beforeClass(){
+    public static void beforeClass() throws EmpresaException{
         EmpresaMgr instance = new EmpresaMgr();
         empresaBackup = instance.getEmpresa();
     }
 
     @AfterClass
-    public static void afterClass(){
+    public static void afterClass() throws EmpresaException{
         EmpresaMgr instance = new EmpresaMgr();
         if(empresaBackup != null)
             instance.setEmpresa(empresaBackup);
@@ -67,17 +70,25 @@ public class EmpresaMgrTest {
     public void testSetEmpresa() {
         System.out.println("setEmpresa");
 
-        EmpresaDTO empresa = instance.getEmpresa();
+        EmpresaDTO empresa = null;
+        try {
+            empresa = instance.getEmpresa();
 
-        if(empresa == null){
-            empresa = new EmpresaDTO();
-            empresa.setNome("EmpresAAAAAAAA");
+            if(empresa == null){
+                empresa = new EmpresaDTO();
+                empresa.setNome("EmpresAAAAAAAA");
+            }
+
+            boolean result = instance.setEmpresa(empresa);
+            //assertTrue(result);
+
+            assertEquals(empresa, instance.getEmpresa());
+        } catch (EmpresaException ex) {
+            Logger.getLogger(EmpresaMgrTest.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
         }
-        
-        boolean result = instance.setEmpresa(empresa);
-        //assertTrue(result);
 
-        assertEquals(empresa, instance.getEmpresa());
+        
 
     }
 
@@ -93,10 +104,17 @@ public class EmpresaMgrTest {
         long cpf = 11;
         float salario = (float) 850.0;
         
-        VendedorDTO vendedor = instance.createVendedor(nome, endereco, telefone, cpf, salario);
-        assertNotNull(vendedor);
+        VendedorDTO vendedor;
+        try {
+            vendedor = instance.createVendedor(nome, endereco, telefone, cpf, salario);
+            assertNotNull(vendedor);
 
-        instance.deleteVendedor(vendedor.getCodigo());
+            instance.deleteVendedor(vendedor.getCodigo());
+
+        } catch (EmpresaException ex) {
+            Logger.getLogger(EmpresaMgrTest.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
     }
 
     /**
@@ -112,15 +130,22 @@ public class EmpresaMgrTest {
         long cpf = 13;
         float salario = (float) 850.0;
 
-        VendedorDTO vendedor = instance.createVendedor(nome, endereco, telefone, cpf, salario);
+        VendedorDTO vendedor;
+        try {
+            vendedor = instance.createVendedor(nome, endereco, telefone, cpf, salario);
 
-        boolean result = false;
-        if(vendedor != null){
-            result = instance.updateVendedor(vendedor);
+            boolean result = false;
+            if(vendedor != null){
+                result = instance.updateVendedor(vendedor);
+            }
+            assertTrue(result);
+
+            instance.deleteVendedor(vendedor.getCodigo());
+
+        } catch (EmpresaException ex) {
+            Logger.getLogger(EmpresaMgrTest.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
         }
-        assertTrue(result);
-        
-        instance.deleteVendedor(vendedor.getCodigo());
     }
 
     /**
@@ -128,24 +153,28 @@ public class EmpresaMgrTest {
      */
     @Test
     public void testDeleteVendedor() {
-        System.out.println("deleteVendedor");
+        try {
+            System.out.println("deleteVendedor");
 
-        System.out.println("createVendedor");
-        String nome = "Teste";
-        String endereco = "Rua A";
-        String telefone = "123";
-        long cpf = 11;
-        float salario = (float) 850.0;
+            String nome = "Teste";
+            String endereco = "Rua A";
+            String telefone = "123";
+            long cpf = 11;
+            float salario = (float) 850.0;
+            VendedorDTO vendedor = instance.createVendedor(nome, endereco, telefone, cpf, salario);
+            assertNotNull(vendedor);
+            
+            Long codigo = vendedor.getCodigo();
+            boolean result = instance.deleteVendedor(codigo);
+            assertTrue(result);
 
-        VendedorDTO vendedor = instance.createVendedor(nome, endereco, telefone, cpf, salario);
-        assertNotNull(vendedor);
-        
-        Long codigo = vendedor.getCodigo();
-        boolean result = instance.deleteVendedor(codigo);
-        assertTrue(result);
+            vendedor = instance.getVendedor(codigo);
+            assertNull(vendedor);
 
-        vendedor = instance.getVendedor(codigo);
-        assertNull(vendedor);
+        } catch (EmpresaException ex) {
+            Logger.getLogger(EmpresaMgrTest.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
     }
 
     /**
@@ -153,23 +182,28 @@ public class EmpresaMgrTest {
      */
     @Test
     public void testGetVendedores() {
-        System.out.println("getVendedores");
+        try {
+            System.out.println("getVendedores");
 
-        List<VendedorDTO> vendedores = instance.getVendedores();
-        assertNotNull(vendedores);
+            List<VendedorDTO> vendedores = instance.getVendedores();
+            assertNotNull(vendedores);
 
-        String nome = "Teste";
-        String endereco = "Rua A";
-        String telefone = "123";
-        long cpf = 11;
-        float salario = (float) 850.0;
+            String nome = "Teste";
+            String endereco = "Rua A";
+            String telefone = "123";
+            long cpf = 11;
+            float salario = (float) 850.0;
+            VendedorDTO vendedor = instance.createVendedor(nome, endereco, telefone, cpf, salario);
 
-        VendedorDTO vendedor = instance.createVendedor(nome, endereco, telefone, cpf, salario);
+            vendedores = instance.getVendedores();
+            assertTrue(vendedores.contains(vendedor));
 
-        vendedores = instance.getVendedores();
-        assertTrue(vendedores.contains(vendedor));
-
-        instance.deleteVendedor(vendedor.getCodigo());
+            instance.deleteVendedor(vendedor.getCodigo());
+            
+        } catch (EmpresaException ex) {
+            Logger.getLogger(EmpresaMgrTest.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
     }
 
     /**
@@ -186,15 +220,22 @@ public class EmpresaMgrTest {
         long cpf = 11;
         float salario = (float) 850.0;
 
-        VendedorDTO vendedor = instance.createVendedor(nome, endereco, telefone, cpf, salario);
+        VendedorDTO vendedor;
+        try {
+            vendedor = instance.createVendedor(nome, endereco, telefone, cpf, salario);
 
-        List<PedidoItemDTO> itensDTO = new ArrayList<PedidoItemDTO>();
-        
-        PedidoDTO pedido = instance.fazerPedido(cliente, vendedor, itensDTO);
-        assertNotNull(pedido);
+            List<PedidoItemDTO> itensDTO = new ArrayList<PedidoItemDTO>();
 
-        //remover pedido
-        instance.deleteVendedor(vendedor.getCodigo());
+            PedidoDTO pedido = instance.fazerPedido(cliente, vendedor, itensDTO);
+            assertNotNull(pedido);
+
+            //remover pedido
+            instance.deleteVendedor(vendedor.getCodigo());
+            
+        } catch (EmpresaException ex) {
+            Logger.getLogger(EmpresaMgrTest.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
     }
 
     /**
@@ -213,30 +254,44 @@ public class EmpresaMgrTest {
         long cpf = 11;
         float salario = (float) 850.0;
 
-        VendedorDTO vendedor = instance.createVendedor(nome, endereco, telefone, cpf, salario);
+        VendedorDTO vendedor;
+        try {
+            vendedor = instance.createVendedor(nome, endereco, telefone, cpf, salario);
 
-        List<PedidoItemDTO> itensDTO = new ArrayList<PedidoItemDTO>();
-        
-        PedidoDTO pedido = instance.fazerPedido(cliente, vendedor, itensDTO);
+            List<PedidoItemDTO> itensDTO = new ArrayList<PedidoItemDTO>();
 
-        long codigo = pedido.getCodigo();
-        
-        PedidoDTO result = instance.getPedido(codigo);
-        assertNotNull(result);
+            PedidoDTO pedido = instance.fazerPedido(cliente, vendedor, itensDTO);
 
-        //remover pedido
-        instance.deleteVendedor(vendedor.getCodigo());
+            long codigo = pedido.getCodigo();
+
+            PedidoDTO result = instance.getPedido(codigo);
+            assertNotNull(result);
+
+            //remover pedido
+            instance.deleteVendedor(vendedor.getCodigo());
+        } catch (EmpresaException ex) {
+            Logger.getLogger(EmpresaMgrTest.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
     }
 
     /**
      * Test of getPedidos method, of class EmpresaMgr.
      */
-    @org.junit.Test
+    @Test
     public void testGetPedidos() {
         System.out.println("getPedidos");
         
-        List<PedidoDTO> pedidos = instance.getPedidos();
-        assertNotNull(pedidos);
+        List<PedidoDTO> pedidos;
+        try {
+            pedidos = instance.getPedidos();
+            assertNotNull(pedidos);
+
+        } catch (EmpresaException ex) {
+            Logger.getLogger(EmpresaMgrTest.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
 
     }
 
@@ -258,11 +313,17 @@ public class EmpresaMgrTest {
         String nome = "sal";
         float preco = 0.25F;
         
-        ItemDTO item = instance.createItem(nome, preco);
-        assertNotNull(item);
+        ItemDTO item;
+        try {
+            item = instance.createItem(nome, preco);
+            assertNotNull(item);
 
-        instance.deleteItem(item.getCodigo());
-        
+            instance.deleteItem(item.getCodigo());
+
+        } catch (EmpresaException ex) {
+            Logger.getLogger(EmpresaMgrTest.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
     }
 
     /**
@@ -270,18 +331,21 @@ public class EmpresaMgrTest {
      */
     @Test
     public void testGetItem() {
-        System.out.println("getItem");
-        String nome = "sal";
-        float preco = 0.25F;
+        
+        try {
+            System.out.println("getItem");
+            String nome = "sal";
+            float preco = 0.25F;
+            ItemDTO item = instance.createItem(nome, preco);
+            assertNotNull(item);
+            ItemDTO result = instance.getItem(item.getCodigo());
+            assertEquals(item, result);
+            instance.deleteItem(item.getCodigo());
 
-        ItemDTO item = instance.createItem(nome, preco);
-        assertNotNull(item);
-
-
-        ItemDTO result = instance.getItem(item.getCodigo());
-        assertEquals(item, result);
-
-        instance.deleteItem(item.getCodigo());
+        } catch (EmpresaException ex) {
+            Logger.getLogger(EmpresaMgrTest.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
     }
 
     /**
@@ -289,10 +353,15 @@ public class EmpresaMgrTest {
      */
     @Test
     public void testGetItens() {
-        System.out.println("getItens");
-        
-        List<ItemDTO> result = instance.getItens();
-        assertNotNull(result);
+        try {
+            System.out.println("getItens");
+            List<ItemDTO> result = instance.getItens();
+            assertNotNull(result);
+
+        } catch (EmpresaException ex) {
+            Logger.getLogger(EmpresaMgrTest.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
     }
 
     /**
@@ -300,18 +369,20 @@ public class EmpresaMgrTest {
      */
     @Test
     public void testUpdateItem() {
-        System.out.println("updateItem");
-        System.out.println("createItem");
-        String nome = "sal";
-        float preco = 0.25F;
+        try {
+            System.out.println("updateItem");
+            System.out.println("createItem");
+            String nome = "sal";
+            float preco = 0.25F;
+            ItemDTO item = instance.createItem(nome, preco);
+            assertNotNull(item);
+            item.setNome("sal2");
+            instance.updateItem(item);
+            instance.deleteItem(item.getCodigo());
 
-        ItemDTO item = instance.createItem(nome, preco);
-        assertNotNull(item);
-
-        item.setNome("sal2");
-
-        instance.updateItem(item);
-        
-        instance.deleteItem(item.getCodigo());
+        } catch (EmpresaException ex) {
+            Logger.getLogger(EmpresaMgrTest.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
     }
 }
