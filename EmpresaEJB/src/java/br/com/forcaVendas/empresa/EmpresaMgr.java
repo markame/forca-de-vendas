@@ -86,7 +86,7 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
             VendedorJpaController vendedorJpa = new VendedorJpaController();
 
             Vendedor vendedor = Vendedor.copy(vendedorDTO);
-            vendedorJpa.create(vendedor);
+            vendedorJpa.edit(vendedor);
 
 
         }catch(Exception ex){
