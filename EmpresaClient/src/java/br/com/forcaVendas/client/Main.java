@@ -6,7 +6,10 @@
 package br.com.forcaVendas.client;
 
 import br.com.forcaVendas.dto.EmpresaDTO;
+import br.com.forcaVendas.empresa.remote.EmpresaException;
 import br.com.forcaVendas.empresa.remote.IEmpresaMgtRemote;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -24,7 +27,12 @@ public class Main {
         //Quando vc faz o lookup vc passa o caminho completo da interface local ou remote.
         IEmpresaMgtRemote empresaMgr = (IEmpresaMgtRemote) EJBUtil.getFacade("br.com.forcaVendas.empresa.remote.IEmpresaMgtRemote");
 
-        EmpresaDTO empresa = empresaMgr.getEmpresa();
+        EmpresaDTO empresa = null;
+        try {
+            empresa = empresaMgr.getEmpresa();
+        } catch (EmpresaException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
         System.out.println(empresa);
 
         if(empresa == null)
@@ -34,9 +42,17 @@ public class Main {
         empresa.setEndereco("Rua A");
         empresa.setNome("Força de Vendas");
 
-        empresaMgr.setEmpresa(empresa);
+        try {
+            empresaMgr.setEmpresa(empresa);
+        } catch (EmpresaException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-        empresa = empresaMgr.getEmpresa();
+        try {
+            empresa = empresaMgr.getEmpresa();
+        } catch (EmpresaException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         System.out.println(empresa);
     }

@@ -20,6 +20,7 @@ import br.com.forcaVendas.empresa.persistencia.VendedorJpaController;
 import br.com.forcaVendas.dto.interfaces.IPedido;
 import br.com.forcaVendas.empresa.entidade.PedidoItem;
 import br.com.forcaVendas.empresa.persistencia.PedidoItemJpaController;
+import br.com.forcaVendas.empresa.remote.EmpresaException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
@@ -32,41 +33,67 @@ import javax.ejb.Stateless;
 @Stateless
 public class EmpresaMgr implements IEmpresaMgtRemote {
 
-    public EmpresaDTO getEmpresa() {
+    public EmpresaDTO getEmpresa() throws EmpresaException{
         Empresa empresa = null;
 
         try{
             empresa = findEmpresa();
         }catch(Exception ex){
             System.err.println(ex);
+
+            throw new EmpresaException(ex.toString());
         }
 
         return EmpresaDTO.copy(empresa);
     }
 
-    public boolean setEmpresa(EmpresaDTO empresaDTO) {
+    public boolean setEmpresa(EmpresaDTO empresaDTO) throws EmpresaException{
+        boolean r = false;
+
+        if(empresaDTO.getNome() == null){
+                throw new EmpresaException("Nome Inválido");
+        }
+        if(empresaDTO.getCnpj() == 0){
+                throw new EmpresaException("CNPJ Inválido");
+        }
+
+
         try{
             EmpresaJpaController empresaJpa = new EmpresaJpaController();
+
             Empresa emp = findEmpresa();
 
             Empresa empresa = Empresa.copy(empresaDTO);
             if(emp == null){
                 empresaJpa.create(empresa);
+                r = true;
             }else{
                 empresa.setId(Long.valueOf(1));
-                empresaJpa.edit(empresa);
+                r = true;
             }
 
         }catch(Exception ex){
             System.err.println(ex);
-            return false;
+
+            throw new EmpresaException(ex.toString());
+
         }
 
-        return true;
+        return r;
     }
 
-    public VendedorDTO createVendedor(String nome, String endereco, String telefone, long cpf, float salario) {
+    public VendedorDTO createVendedor(String nome, String endereco, String telefone, long cpf, float salario) throws EmpresaException{
         Vendedor vendedor = new Vendedor(nome, endereco, telefone, cpf, salario);
+
+        if(vendedor.getNome() == null){
+                throw new EmpresaException("Nome Inválido");
+        }
+        if(vendedor.getCpf() < 0){
+                throw new EmpresaException("CNPJ Inválido");
+        }
+        if(vendedor.getSalario() < 0){
+                throw new EmpresaException("Salário Inválido");
+        }
 
         try{
             VendedorJpaController vendedorJpa = new VendedorJpaController();
@@ -75,13 +102,24 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
 
         }catch(Exception ex){
             System.err.println(ex);
-            vendedor = null;
+
+            throw new EmpresaException(ex);
         }
 
         return VendedorDTO.copy(vendedor);
     }
 
-    public boolean updateVendedor(VendedorDTO vendedorDTO) {
+    public boolean updateVendedor(VendedorDTO vendedorDTO) throws EmpresaException{
+        if(vendedorDTO.getNome() == null){
+                throw new EmpresaException("Nome Inválido");
+        }
+        if(vendedorDTO.getCpf() < 0){
+                throw new EmpresaException("CNPJ Inválido");
+        }
+        if(vendedorDTO.getSalario() < 0){
+                throw new EmpresaException("Salário Inválido");
+        }
+
         try{
             VendedorJpaController vendedorJpa = new VendedorJpaController();
 
@@ -91,13 +129,14 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
 
         }catch(Exception ex){
             System.err.println(ex);
-            return false;
+
+            throw new EmpresaException(ex);
         }
 
         return true;
     }
 
-    public boolean deleteVendedor(long codigo) {
+    public boolean deleteVendedor(long codigo) throws EmpresaException{
         try{
             VendedorJpaController vendedorJpa = new VendedorJpaController();
 
@@ -105,13 +144,13 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
 
         }catch(Exception ex){
             System.err.println(ex);
-            return false;
+            throw new EmpresaException(ex);
         }
 
         return true;
     }
 
-    public VendedorDTO getVendedor(long codigo) {
+    public VendedorDTO getVendedor(long codigo) throws EmpresaException{
         Vendedor vendedor = null;
         try{
             VendedorJpaController vendedorJpa = new VendedorJpaController();
@@ -120,13 +159,13 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
 
         }catch(Exception ex){
             System.err.println(ex);
-
+            throw new EmpresaException(ex);
         }
 
         return VendedorDTO.copy(vendedor);
     }
 
-    public List<VendedorDTO> getVendedores() {
+    public List<VendedorDTO> getVendedores() throws EmpresaException{
         List<Vendedor> vendedores = null;
         try{
             VendedorJpaController jpaController = new VendedorJpaController();
@@ -135,7 +174,7 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
 
         }catch(Exception ex){
             System.err.println(ex);
-
+            throw new EmpresaException(ex);
         }
 
         if(vendedores == null)
@@ -150,8 +189,17 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
         return vendedoresDTO;
     }
 
-    public PedidoDTO fazerPedido(long cliente, VendedorDTO vendedor, List<PedidoItemDTO> itensDTO) {
-
+    public PedidoDTO fazerPedido(long cliente, VendedorDTO vendedor, List<PedidoItemDTO> itensDTO) throws EmpresaException{
+        
+        if(cliente < 0){
+            throw new EmpresaException("Cliente Inválido");
+        }
+        if(vendedor == null){
+            throw new EmpresaException("Vendedor Inválido");
+        }
+        if(itensDTO == null || itensDTO.isEmpty()){
+            throw new EmpresaException("Pedido não possui itens");
+        }
 
         double valorTotal = 0;
         Pedido pedido = new Pedido(cliente, new Date(), null, valorTotal, Vendedor.copy(vendedor));
@@ -169,6 +217,7 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
 
         pedido.setValorTotal(valorTotal);
 
+
         try{
             PedidoJpaController pedidoJpa = new PedidoJpaController();
 
@@ -182,7 +231,7 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
 
         }catch(Exception ex){
             System.err.println(ex);
-            pedido = null;
+            throw new EmpresaException(ex);
         }
 
         //Gera a nota fiscal do pedido
@@ -200,7 +249,7 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
         return PedidoDTO.copy(pedido);
     }
 
-    public PedidoDTO getPedido(long codigo) {
+    public PedidoDTO getPedido(long codigo) throws EmpresaException{
         Pedido pedido = null;
         try{
             PedidoJpaController jpaController = new PedidoJpaController();
@@ -209,12 +258,13 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
 
         }catch(Exception ex){
             System.err.println(ex);
+            throw new EmpresaException(ex);
         }
         
         return PedidoDTO.copy(pedido);
     }
 
-    public List<PedidoDTO> getPedidos() {
+    public List<PedidoDTO> getPedidos() throws EmpresaException{
         List<Pedido> pedidos = null;
 
         try{
@@ -224,6 +274,7 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
 
         }catch(Exception ex){
             System.err.println(ex);
+            throw new EmpresaException(ex);
         }
 
         if(pedidos == null)
@@ -245,7 +296,7 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
                         String telefoneTransp,
                         Double valorServicos,
                         Double valorImpostos,
-                        String dadosAdicionais)
+                        String dadosAdicionais) throws EmpresaException
     {
 
         //Instancia a entidade NotaFiscal
@@ -259,13 +310,22 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
             notaJpa.create(nota);
         } catch (Exception ex) {
             System.err.println(ex);
+            throw new EmpresaException(ex);
         }
 
         return NotaFiscalDTO.copy(nota);
     }
 
-    public ItemDTO createItem(String nome, float preco) {
+    public ItemDTO createItem(String nome, float preco) throws EmpresaException{
         Item item = new Item(nome, preco);
+
+        if(item.getNome() == null){
+            throw new EmpresaException("Nome Inválido");
+        }
+        if(preco < 0){
+            throw new EmpresaException("Preço Inválido");
+        }
+
 
         try{
             ItemJpaController jpaControler = new ItemJpaController();
@@ -274,7 +334,7 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
 
         }catch(Exception ex){
             System.err.println(ex);
-            item = null;
+            throw new EmpresaException(ex);
         }
 
         return ItemDTO.copy(item);
@@ -319,7 +379,14 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
         return itensDTO;
     }
 
-    public boolean updateItem(ItemDTO itemDTO) {
+    public boolean updateItem(ItemDTO itemDTO) throws EmpresaException {
+        if(itemDTO.getNome() == null){
+            throw new EmpresaException("Nome Inválido");
+        }
+        if(itemDTO.getPreco() < 0){
+            throw new EmpresaException("Preço Inválido");
+        }
+
         try{
             ItemJpaController jpaControler = new ItemJpaController();
 
@@ -328,13 +395,13 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
 
         }catch(Exception ex){
             System.err.println(ex);
-            return false;
+            throw new EmpresaException(ex);
         }
 
         return true;
     }
 
-    public boolean deleteItem(long codigo) {
+    public boolean deleteItem(long codigo) throws EmpresaException {
         try{
             ItemJpaController jpaControler = new ItemJpaController();
 
@@ -342,7 +409,7 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
 
         }catch(Exception ex){
             System.err.println(ex);
-            return false;
+            throw new EmpresaException(ex);
         }
 
         return true;
