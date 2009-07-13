@@ -6,7 +6,13 @@
 package clientecomponente;
 
 import br.com.forcaVendas.cliente.remote.IClienteMgtRemote;
+import br.com.forcaVendas.cliente.remote.IFaturaMgtRemote;
+import br.com.forcaVendas.dto.FaturaDTO;
+import br.com.forcaVendas.dto.ItemDTO;
 import cliente.entidades.Cliente;
+import fatura.entidades.Fatura;
+import java.util.LinkedList;
+import java.util.List;
 import javax.naming.NamingException;
 import javax.swing.JOptionPane;
 
@@ -48,6 +54,27 @@ public class Main {
         //clienteMgr.deletarCliente("12345");
 
         //JOptionPane.showMessageDialog(null, "Cliente " + cliente.getNome() + " inserido no banco com sucesso!");
+
+        IFaturaMgtRemote faturaMgr = (IFaturaMgtRemote) EJBUtil.getFacade("br.com.forcaVendas.cliente.remote.IFaturaMgtRemote");
+
+        //cliente.setId(1);
+        ItemDTO item1 = new ItemDTO();
+        ItemDTO item2 = new ItemDTO();
+
+        item1.setCodigo(1);
+        item1.setNome("Pen drive Mininiiiiinho!");
+        item1.setPreco(45);
+
+        item1.setCodigo(2);
+        item1.setNome("Memoria Mininiiiiinho!");
+        item1.setPreco(135);
+
+        List<ItemDTO> itens = new LinkedList<ItemDTO>();
+        itens.add(item1);
+        itens.add(item2);
+        
+        boolean resp2 = faturaMgr.criarFatura(itens, 12);
+        JOptionPane.showMessageDialog(null, "resp2 foi: " + resp2);
     }
 
 }
