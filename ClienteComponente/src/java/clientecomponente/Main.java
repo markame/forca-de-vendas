@@ -6,7 +6,6 @@
 package clientecomponente;
 
 import br.com.forcaVendas.cliente.remote.IClienteMgtRemote;
-import cliente.session.ClienteRemote;
 import cliente.entidades.Cliente;
 import javax.naming.NamingException;
 import javax.swing.JOptionPane;

@@ -6,7 +6,6 @@
 package fatura.entidades;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,10 +38,10 @@ public class Fatura implements Serializable {
     private Integer id;
     
     @Column(name = "idItem", nullable=false)
-    private int idItem;
+    private Integer idItem;
     
     @Column(name = "quantide", nullable=false)
-    private int quantide;
+    private Integer quantide;
 
     public Fatura() {
     }
@@ -51,7 +50,12 @@ public class Fatura implements Serializable {
         this.id = id;
     }
 
-    public Fatura(Integer id, int idItem, int quantide) {
+    public Fatura(Integer idItem, Integer quantide) {
+        this.idItem = idItem;
+        this.quantide = quantide;
+    }
+
+    public Fatura(Integer id, Integer idItem, Integer quantide) {
         this.id = id;
         this.idItem = idItem;
         this.quantide = quantide;
@@ -65,19 +69,19 @@ public class Fatura implements Serializable {
         this.id = id;
     }
 
-    public int getIdItem() {
+    public Integer getIdItem() {
         return idItem;
     }
 
-    public void setIdItem(int idItem) {
+    public void setIdItem(Integer idItem) {
         this.idItem = idItem;
     }
 
-    public int getQuantide() {
+    public Integer getQuantide() {
         return quantide;
     }
 
-    public void setQuantide(int quantide) {
+    public void setQuantide(Integer quantide) {
         this.quantide = quantide;
     }
 

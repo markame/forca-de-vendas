@@ -17,7 +17,7 @@ import javax.ejb.Remote;
 @Remote
 public interface FaturaRemote {
 
-    public void criarFatura(List<Item> itens);
+    public void criarFatura(List<Item> itens, Integer quantidade);
 
     public void buscarCliente(Integer id);
 

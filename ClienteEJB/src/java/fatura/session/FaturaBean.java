@@ -9,6 +9,8 @@ import br.com.forcaVendas.empresa.entidade.Item;
 import fatura.entidades.Fatura;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
@@ -17,8 +19,23 @@ import javax.ejb.Stateless;
 @Stateless
 public class FaturaBean implements FaturaRemote {
 
-    public void criarFatura(List<Item> itens) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    @PersistenceContext
+    private EntityManager em;
+
+    public void criarFatura(List<Item> itens, Integer quantidade) {
+        try{
+            for (int i = 0; i < itens.size(); i++) {
+                String idCodString = itens.get(i).getCodigo().toString();
+                Integer idCod = new Integer(idCodString);
+                Fatura fatura = new Fatura(idCod, quantidade);
+                em.persist(fatura);
+                em.flush();
+            }
+            
+        }
+        catch(Exception e){
+            
+        }
     }
 
     public void buscarCliente(Integer id) {
