@@ -13,7 +13,7 @@ import br.com.forcaVendas.dto.interfaces.IEmpresa;
  */
 public class EmpresaDTO implements IEmpresa{
     
-    private Long id;
+    private Integer id;
 
     private String nome;
 
@@ -26,11 +26,11 @@ public class EmpresaDTO implements IEmpresa{
     public EmpresaDTO() {
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

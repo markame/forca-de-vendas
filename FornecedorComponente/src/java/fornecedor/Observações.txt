@@ -1,0 +1,7 @@
+O método solicitar item apenas cria uma solicitação e a retorna;
+Não há na especificação do componente a necessidade de registrar a operação e
+nem métodos que use esses registros posteriormente;
+Também não há as definçõe de pré e pós condições - presumi-se que o fornecedor
+existe e que ele tem o item disponível, e que a empresa existe.
+Se for o caso em posteriores solicitações o conponente será atualizado para
+armazenar históricos de solicitações e checar se as devidas restrições.
