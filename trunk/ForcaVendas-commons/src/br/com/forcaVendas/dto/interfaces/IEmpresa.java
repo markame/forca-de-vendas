@@ -12,7 +12,7 @@ public interface IEmpresa extends Serializable{
 
     public abstract String getEndereco();
 
-    public abstract Long getId();
+    public abstract Integer getId();
 
     public abstract String getNome();
 
@@ -22,7 +22,7 @@ public interface IEmpresa extends Serializable{
 
     public abstract void setEndereco(String endereco);
 
-    public abstract void setId(Long id);
+    public abstract void setId(Integer id);
 
     public abstract void setNome(String nome);
 
