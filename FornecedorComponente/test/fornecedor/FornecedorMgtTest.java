@@ -89,7 +89,9 @@ public class FornecedorMgtTest {
         instance.createFornecedor(this.fornecedor1);
         instance.createFornecedor(this.fornecedor2);
 
-        fail("Insere dois fornecedores");
+        int id = 1;
+        Fornecedor result = instance.getFornecedor(id);
+        assertEquals(this.fornecedor1, result);
     }
 
 
@@ -103,7 +105,9 @@ public class FornecedorMgtTest {
         FornecedorMgt instance = new FornecedorMgt();
         instance.updateFornecedor(fornecedor1);
 
-        fail("Atualiza valores do fornecedor1.");
+        int id = 1;
+        Fornecedor result = instance.getFornecedor(id);
+        assertEquals(this.fornecedor1, result);
     }
 
 
