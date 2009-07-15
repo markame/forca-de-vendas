@@ -306,6 +306,7 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${file.reference.derby.jar}" todir="${build.classes.dir}"/>
         <copyfiles files="${file.reference.derbyclient.jar}" todir="${build.classes.dir}"/>
         <copyfiles files="${reference.ForcaVendas-commons.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.mysql-connector-java-5.1.6-bin.jar}" todir="${build.classes.dir}"/>
     </target>
     <target depends="compile" name="library-inclusion-in-manifest">
         <copyfiles files="${libs.ejb3-persistence.classpath}" manifestproperty="manifest.libs.ejb3-persistence.classpath" todir="${dist.ear.dir}"/>
@@ -313,8 +314,9 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${file.reference.derby.jar}" manifestproperty="manifest.file.reference.derby.jar" todir="${dist.ear.dir}"/>
         <copyfiles files="${file.reference.derbyclient.jar}" manifestproperty="manifest.file.reference.derbyclient.jar" todir="${dist.ear.dir}"/>
         <copyfiles files="${reference.ForcaVendas-commons.jar}" manifestproperty="manifest.reference.ForcaVendas-commons.jar" todir="${dist.ear.dir}"/>
+        <copyfiles files="${file.reference.mysql-connector-java-5.1.6-bin.jar}" manifestproperty="manifest.file.reference.mysql-connector-java-5.1.6-bin.jar" todir="${dist.ear.dir}"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Class-Path" value="${manifest.libs.ejb3-persistence.classpath} ${manifest.libs.EclipseLink-GlassFish-V3.classpath} ${manifest.file.reference.derby.jar} ${manifest.file.reference.derbyclient.jar} ${manifest.reference.ForcaVendas-commons.jar} "/>
+            <attribute name="Class-Path" value="${manifest.libs.ejb3-persistence.classpath} ${manifest.libs.EclipseLink-GlassFish-V3.classpath} ${manifest.file.reference.derby.jar} ${manifest.file.reference.derbyclient.jar} ${manifest.reference.ForcaVendas-commons.jar} ${manifest.file.reference.mysql-connector-java-5.1.6-bin.jar} "/>
         </manifest>
     </target>
     <target name="-copy-meta-inf">
