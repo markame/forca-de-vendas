@@ -23,7 +23,7 @@ import javax.transaction.UserTransaction;
  * @author Henrique
  */
 public class EmpresaJpaController {
-    @Resource
+ /*   @Resource
     private UserTransaction utx = null;
 
     @PersistenceUnit
@@ -76,7 +76,7 @@ public class EmpresaJpaController {
             }
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Long id = empresa.getId();
+                Integer id = empresa.getId();
                 if (findEmpresa(id) == null) {
                     throw new NonexistentEntityException("The empresa with id " + id + " no longer exists.");
                 }
@@ -139,7 +139,7 @@ public class EmpresaJpaController {
         }
     }
 
-    public Empresa findEmpresa(Long id) {
+    public Empresa findEmpresa(Integer id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Empresa.class, id);
@@ -156,5 +156,5 @@ public class EmpresaJpaController {
             em.close();
         }
     }
-
+*/
 }

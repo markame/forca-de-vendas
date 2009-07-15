@@ -19,7 +19,7 @@ public class Empresa implements IEmpresa, Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Integer id;
 
     @Column
     private String nome;
@@ -43,11 +43,11 @@ public class Empresa implements IEmpresa, Serializable {
         this.telefone = telefone;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

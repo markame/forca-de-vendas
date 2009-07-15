@@ -6,8 +6,11 @@
 package br.com.forcaVendas.client;
 
 import br.com.forcaVendas.dto.EmpresaDTO;
+import br.com.forcaVendas.dto.ItemDTO;
 import br.com.forcaVendas.empresa.remote.EmpresaException;
 import br.com.forcaVendas.empresa.remote.IEmpresaMgtRemote;
+import br.com.forcaVendas.util.EJBUtil;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,7 +36,12 @@ public class Main {
         } catch (EmpresaException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         System.out.println(empresa);
+        System.out.println("id: " + empresa.getId());
+        System.out.println("nome: " + empresa.getNome());
+        System.out.println("endereço: " + empresa.getEndereco());
+        System.out.println("telefone: " + empresa.getTelefone());
 
         if(empresa == null)
             empresa = new EmpresaDTO();
@@ -55,6 +63,30 @@ public class Main {
         }
 
         System.out.println(empresa);
+        System.out.println("id: " + empresa.getId());
+        System.out.println("nome: " + empresa.getNome());
+        System.out.println("endereço: " + empresa.getEndereco());
+        System.out.println("telefone: " + empresa.getTelefone());
+
+        try {
+            empresaMgr.createItem("café", (float) 2.5);
+
+            List<ItemDTO> itens = empresaMgr.getItens();
+
+            for(ItemDTO item : itens){
+                System.out.println(item);
+                System.out.println("código: " + item.getCodigo());
+                System.out.println("nome: " + item.getNome());
+                System.out.println("preço: " + item.getPreco());
+            }
+
+
+        } catch (EmpresaException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+
     }
 
 }

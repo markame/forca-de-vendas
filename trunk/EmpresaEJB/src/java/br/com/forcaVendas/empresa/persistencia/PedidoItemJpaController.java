@@ -23,7 +23,7 @@ import javax.transaction.UserTransaction;
  * @author Henrique
  */
 public class PedidoItemJpaController {
-    @Resource
+    /*@Resource
     private UserTransaction utx = null;
     @PersistenceUnit(unitName = "EmpresaEJBPU")
     private EntityManagerFactory emf = null;
@@ -155,5 +155,5 @@ public class PedidoItemJpaController {
             em.close();
         }
     }
-
+*/
 }

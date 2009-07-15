@@ -3,8 +3,8 @@
   <persistence-unit name="EmpresaEJBPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
 
-    <!--non-jta-data-source>empresaEJBDS</non-jta-data-source-->
-    <jta-data-source >empresaEJBDS</jta-data-source>
+    <non-jta-data-source>empresaEJBDS</non-jta-data-source>
+    <!--jta-data-source >empresaEJBDS</jta-data-source-->
     
     <class>br.com.forcaVendas.empresa.entidade.Empresa</class>
     <class>br.com.forcaVendas.empresa.entidade.Item</class>
