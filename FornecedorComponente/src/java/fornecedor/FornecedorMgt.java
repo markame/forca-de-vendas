@@ -40,6 +40,10 @@ public class FornecedorMgt implements IFornecedorMgt {
         solicitacao.setIdEmpresa(empresa.getId());
         solicitacao.setIdFornecedor(fornecedor.getId());
 
+        //persiste a solicitação
+        SolicitacaoDAO instance = new SolicitacaoDAO();
+        instance.createSolicitacao(solicitacao);
+
         return solicitacao;
     }
 
