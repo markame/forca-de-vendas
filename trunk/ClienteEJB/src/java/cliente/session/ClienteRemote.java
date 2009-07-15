@@ -13,6 +13,7 @@ import javax.ejb.Remote;
  * @author André
  */
 @Remote
+@Deprecated
 public interface ClienteRemote {
 
     public void criarCliente(String nome, String endereco, String cpf, String telefone);

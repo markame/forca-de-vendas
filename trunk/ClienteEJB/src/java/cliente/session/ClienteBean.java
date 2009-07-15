@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
  *
  * @author André
  */
+@Deprecated
 @Stateless
 public class ClienteBean implements ClienteRemote {
 
