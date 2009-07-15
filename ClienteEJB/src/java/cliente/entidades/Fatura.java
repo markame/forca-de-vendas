@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package br.com.forcaVendas.dto;
+package cliente.entidades;
 
 import br.com.forcaVendas.dto.interfaces.IFatura;
 import java.io.Serializable;
@@ -25,26 +25,31 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "cliente_schema.fatura")
 @SequenceGenerator(name = "sequence_fatura", sequenceName = "cliente_schema.fatura_sequence")
-@NamedQueries({
+/*@NamedQueries({
     @NamedQuery(name = "Fatura.findAll", query = "SELECT f FROM Fatura f"),
     @NamedQuery(name = "Fatura.findById", query = "SELECT f FROM Fatura f WHERE f.id = :id"),
     @NamedQuery(name = "Fatura.findById_Pedido", query = "SELECT f FROM Fatura f WHERE f.id_pedido = :id_pedido"),
     @NamedQuery(name = "Fatura.findByCpf_Cliente", query = "SELECT f FROM Fatura f WHERE f.cpf_cliente = :cpf_cliente")
-})
-public class FaturaDTO implements IFatura {
+})*/
+public class Fatura implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(generator="sequence_fatura", strategy=GenerationType.AUTO)
     @Column(name = "id")
     private Integer id;
-
+    
     @Column(name = "id_pedido", nullable=false)
     private Integer idPedido;
-
+    
     @Column(name = "cpf_cliente", nullable=false)
     private String cpfCliente;
 
-    public FaturaDTO() {
+    public Fatura() {
+    }
+
+    public Fatura(Integer idPedido, String cpfCliente) {
+        this.idPedido = idPedido;
+        this.cpfCliente = cpfCliente;
     }
 
     public Integer getId() {
@@ -71,17 +76,41 @@ public class FaturaDTO implements IFatura {
         this.idPedido = idPedido;
     }
 
-    public static FaturaDTO copy(IFatura fatura){
-        FaturaDTO faturaDTO = null;
-
-        if(faturaDTO != null){
-            faturaDTO = new FaturaDTO();
-
-            faturaDTO.setCpfCliente(fatura.getCpfCliente());
-            faturaDTO.setId(fatura.getId());
-            faturaDTO.setIdPedido(fatura.getIdPedido());
-            
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
         }
-        return faturaDTO;
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Fatura other = (Fatura) obj;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 53 * hash + (this.id != null ? this.id.hashCode() : 0);
+        return hash;
+    }
+
+
+    @Override
+    public String toString() {
+        return "fatura.entidades.Fatura[id=" + id + "]";
+    }
+
+    public static Fatura copy(IFatura fat){
+        Fatura fatura = null;
+
+        if(fat != null){
+            fatura = new Fatura();
+
+            fatura.setId(fatura.getId());
+            fatura.setCpfCliente(fatura.getCpfCliente());
+            fatura.setIdPedido(fatura.getIdPedido());
+        }
+        return fatura;
     }
 }

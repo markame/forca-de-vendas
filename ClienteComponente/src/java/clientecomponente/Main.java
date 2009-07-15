@@ -5,16 +5,17 @@
 
 package clientecomponente;
 
+import br.com.forcaVendas.cliente.remote.ClienteException;
 import br.com.forcaVendas.cliente.remote.IClienteMgtRemote;
-import br.com.forcaVendas.cliente.remote.IFaturaMgtRemote;
+import br.com.forcaVendas.dto.ClienteDTO;
 import br.com.forcaVendas.dto.FaturaDTO;
 import br.com.forcaVendas.dto.ItemDTO;
+import br.com.forcaVendas.dto.PedidoDTO;
 import cliente.entidades.Cliente;
-import fatura.entidades.Fatura;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Vector;
 import javax.naming.NamingException;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -28,7 +29,7 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws NamingException {
+    public static void main(String[] args) throws NamingException, ClienteException {
         //Context initCtx = new InitialContext();
         //Quando vc faz o lookup vc passa o caminho completo da interface local ou remote.
         //ClienteRemote clienteMgr = (ClienteRemote) EJBUtil.getFacade("cliente.session.ClienteRemote");
@@ -41,21 +42,22 @@ public class Main {
         cliente.setTelefone("3221-2222");
         cliente.setCpf("1234567");
 
+        ClienteDTO clienteDTO;
+        FaturaDTO faturaDTO;
 
-        boolean resp = clienteMgr.criarCliente(
-                //cliente.getId(),
-                cliente.getNome(),
-                cliente.getEndereco(),
-                cliente.getCpf(),
-                cliente.getTelefone());
-        JOptionPane.showMessageDialog(null, resp);
+        boolean resp;
+        //resp = clienteMgr.criarCliente(cliente.getNome(), cliente.getEndereco(), cliente.getCpf(), cliente.getTelefone());
+
+        //ClienteDTO clienteDTO = clienteMgr.buscarCliente(null);
+        
+        
         //clienteMgr.buscarCliente("12345");
         //clienteMgr.editarCliente(cliente);
         //clienteMgr.deletarCliente("12345");
 
         //JOptionPane.showMessageDialog(null, "Cliente " + cliente.getNome() + " inserido no banco com sucesso!");
 
-        IFaturaMgtRemote faturaMgr = (IFaturaMgtRemote) EJBUtil.getFacade("br.com.forcaVendas.cliente.remote.IFaturaMgtRemote");
+        //IFaturaMgtRemote faturaMgr = (IFaturaMgtRemote) EJBUtil.getFacade("br.com.forcaVendas.cliente.remote.IFaturaMgtRemote");
 
         //cliente.setId(1);
         ItemDTO item1 = new ItemDTO();
@@ -69,12 +71,26 @@ public class Main {
         item1.setNome("Memoria Mininiiiiinho!");
         item1.setPreco(135);
 
-        List<ItemDTO> itens = new LinkedList<ItemDTO>();
+        Vector<ItemDTO> itens = new Vector<ItemDTO>();
         itens.add(item1);
         itens.add(item2);
-        
-        boolean resp2 = faturaMgr.criarFatura(itens, 12);
-        JOptionPane.showMessageDialog(null, "resp2 foi: " + resp2);
+
+        List<PedidoDTO> pedidos = new LinkedList<PedidoDTO>();
+        for(int i = 1; i <= 3;i++){
+            PedidoDTO pedido = new PedidoDTO();
+            pedido.setCodigo(Long.valueOf(i));
+
+            pedidos.add(pedido);
+        }
+
+
+        clienteDTO = ClienteDTO.copy(cliente);
+        //resp = clienteMgr.criarFatura(pedidos, clienteDTO);
+        faturaDTO = clienteMgr.buscarFatura(1);
+
+        if(faturaDTO != null){
+            System.out.println("Fatura buscada: " + faturaDTO.getIdPedido());
+        }
     }
 
 }

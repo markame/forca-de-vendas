@@ -7,6 +7,7 @@ package br.com.forcaVendas.remote;
 
 import br.com.forcaVendas.dto.ClienteDTO;
 import br.com.forcaVendas.dto.EmpresaDTO;
+import br.com.forcaVendas.dto.FaturaDTO;
 import br.com.forcaVendas.dto.Fornecedor;
 import br.com.forcaVendas.dto.ItemDTO;
 import br.com.forcaVendas.dto.PedidoDTO;
@@ -35,7 +36,9 @@ public interface IForcaVendasMgtRemote {
 
     public boolean updateCliente(ClienteDTO cliente);
 
-    //os metodos de Fatura
+    public boolean  criarFatura(List<PedidoDTO> pedidos, ClienteDTO cliente);
+
+    public FaturaDTO buscarFatura(Integer id);
 
     //IAtualizarVendedor
     public VendedorDTO createVendedor(String nome, String endereco, String telefone, long cpf, float salario) throws EmpresaException;
