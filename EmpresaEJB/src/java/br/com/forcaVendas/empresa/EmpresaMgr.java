@@ -12,14 +12,9 @@ import br.com.forcaVendas.empresa.entidade.Item;
 import br.com.forcaVendas.empresa.entidade.NotaFiscal;
 import br.com.forcaVendas.empresa.entidade.Pedido;
 import br.com.forcaVendas.empresa.entidade.Vendedor;
-import br.com.forcaVendas.empresa.persistencia.EmpresaJpaController;
-import br.com.forcaVendas.empresa.persistencia.ItemJpaController;
-import br.com.forcaVendas.empresa.persistencia.NotaFiscalJpaController;
-import br.com.forcaVendas.empresa.persistencia.PedidoJpaController;
-import br.com.forcaVendas.empresa.persistencia.VendedorJpaController;
 import br.com.forcaVendas.dto.interfaces.IPedido;
 import br.com.forcaVendas.empresa.entidade.PedidoItem;
-import br.com.forcaVendas.empresa.persistencia.PedidoItemJpaController;
+import br.com.forcaVendas.empresa.persistencia.JpaController;
 import br.com.forcaVendas.empresa.remote.EmpresaException;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,24 +46,26 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
         boolean r = false;
 
         if(empresaDTO.getNome() == null){
-                throw new EmpresaException("Nome Inválido");
+            throw new EmpresaException("Nome Inválido");
         }
         if(empresaDTO.getCnpj() == 0){
-                throw new EmpresaException("CNPJ Inválido");
+            throw new EmpresaException("CNPJ Inválido");
         }
 
 
         try{
-            EmpresaJpaController empresaJpa = new EmpresaJpaController();
+            JpaController jpa = new JpaController();
 
             Empresa emp = findEmpresa();
+            System.out.println("emp " + emp);
 
             Empresa empresa = Empresa.copy(empresaDTO);
             if(emp == null){
-                empresaJpa.create(empresa);
+                jpa.insert(empresa);
                 r = true;
             }else{
-                empresa.setId(Long.valueOf(1));
+                empresa.setId(Integer.valueOf(1));
+                jpa.update(empresa);
                 r = true;
             }
 
@@ -96,9 +93,9 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
         }
 
         try{
-            VendedorJpaController vendedorJpa = new VendedorJpaController();
+            JpaController jpa = new JpaController();
 
-            vendedorJpa.create(vendedor);
+            jpa.insert(vendedor);
 
         }catch(Exception ex){
             System.err.println(ex);
@@ -121,11 +118,10 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
         }
 
         try{
-            VendedorJpaController vendedorJpa = new VendedorJpaController();
-
             Vendedor vendedor = Vendedor.copy(vendedorDTO);
-            vendedorJpa.edit(vendedor);
 
+            JpaController jpa = new JpaController();
+            jpa.update(vendedor);
 
         }catch(Exception ex){
             System.err.println(ex);
@@ -138,9 +134,8 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
 
     public boolean deleteVendedor(long codigo) throws EmpresaException{
         try{
-            VendedorJpaController vendedorJpa = new VendedorJpaController();
-
-            vendedorJpa.destroy(codigo);
+            JpaController jpa = new JpaController();
+            jpa.delete(codigo);
 
         }catch(Exception ex){
             System.err.println(ex);
@@ -153,9 +148,8 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
     public VendedorDTO getVendedor(long codigo) throws EmpresaException{
         Vendedor vendedor = null;
         try{
-            VendedorJpaController vendedorJpa = new VendedorJpaController();
-
-            vendedor = vendedorJpa.findVendedor(codigo);
+            JpaController jpa = new JpaController();
+            vendedor = (Vendedor) jpa.find(Vendedor.class, codigo);
 
         }catch(Exception ex){
             System.err.println(ex);
@@ -168,10 +162,9 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
     public List<VendedorDTO> getVendedores() throws EmpresaException{
         List<Vendedor> vendedores = null;
         try{
-            VendedorJpaController jpaController = new VendedorJpaController();
-
-            vendedores = jpaController.findVendedorEntities();
-
+            JpaController jpa = new JpaController();
+            vendedores = (List<Vendedor>) jpa.findEntities(Vendedor.class.getSimpleName());
+            
         }catch(Exception ex){
             System.err.println(ex);
             throw new EmpresaException(ex);
@@ -215,18 +208,19 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
             valorTotal += (pedidoItem.getQuantidade() * pedidoItem.getItem().getPreco());
         }
 
+        //atualiza valor total
         pedido.setValorTotal(valorTotal);
 
 
         try{
-            PedidoJpaController pedidoJpa = new PedidoJpaController();
+            JpaController jpa = new JpaController();
 
-            pedidoJpa.create(pedido);
+            //salva pedido
+            jpa.insert(pedido);
 
             //salvando itens do pedido
-            PedidoItemJpaController pedidoItemJpa = new PedidoItemJpaController();
             for(PedidoItem pItem : itens){
-                pedidoItemJpa.create(pItem);
+                jpa.insert(pItem);
             }
 
         }catch(Exception ex){
@@ -252,9 +246,8 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
     public PedidoDTO getPedido(long codigo) throws EmpresaException{
         Pedido pedido = null;
         try{
-            PedidoJpaController jpaController = new PedidoJpaController();
-
-            pedido = jpaController.findPedido(codigo);
+            JpaController jpa = new JpaController();
+            pedido = (Pedido) jpa.find(Pedido.class, codigo);
 
         }catch(Exception ex){
             System.err.println(ex);
@@ -268,9 +261,8 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
         List<Pedido> pedidos = null;
 
         try{
-            PedidoJpaController jpaControler = new PedidoJpaController();
-
-            pedidos = jpaControler.findPedidoEntities();
+            JpaController jpa = new JpaController();
+            pedidos = jpa.findEntities(Pedido.class.getSimpleName());
 
         }catch(Exception ex){
             System.err.println(ex);
@@ -306,8 +298,9 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
 
         //Persiste a Nota Fiscal
         try {
-            NotaFiscalJpaController notaJpa = new NotaFiscalJpaController();
-            notaJpa.create(nota);
+            JpaController jpa = new JpaController();
+            jpa.insert(nota);
+
         } catch (Exception ex) {
             System.err.println(ex);
             throw new EmpresaException(ex);
@@ -328,9 +321,8 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
 
 
         try{
-            ItemJpaController jpaControler = new ItemJpaController();
-
-            jpaControler.create(item);
+            JpaController jpa = new JpaController();
+            jpa.insert(item);
 
         }catch(Exception ex){
             System.err.println(ex);
@@ -344,9 +336,8 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
         Item item = null;
 
         try{
-            ItemJpaController jpaControler = new ItemJpaController();
-
-            item = jpaControler.findItem(codigo);
+            JpaController jpa = new JpaController();
+            item = (Item) jpa.find(Item.class, codigo);
 
         }catch(Exception ex){
             System.err.println(ex);
@@ -360,9 +351,8 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
         List<Item> itens = null;
 
         try{
-            ItemJpaController jpaControler = new ItemJpaController();
-
-            itens = jpaControler.findItemEntities();
+            JpaController jpa = new JpaController();
+            itens = jpa.findEntities(Item.class.getSimpleName());
 
         }catch(Exception ex){
             System.err.println(ex);
@@ -389,10 +379,10 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
         }
 
         try{
-            ItemJpaController jpaControler = new ItemJpaController();
-
             Item item = Item.copy(itemDTO);
-            jpaControler.create(item);
+
+            JpaController jpa = new JpaController();
+            jpa.update(item);
 
         }catch(Exception ex){
             System.err.println(ex);
@@ -404,9 +394,8 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
 
     public boolean deleteItem(long codigo) throws EmpresaException {
         try{
-            ItemJpaController jpaControler = new ItemJpaController();
-
-            jpaControler.destroy(codigo);
+            JpaController jpa = new JpaController();
+            jpa.delete(codigo);
 
         }catch(Exception ex){
             System.err.println(ex);
@@ -434,8 +423,11 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
 
     private Empresa findEmpresa() {
         //Coleta informações da empresa (emitente da nota fiscal)
-        EmpresaJpaController empresaJpa = new EmpresaJpaController();
-        Empresa e = empresaJpa.findEmpresa(Long.valueOf(1));
+        /*EmpresaJpaController empresaJpa = new EmpresaJpaController();
+        Empresa e = empresaJpa.findEmpresa(Long.valueOf(1));*/
+        JpaController jpa = new JpaController();
+        Empresa e = (Empresa) jpa.find(Empresa.class, 1);
+
         return e;
     }
  

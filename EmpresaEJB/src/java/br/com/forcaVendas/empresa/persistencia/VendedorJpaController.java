@@ -23,7 +23,7 @@ import javax.transaction.UserTransaction;
  * @author Henrique
  */
 public class VendedorJpaController {
-    @Resource
+  /*  @Resource
     private UserTransaction utx = null;
     @PersistenceUnit(unitName = "EmpresaEJBPU")
     private EntityManagerFactory emf = null;
@@ -154,6 +154,6 @@ public class VendedorJpaController {
         } finally {
             em.close();
         }
-    }
+    }*/
 
 }

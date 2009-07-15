@@ -7,18 +7,17 @@ package br.com.forcaVendas.empresa;
 
 import br.com.forcaVendas.dto.EmpresaDTO;
 import br.com.forcaVendas.dto.ItemDTO;
+import br.com.forcaVendas.dto.NotaFiscalDTO;
 import br.com.forcaVendas.dto.PedidoDTO;
 import br.com.forcaVendas.dto.PedidoItemDTO;
 import br.com.forcaVendas.dto.VendedorDTO;
 import br.com.forcaVendas.empresa.remote.EmpresaException;
 import br.com.forcaVendas.empresa.remote.IEmpresaMgtRemote;
+import br.com.forcaVendas.util.EJBUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -35,34 +34,22 @@ public class EmpresaMgrTest {
     //backup
     private static EmpresaDTO empresaBackup;
 
-    private static IEmpresaMgtRemote lookupEmpresaMgr() {
-        try {
-            Context c = new InitialContext();
-            return (IEmpresaMgtRemote) c.lookup("java:comp/env/br.com.forcaVendas.empresa.remote.IEmpresaMgtRemote");
-        } catch (NamingException ne) {
-            Logger.getLogger(EmpresaMgrTest.class.getName()).log(Level.SEVERE, "exception caught", ne);
-            throw new RuntimeException(ne);
-        }
-    }
-
     public EmpresaMgrTest() {
-        //instance  = (IEmpresaMgtRemote) EJBUtil.getFacade("br.com.forcaVendas.empresa.remote.IEmpresaMgtRemote");
-        //instance = new EmpresaMgr();
-        instance = lookupEmpresaMgr();
+        instance  = (IEmpresaMgtRemote) EJBUtil.getFacade("br.com.forcaVendas.empresa.remote.IEmpresaMgtRemote");
     }
 
-    @BeforeClass
+    /*@BeforeClass
     public static void beforeClass() throws EmpresaException{
-        IEmpresaMgtRemote instance = lookupEmpresaMgr();
+        IEmpresaMgtRemote instance  = (IEmpresaMgtRemote) EJBUtil.getFacade("br.com.forcaVendas.empresa.remote.IEmpresaMgtRemote");
         empresaBackup = instance.getEmpresa();
     }
 
     @AfterClass
     public static void afterClass() throws EmpresaException{
-        IEmpresaMgtRemote instance = lookupEmpresaMgr();
+        IEmpresaMgtRemote instance  = (IEmpresaMgtRemote) EJBUtil.getFacade("br.com.forcaVendas.empresa.remote.IEmpresaMgtRemote");
         if(empresaBackup != null)
             instance.setEmpresa(empresaBackup);
-    }
+    }*/
 
     /**
      * Test of getEmpresa method, of class EmpresaMgr.
@@ -400,5 +387,4 @@ public class EmpresaMgrTest {
             fail();
         }
     }
-
 }
