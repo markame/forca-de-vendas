@@ -30,8 +30,7 @@ public class JpaController{
         em.persist(object);
         em.flush();
         em.getTransaction().commit();
-        
-        JOptionPane.showMessageDialog(null, object + " salvo com sucesso.");
+               
     }
 
     public Object find(Class c, Object id) {
