@@ -5,6 +5,7 @@
 
 package fornecedor;
 
+import br.com.forcaVendas.dto.Fornecedor;
 import junit.framework.TestCase;
 
 /**
