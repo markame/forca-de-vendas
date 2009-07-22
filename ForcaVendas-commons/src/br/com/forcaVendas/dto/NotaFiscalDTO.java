@@ -13,7 +13,7 @@ import java.util.Date;
  * @author Henrique
  */
 public class NotaFiscalDTO implements INotaFiscal{
-    private Long codigo;
+    private Integer codigo;
 
     //Tipo de nota fiscal: saída/entrada
     private short tipoNota;
@@ -38,7 +38,7 @@ public class NotaFiscalDTO implements INotaFiscal{
     private Date dataEmissao;
 
     //Chave estrangeira para o pedido
-    private Long codigoPedido;
+    private Integer codigoPedido;
 
 
     //Valores Totais da Nota Fiscal
@@ -86,19 +86,19 @@ public class NotaFiscalDTO implements INotaFiscal{
         this.cnpjTransp = cnpjTransp;
     }
 
-    public Long getCodigo() {
+    public Integer getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(Long codigo) {
+    public void setCodigo(Integer codigo) {
         this.codigo = codigo;
     }
 
-    public Long getCodigoPedido() {
+    public Integer getCodigoPedido() {
         return codigoPedido;
     }
 
-    public void setCodigoPedido(Long codigoPedido) {
+    public void setCodigoPedido(Integer codigoPedido) {
         this.codigoPedido = codigoPedido;
     }
 

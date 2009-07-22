@@ -14,9 +14,9 @@ import java.util.Date;
  * @author Henrique
  */
 public class PedidoDTO implements IPedido{
-    private Long codigo;
+    private Integer codigo;
 
-    private Long cliente; //ou objeto
+    private Integer cliente; //ou objeto
 
     private Date dataSolicitacao;
 
@@ -29,11 +29,11 @@ public class PedidoDTO implements IPedido{
     public PedidoDTO() {
     }
 
-    public Long getCliente() {
+    public Integer getCliente() {
         return cliente;
     }
 
-    public void setCliente(Long cliente) {
+    public void setCliente(int cliente) {
         this.cliente = cliente;
     }
 
@@ -45,11 +45,11 @@ public class PedidoDTO implements IPedido{
         this.vendedor =  (VendedorDTO) vendedor;
     }
 
-    public Long getCodigo() {
+    public Integer getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(Long codigo) {
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 

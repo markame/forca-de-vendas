@@ -13,20 +13,22 @@ import br.com.forcaVendas.dto.interfaces.IItem;
  */
 public class ItemDTO implements IItem{
 
-    private Long codigo;
+    private Integer codigo;
 
     private String nome;
 
     private Float preco;
+    
+    private Float estoque;
 
     public ItemDTO() {
     }
 
-    public Long getCodigo() {
+    public Integer getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(long codigo) {
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 
@@ -46,6 +48,16 @@ public class ItemDTO implements IItem{
         this.nome = nome;
     }
 
+    public Float getEstoque() {
+        return this.estoque;
+    }
+
+    public void setEstoque(float estoque) {
+        this.estoque = estoque;
+    }
+
+
+
     public static ItemDTO copy(IItem item){
         ItemDTO itemDTO = null;
 
@@ -55,6 +67,7 @@ public class ItemDTO implements IItem{
             itemDTO.setCodigo(item.getCodigo());
             itemDTO.setNome(item.getNome());
             itemDTO.setPreco(item.getPreco());
+            itemDTO.setEstoque(item.getEstoque());
         }
         return itemDTO;
     }

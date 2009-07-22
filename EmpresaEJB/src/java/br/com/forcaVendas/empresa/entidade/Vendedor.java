@@ -17,7 +17,7 @@ public class Vendedor implements IVendedor, Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long codigo;
+    private Integer codigo;
 
     @Column
     private String nome;
@@ -46,11 +46,11 @@ public class Vendedor implements IVendedor, Serializable {
         this.salario = salario;
     }
 
-    public Long getCodigo() {
+    public Integer getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(long codigo) {
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 

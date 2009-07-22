@@ -14,24 +14,24 @@ import br.com.forcaVendas.dto.interfaces.IPedidoItem;
  */
 public class PedidoItemDTO implements IPedidoItem{
 
-    private Long codigo;
+    private Integer codigo;
 
     private ItemDTO item;
 
     private Float quantidade;
 
-    private Long pedido;
+    private Integer pedido;
 
     private Float comissao;
 
     public PedidoItemDTO() {
     }
 
-    public Long getCodigo() {
+    public Integer getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(long codigo) {
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 
@@ -51,11 +51,11 @@ public class PedidoItemDTO implements IPedidoItem{
         this.item = (ItemDTO) item;
     }
 
-    public Long getPedido() {
+    public Integer getPedido() {
         return pedido;
     }
 
-    public void setPedido(long pedido) {
+    public void setPedido(int pedido) {
         this.pedido = pedido;
     }
 

@@ -23,7 +23,7 @@ import javax.transaction.UserTransaction;
  * @author Henrique
  */
 public class PedidoJpaController {
-    @Resource
+/*    @Resource
     private UserTransaction utx = null;
     @PersistenceUnit(unitName = "EmpresaEJBPU")
     private EntityManagerFactory emf = null;
@@ -75,7 +75,7 @@ public class PedidoJpaController {
             }
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Long id = pedido.getCodigo();
+                Integer id = pedido.getCodigo();
                 if (findPedido(id) == null) {
                     throw new NonexistentEntityException("The pedido with id " + id + " no longer exists.");
                 }
@@ -154,6 +154,6 @@ public class PedidoJpaController {
         } finally {
             em.close();
         }
-    }
+    }*/
 
 }

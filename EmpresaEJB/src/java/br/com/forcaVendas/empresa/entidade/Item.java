@@ -19,7 +19,7 @@ public class Item implements IItem, Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long codigo;
+    private Integer codigo;
 
     @Column(unique=true)
     private String nome;
@@ -27,19 +27,24 @@ public class Item implements IItem, Serializable {
     @Column
     private Float preco;
 
+    @Column
+    private Float estoque;
+
     public Item() {
+        this.estoque = (float) 0;
     }
 
     public Item(String nome, float preco) {
         this.nome = nome;
         this.preco = preco;
+        this.estoque = (float) 0;
     }
 
-    public Long getCodigo() {
+    public Integer getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(long codigo) {
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 
@@ -57,6 +62,14 @@ public class Item implements IItem, Serializable {
 
     public void setPreco(float preco) {
         this.preco = preco;
+    }
+
+    public Float getEstoque() {
+        return this.estoque;
+    }
+
+    public void setEstoque(float estoque) {
+        this.estoque = estoque;
     }
 
     @Override
@@ -93,6 +106,7 @@ public class Item implements IItem, Serializable {
             item.setCodigo(it.getCodigo());
             item.setNome(it.getNome());
             item.setPreco(it.getPreco());
+            item.setEstoque(it.getEstoque());
         }
         return item;
     }

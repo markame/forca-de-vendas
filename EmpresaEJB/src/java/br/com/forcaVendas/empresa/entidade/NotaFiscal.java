@@ -28,7 +28,7 @@ public class NotaFiscal implements INotaFiscal, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long codigo;
+    private Integer codigo;
 
     //Tipo de nota fiscal: saída/entrada
     @Column
@@ -66,7 +66,7 @@ public class NotaFiscal implements INotaFiscal, Serializable {
 
     //Chave estrangeira para o pedido
     @Column
-    private Long codigoPedido;
+    private Integer codigoPedido;
 
 
     //Valores Totais da Nota Fiscal
@@ -98,7 +98,7 @@ public class NotaFiscal implements INotaFiscal, Serializable {
                         Long cnpjTransp,
                         String telefoneTransp,
                         Date dataEmissao,
-                        Long codigoPedido,
+                        Integer codigoPedido,
                         Double valorProdutos,
                         Double valorServicos,
                         Double valorImpostos,
@@ -125,11 +125,11 @@ public class NotaFiscal implements INotaFiscal, Serializable {
     }
 
 
-    public Long getCodigo() {
+    public Integer getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(Long codigo) {
+    public void setCodigo(Integer codigo) {
         this.codigo = codigo;
     }
 
@@ -165,11 +165,11 @@ public class NotaFiscal implements INotaFiscal, Serializable {
         this.cnpjTransp = cnpjTransp;
     }
 
-    public Long getCodigoPedido() {
+    public Integer getCodigoPedido() {
         return codigoPedido;
     }
 
-    public void setCodigoPedido(Long codigoPedido) {
+    public void setCodigoPedido(Integer codigoPedido) {
         this.codigoPedido = codigoPedido;
     }
 

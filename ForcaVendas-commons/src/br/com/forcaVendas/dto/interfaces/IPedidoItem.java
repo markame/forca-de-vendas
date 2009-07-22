@@ -8,23 +8,23 @@ import java.io.Serializable;
  */
 public interface IPedidoItem extends Serializable {
 
-    Long getCodigo();
+    Integer getCodigo();
 
     Float getComissao();
 
     IItem getItem();
 
-    Long getPedido();
+    Integer getPedido();
 
     Float getQuantidade();
 
-    void setCodigo(long codigo);
+    void setCodigo(int codigo);
 
     void setComissao(float comissao);
 
     void setItem(IItem item);
 
-    void setPedido(long pedido);
+    void setPedido(int pedido);
 
     void setQuantidade(float quantidade);
 

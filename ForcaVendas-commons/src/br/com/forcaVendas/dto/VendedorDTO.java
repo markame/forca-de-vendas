@@ -13,7 +13,7 @@ import br.com.forcaVendas.dto.interfaces.IVendedor;
  */
 public class VendedorDTO implements IVendedor{
 
-    private Long codigo;
+    private Integer codigo;
 
     private String nome;
 
@@ -29,11 +29,11 @@ public class VendedorDTO implements IVendedor{
     public VendedorDTO() {
     }
 
-    public Long getCodigo() {
+    public Integer getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(long codigo) {
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 

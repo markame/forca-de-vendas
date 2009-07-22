@@ -17,9 +17,9 @@ public interface INotaFiscal extends Serializable {
 
     Long getCnpjTransp();
 
-    Long getCodigo();
+    Integer getCodigo();
 
-    Long getCodigoPedido();
+    Integer getCodigoPedido();
 
     String getDadosAdicionais();
 
@@ -51,9 +51,9 @@ public interface INotaFiscal extends Serializable {
 
     void setCnpjTransp(Long cnpjTransp);
 
-    void setCodigo(Long codigo);
+    void setCodigo(Integer codigo);
 
-    void setCodigoPedido(Long codigoPedido);
+    void setCodigoPedido(Integer codigoPedido);
 
     void setDadosAdicionais(String dadosAdicionais);
 

@@ -19,7 +19,7 @@ public class PedidoItem implements IPedidoItem, Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long codigo;
+    private Integer codigo;
     
     @ManyToOne
     private Item item;
@@ -28,7 +28,7 @@ public class PedidoItem implements IPedidoItem, Serializable {
     private Float quantidade;
 
     @Column
-    private Long pedido;
+    private Integer pedido;
 
     @Column
     private Float comissao;
@@ -42,19 +42,19 @@ public class PedidoItem implements IPedidoItem, Serializable {
         this.comissao = comissao;
     }
 
-    public Long getCodigo() {
+    public Integer getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(long codigo) {
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 
-    public Long getPedido() {
+    public Integer getPedido() {
         return pedido;
     }
 
-    public void setPedido(long pedido) {
+    public void setPedido(int pedido) {
         this.pedido = pedido;
     }
 

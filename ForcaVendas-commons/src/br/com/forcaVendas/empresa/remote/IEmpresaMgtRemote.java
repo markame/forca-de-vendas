@@ -25,15 +25,15 @@ public interface IEmpresaMgtRemote {
 
     public boolean updateVendedor(VendedorDTO vendedor) throws EmpresaException;
 
-    public boolean deleteVendedor(long codigo) throws EmpresaException;
+    public boolean deleteVendedor(int codigo) throws EmpresaException;
 
-    public VendedorDTO getVendedor(long codigo) throws EmpresaException;
+    public VendedorDTO getVendedor(int codigo) throws EmpresaException;
 
     public List<VendedorDTO> getVendedores() throws EmpresaException;
 
-    public PedidoDTO fazerPedido(long cliente, VendedorDTO vendedor, List<PedidoItemDTO> itens) throws EmpresaException;
+    public PedidoDTO fazerPedido(int cliente, VendedorDTO vendedor, List<PedidoItemDTO> itens) throws EmpresaException;
 
-    public PedidoDTO getPedido(long codigo) throws EmpresaException;
+    public PedidoDTO getPedido(int codigo) throws EmpresaException;
 
     public List<PedidoDTO> getPedidos() throws EmpresaException;
 
@@ -50,12 +50,12 @@ public interface IEmpresaMgtRemote {
 
     public ItemDTO createItem(String nome, float preco) throws EmpresaException;
 
-    public ItemDTO getItem(long codigo) throws EmpresaException;
+    public ItemDTO getItem(int codigo) throws EmpresaException;
 
     public List<ItemDTO> getItens() throws EmpresaException;
 
     public boolean updateItem(ItemDTO itemDTO) throws EmpresaException;
 
-    public boolean deleteItem(long codigo) throws EmpresaException;
+    public boolean deleteItem(int codigo) throws EmpresaException;
 
 }
