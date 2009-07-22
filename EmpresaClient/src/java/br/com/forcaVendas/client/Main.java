@@ -69,7 +69,7 @@ public class Main {
         System.out.println("telefone: " + empresa.getTelefone());
 
         try {
-            empresaMgr.createItem("café", (float) 2.5);
+            empresaMgr.createItem("café2", (float) 2.5);
 
             List<ItemDTO> itens = empresaMgr.getItens();
 
