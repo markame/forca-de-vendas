@@ -9,9 +9,9 @@ import java.util.Date;
  */
 public interface IPedido extends Serializable {
 
-    Long getCliente();
+    Integer getCliente();
 
-    Long getCodigo();
+    Integer getCodigo();
 
     Date getDataEntrega();
 
@@ -21,9 +21,9 @@ public interface IPedido extends Serializable {
 
     IVendedor getVendedor();
 
-    void setCliente(Long cliente);
+    void setCliente(int cliente);
 
-    void setCodigo(Long codigo);
+    void setCodigo(int codigo);
 
     void setDataEntrega(Date dataEntrega);
 

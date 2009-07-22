@@ -132,7 +132,7 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
         return true;
     }
 
-    public boolean deleteVendedor(long codigo) throws EmpresaException{
+    public boolean deleteVendedor(int codigo) throws EmpresaException{
         try{
             JpaController jpa = new JpaController();
             jpa.delete(codigo);
@@ -145,7 +145,7 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
         return true;
     }
 
-    public VendedorDTO getVendedor(long codigo) throws EmpresaException{
+    public VendedorDTO getVendedor(int codigo) throws EmpresaException{
         Vendedor vendedor = null;
         try{
             JpaController jpa = new JpaController();
@@ -182,7 +182,20 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
         return vendedoresDTO;
     }
 
-    public PedidoDTO fazerPedido(long cliente, VendedorDTO vendedor, List<PedidoItemDTO> itensDTO) throws EmpresaException{
+    /**
+     * Pré-condições:
+     *      int cliente:                    id de cliente válido
+     *      VendedorDTO vendedor:           vendedor já cadastrado
+     *      List<PedidoItemDTO> itensDTO:   itens do pedido e suas quantidades, não é feita validação
+     *                                      se existe ou não quantidades de produtos no estoque
+     *
+     * @param cliente
+     * @param vendedor
+     * @param itensDTO
+     * @return
+     * @throws br.com.forcaVendas.empresa.remote.EmpresaException
+     */
+    public PedidoDTO fazerPedido(int cliente, VendedorDTO vendedor, List<PedidoItemDTO> itensDTO) throws EmpresaException{
         
         if(cliente < 0){
             throw new EmpresaException("Cliente Inválido");
@@ -205,6 +218,10 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
 
             itens.add(pedidoItem);
 
+            if(pedidoItem.getQuantidade() <= 0){
+                throw new EmpresaException("Pedido não pode possuir itens com quantidade negativa: " + pedidoItem.getItem().getNome());
+            }
+
             valorTotal += (pedidoItem.getQuantidade() * pedidoItem.getItem().getPreco());
         }
 
@@ -219,8 +236,15 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
             jpa.insert(pedido);
 
             //salvando itens do pedido
+            Item item;
             for(PedidoItem pItem : itens){
                 jpa.insert(pItem);
+
+                //atualiza quantidade em estoque, sendo que é possível o estoque ficar negativo
+                item = Item.copy(pItem.getItem());
+                final float estoque = item.getEstoque() - pItem.getQuantidade();
+                item.setEstoque(estoque);
+                jpa.update(item);
             }
 
         }catch(Exception ex){
@@ -243,7 +267,7 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
         return PedidoDTO.copy(pedido);
     }
 
-    public PedidoDTO getPedido(long codigo) throws EmpresaException{
+    public PedidoDTO getPedido(int codigo) throws EmpresaException{
         Pedido pedido = null;
         try{
             JpaController jpa = new JpaController();
@@ -332,7 +356,7 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
         return ItemDTO.copy(item);
     }
 
-    public ItemDTO getItem(long codigo) throws EmpresaException {
+    public ItemDTO getItem(int codigo) throws EmpresaException {
         Item item = null;
 
         try{
@@ -392,7 +416,7 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
         return true;
     }
 
-    public boolean deleteItem(long codigo) throws EmpresaException {
+    public boolean deleteItem(int codigo) throws EmpresaException {
         try{
             JpaController jpa = new JpaController();
             jpa.delete(codigo);
@@ -430,5 +454,5 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
 
         return e;
     }
- 
+
 }

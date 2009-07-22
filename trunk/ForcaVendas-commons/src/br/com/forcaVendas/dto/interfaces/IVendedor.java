@@ -8,7 +8,7 @@ import java.io.Serializable;
  */
 public interface IVendedor extends Serializable {
 
-    Long getCodigo();
+    Integer getCodigo();
 
     long getCpf();
 
@@ -20,7 +20,7 @@ public interface IVendedor extends Serializable {
 
     String getTelefone();
 
-    void setCodigo(long codigo);
+    void setCodigo(int codigo);
 
     void setCpf(long cpf);
 

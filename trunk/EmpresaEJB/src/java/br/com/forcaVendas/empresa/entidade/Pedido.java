@@ -21,10 +21,10 @@ public class Pedido implements IPedido, Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long codigo;
+    private Integer codigo;
 
     @Column
-    private Long cliente; //ou objeto
+    private Integer cliente; //ou objeto
 
     @Column
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -43,7 +43,7 @@ public class Pedido implements IPedido, Serializable {
     public Pedido() {
     }
 
-    public Pedido(Long cliente, Date dataSolicitacao, Date dataEntrega, double valorTotal, Vendedor vendedor) {
+    public Pedido(Integer cliente, Date dataSolicitacao, Date dataEntrega, double valorTotal, Vendedor vendedor) {
         this.cliente = cliente;
         this.dataSolicitacao = dataSolicitacao;
         this.dataEntrega = dataEntrega;
@@ -51,11 +51,11 @@ public class Pedido implements IPedido, Serializable {
         this.vendedor = vendedor;
     }
 
-    public Long getCliente() {
+    public Integer getCliente() {
         return cliente;
     }
 
-    public void setCliente(Long cliente) {
+    public void setCliente(int cliente) {
         this.cliente = cliente;
     }
 
@@ -67,11 +67,11 @@ public class Pedido implements IPedido, Serializable {
         this.vendedor = (Vendedor) vendedor; //TODO ver se essa é a melhor opção
     }
 
-    public Long getCodigo() {
+    public Integer getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(Long codigo) {
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 

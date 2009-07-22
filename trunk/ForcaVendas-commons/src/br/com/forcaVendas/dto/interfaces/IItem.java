@@ -8,16 +8,20 @@ import java.io.Serializable;
  */
 public interface IItem extends Serializable {
 
-    Long getCodigo();
+    Integer getCodigo();
 
     String getNome();
 
     Float getPreco();
 
-    void setCodigo(long codigo);
+    Float getEstoque();
+
+    void setCodigo(int codigo);
 
     void setNome(String nome);
 
     void setPreco(float preco);
+
+    void setEstoque(float estoque);
 
 }
