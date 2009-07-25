@@ -78,7 +78,7 @@ public class Main {
         List<PedidoDTO> pedidos = new LinkedList<PedidoDTO>();
         for(int i = 1; i <= 3;i++){
             PedidoDTO pedido = new PedidoDTO();
-            pedido.setCodigo(Long.valueOf(i));
+            pedido.setCodigo(i);
 
             pedidos.add(pedido);
         }
