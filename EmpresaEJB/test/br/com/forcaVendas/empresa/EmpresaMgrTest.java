@@ -179,7 +179,7 @@ public class EmpresaMgrTest {
             VendedorDTO vendedor = instance.createVendedor(nome, endereco, telefone, cpf, salario);
             assertNotNull(vendedor);
             
-            Long codigo = vendedor.getCodigo();
+            Integer codigo = vendedor.getCodigo();
             boolean result = instance.deleteVendedor(codigo);
             assertTrue(result);
 
@@ -227,7 +227,7 @@ public class EmpresaMgrTest {
     @Test
     public void testFazerPedido() {
         System.out.println("fazerPedido");
-        long cliente = 1;
+        int cliente = 1;
 
         String nome = "Teste";
         String endereco = "Rua A";
@@ -261,7 +261,7 @@ public class EmpresaMgrTest {
         System.out.println("getPedido");
 
         System.out.println("fazerPedido");
-        long cliente = 1;
+        int cliente = 1;
 
         String nome = "Teste";
         String endereco = "Rua A";
@@ -277,7 +277,7 @@ public class EmpresaMgrTest {
 
             PedidoDTO pedido = instance.fazerPedido(cliente, vendedor, itensDTO);
 
-            long codigo = pedido.getCodigo();
+            int codigo = pedido.getCodigo();
 
             PedidoDTO result = instance.getPedido(codigo);
             assertNotNull(result);
