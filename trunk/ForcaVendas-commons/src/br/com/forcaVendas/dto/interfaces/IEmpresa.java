@@ -22,7 +22,7 @@ public interface IEmpresa extends Serializable{
 
     public abstract void setEndereco(String endereco);
 
-    public abstract void setId(int id);
+    public abstract void setId(Integer id);
 
     public abstract void setNome(String nome);
 
