@@ -38,13 +38,14 @@ public class Main {
         }
         
         System.out.println(empresa);
+
+        if(empresa == null)
+            empresa = new EmpresaDTO();
+
         System.out.println("id: " + empresa.getId());
         System.out.println("nome: " + empresa.getNome());
         System.out.println("endereço: " + empresa.getEndereco());
         System.out.println("telefone: " + empresa.getTelefone());
-
-        if(empresa == null)
-            empresa = new EmpresaDTO();
 
         empresa.setCnpj(1234);
         empresa.setEndereco("Rua A");
