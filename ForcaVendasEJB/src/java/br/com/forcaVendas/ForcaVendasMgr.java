@@ -9,6 +9,7 @@ import br.com.forcaVendas.cliente.remote.ClienteException;
 import br.com.forcaVendas.cliente.remote.IClienteMgtRemote;
 import br.com.forcaVendas.dto.ClienteDTO;
 import br.com.forcaVendas.dto.EmpresaDTO;
+import br.com.forcaVendas.dto.FaturaDTO;
 import br.com.forcaVendas.dto.Fornecedor;
 import br.com.forcaVendas.dto.ItemDTO;
 import br.com.forcaVendas.dto.PedidoDTO;
@@ -59,6 +60,14 @@ public class ForcaVendasMgr implements IForcaVendasMgtRemote{
 
     public boolean updateCliente(ClienteDTO cliente) throws ClienteException {
         return clienteMgtRemote.editarCliente(cliente);
+    }
+
+    public boolean criarFatura(List<PedidoDTO> pedidos, String cpfCliente) throws ClienteException {
+        return clienteMgtRemote.criarFatura(pedidos, cpfCliente);
+    }
+
+    public FaturaDTO buscarFatura(Integer id) throws ClienteException {
+        return clienteMgtRemote.buscarFatura(id);
     }
     //Fim de IAtualizarCliente
 
@@ -136,5 +145,5 @@ public class ForcaVendasMgr implements IForcaVendasMgtRemote{
 
         return empresaMgtRemote.fazerPedido(cliente, vendedor, itens);
     }
-    
+
 }

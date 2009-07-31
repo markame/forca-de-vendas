@@ -28,7 +28,7 @@ public interface IClienteMgtRemote {
 
     public boolean deletarCliente(String cpf)  throws ClienteException;
 
-    public boolean  criarFatura(List<PedidoDTO> pedidos, ClienteDTO cliente)  throws ClienteException;
+    public boolean  criarFatura(List<PedidoDTO> pedidos, String cpfCliente)  throws ClienteException;
 
     public FaturaDTO buscarFatura(Integer id)  throws ClienteException;
 }
