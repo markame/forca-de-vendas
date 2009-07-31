@@ -5,6 +5,7 @@
 
 package br.com.forcaVendas.remote;
 
+import br.com.forcaVendas.cliente.remote.ClienteException;
 import br.com.forcaVendas.dto.ClienteDTO;
 import br.com.forcaVendas.dto.PedidoDTO;
 import br.com.forcaVendas.dto.PedidoItemDTO;
@@ -18,7 +19,7 @@ import java.util.List;
  */
 public interface IFazerPedidoRemote {
 
-    public ClienteDTO getCliente(int id) throws EmpresaException;
+    public ClienteDTO getCliente(String cpf) throws ClienteException;
 
     public VendedorDTO getVendedor(int id) throws EmpresaException;
 

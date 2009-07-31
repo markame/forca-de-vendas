@@ -5,6 +5,8 @@
 
 package br.com.forcaVendas;
 
+import br.com.forcaVendas.cliente.remote.ClienteException;
+import br.com.forcaVendas.cliente.remote.IClienteMgtRemote;
 import br.com.forcaVendas.dto.ClienteDTO;
 import br.com.forcaVendas.dto.ItemDTO;
 import br.com.forcaVendas.dto.PedidoDTO;
@@ -32,8 +34,8 @@ public class FazerPedido implements IFazerPedidoRemote{
     @EJB
     public IEmpresaMgtRemote empresaMgtRemote = null;
 
-    public ClienteDTO getCliente(int id) throws EmpresaException {
-        return clienteMgtRemote.getCliente(id);
+    public ClienteDTO getCliente(String cpf) throws ClienteException {
+        return clienteMgtRemote.buscarCliente(cpf);
     }
 
     public VendedorDTO getVendedor(int id) throws EmpresaException {

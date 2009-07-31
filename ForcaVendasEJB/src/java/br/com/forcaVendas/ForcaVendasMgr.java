@@ -5,6 +5,7 @@
 
 package br.com.forcaVendas;
 
+import br.com.forcaVendas.cliente.remote.ClienteException;
 import br.com.forcaVendas.cliente.remote.IClienteMgtRemote;
 import br.com.forcaVendas.dto.ClienteDTO;
 import br.com.forcaVendas.dto.EmpresaDTO;
@@ -40,23 +41,23 @@ public class ForcaVendasMgr implements IForcaVendasMgtRemote{
     public IFornecedorMgt fornecedorMgtRemote = null;
 
     //IAtualizarCliente
-    public boolean createCliente(String nome, String endereco, String cpf, String telefone) {
+    public boolean createCliente(String nome, String endereco, String cpf, String telefone) throws ClienteException {
         return clienteMgtRemote.criarCliente(nome, endereco, cpf, telefone);
     }
 
-    public ClienteDTO getCliente(String cpf) {
+    public ClienteDTO getCliente(String cpf) throws ClienteException {
         return clienteMgtRemote.buscarCliente(cpf);
     }
 
-    public List<ClienteDTO> getClientes() {
+    public List<ClienteDTO> getClientes() throws ClienteException {
         return clienteMgtRemote.getClientes();
     }
 
-    public boolean deleteCliente(String cpf) {
+    public boolean deleteCliente(String cpf) throws ClienteException {
         return clienteMgtRemote.deletarCliente(cpf);
     }
 
-    public boolean updateCliente(ClienteDTO cliente) {
+    public boolean updateCliente(ClienteDTO cliente) throws ClienteException {
         return clienteMgtRemote.editarCliente(cliente);
     }
     //Fim de IAtualizarCliente
