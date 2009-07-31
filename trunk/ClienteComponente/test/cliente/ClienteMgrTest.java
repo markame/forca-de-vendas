@@ -9,12 +9,8 @@ import br.com.forcaVendas.cliente.remote.IClienteMgtRemote;
 import br.com.forcaVendas.dto.ClienteDTO;
 import br.com.forcaVendas.dto.FaturaDTO;
 import br.com.forcaVendas.dto.PedidoDTO;
+import clientecomponente.EJBUtil;
 import java.util.List;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -28,12 +24,14 @@ import static org.junit.Assert.*;
  */
 public class ClienteMgrTest {
 
-
+    private static IClienteMgtRemote clienteMgr;
     public ClienteMgrTest() {
     }
 
     @BeforeClass
     public static void setUpClass() throws Exception {
+
+        clienteMgr = (IClienteMgtRemote) EJBUtil.getFacade("br.com.forcaVendas.cliente.remote.IClienteMgtRemote");
     }
 
     @AfterClass
@@ -53,17 +51,17 @@ public class ClienteMgrTest {
      */
     @Test
     public void testCriarCliente() throws Exception {
-        System.out.println("<---- criarCliente ---->");
-        String nome = "joao";
-        String endereco = "sim";
-        String cpf = "2424";
-        String telefone = "88118811";
-        ClienteMgr instance = new ClienteMgr();
-        boolean expResult = true;
-        boolean result = instance.criarCliente(nome, endereco, cpf, telefone);
+        System.out.println("criarCliente");
+        String nome = "";
+        String endereco = "";
+        String cpf = "";
+        String telefone = "";
+        clienteMgr = (IClienteMgtRemote) EJBUtil.getFacade("br.com.forcaVendas.cliente.remote.IClienteMgtRemote");
+        boolean expResult = false;
+        boolean result = clienteMgr.criarCliente(nome, endereco, cpf, telefone);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
+        fail("The test case is a prototype.");
     }
 
     /**
@@ -74,8 +72,7 @@ public class ClienteMgrTest {
         System.out.println("buscarCliente");
         String cpf = "";        
         ClienteDTO expResult = null;
-        ClienteMgr instance = new ClienteMgr();
-        ClienteDTO result = instance.buscarCliente(cpf);
+        ClienteDTO result = clienteMgr.buscarCliente(cpf);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -89,8 +86,7 @@ public class ClienteMgrTest {
         System.out.println("editarCliente");
         ClienteDTO cliente = null;        
         boolean expResult = false;
-        ClienteMgr instance = new ClienteMgr();
-        boolean result = instance.editarCliente(cliente);
+        boolean result = clienteMgr.editarCliente(cliente);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -104,8 +100,7 @@ public class ClienteMgrTest {
         System.out.println("deletarCliente");
         String cpf = "";        
         boolean expResult = false;
-        ClienteMgr instance = new ClienteMgr();
-        boolean result = instance.deletarCliente(cpf);
+        boolean result = clienteMgr.deletarCliente(cpf);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -118,8 +113,7 @@ public class ClienteMgrTest {
     public void testGetClientes() throws Exception {
         System.out.println("getClientes");        
         List expResult = null;
-        ClienteMgr instance = new ClienteMgr();
-        List result = instance.getClientes();
+        List result = clienteMgr.getClientes();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -134,8 +128,7 @@ public class ClienteMgrTest {
         List<PedidoDTO> pedidos = null;
         ClienteDTO cliente = null;        
         boolean expResult = false;
-        ClienteMgr instance = new ClienteMgr();
-        boolean result = instance.criarFatura(pedidos, cliente);
+        boolean result = clienteMgr.criarFatura(pedidos, cliente);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -149,42 +142,10 @@ public class ClienteMgrTest {
         System.out.println("buscarFatura");
         Integer id = null;        
         FaturaDTO expResult = null;
-        ClienteMgr instance = new ClienteMgr();
-        FaturaDTO result = instance.buscarFatura(id);
+        FaturaDTO result = clienteMgr.buscarFatura(id);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
-    }
-
-    private static Properties getProperties() {
-        //Propriedades do initial context.
-        Properties props = new Properties();
-        props.setProperty("java.naming.factory.initial", "com.sun.enterprise.naming.SerialInitContextFactory");
-        //props.setProperty("java.naming.provider.url", "ecompjrserver.uefs.br:3306");
-        props.setProperty("java.naming.provider.url", "localhost:3700");
-        props.setProperty("java.naming.factory.url.pkgs", "com.sun.enterprise.naming");
-
-        props.setProperty("java.naming.factory.state", "com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl");
-
-        return props;
-    }
-
-    public static Object getFacade(String facadeClass) {
-        Object facade = null;
-
-        try {
-            InitialContext ctx = new InitialContext(getProperties());
-            //InitialContext ctx = new InitialContext();
-
-            //Quando vc faz o lookup vc passa o caminho completo da interface local ou remote.
-            facade = ctx.lookup(facadeClass);
-
-        } catch (NamingException ex) {
-            Logger.getLogger("ComponenteCliente").log(Level.SEVERE, "Conexão EJB falhou: " + facadeClass + " \n" +
-                    ex.toString());
-        }
-
-        return facade;
     }
 
 }

@@ -5,6 +5,7 @@
 
 package br.com.forcaVendas.remote;
 
+import br.com.forcaVendas.cliente.remote.ClienteException;
 import br.com.forcaVendas.dto.ClienteDTO;
 import br.com.forcaVendas.dto.EmpresaDTO;
 import br.com.forcaVendas.dto.FaturaDTO;
@@ -26,19 +27,19 @@ import javax.ejb.Remote;
 public interface IForcaVendasMgtRemote {
 
     //IAtualizarCliente
-    public boolean createCliente(String nome, String endereco, String cpf, String telefone);
+    public boolean createCliente(String nome, String endereco, String cpf, String telefone) throws ClienteException;
 
-    public ClienteDTO getCliente(String cpf);
+    public ClienteDTO getCliente(String cpf)  throws ClienteException;
 
-    public List<ClienteDTO> getClientes();
+    public List<ClienteDTO> getClientes()  throws ClienteException;
 
-    public boolean deleteCliente(String cpf);
+    public boolean deleteCliente(String cpf)  throws ClienteException;
 
-    public boolean updateCliente(ClienteDTO cliente);
+    public boolean updateCliente(ClienteDTO cliente)  throws ClienteException;
 
-    public boolean  criarFatura(List<PedidoDTO> pedidos, ClienteDTO cliente);
+    public boolean  criarFatura(List<PedidoDTO> pedidos, ClienteDTO cliente)  throws ClienteException;
 
-    public FaturaDTO buscarFatura(Integer id);
+    public FaturaDTO buscarFatura(Integer id)  throws ClienteException;
 
     //IAtualizarVendedor
     public VendedorDTO createVendedor(String nome, String endereco, String telefone, long cpf, float salario) throws EmpresaException;

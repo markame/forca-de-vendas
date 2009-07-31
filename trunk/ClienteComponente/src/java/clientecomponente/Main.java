@@ -60,21 +60,7 @@ public class Main {
         //IFaturaMgtRemote faturaMgr = (IFaturaMgtRemote) EJBUtil.getFacade("br.com.forcaVendas.cliente.remote.IFaturaMgtRemote");
 
         //cliente.setId(1);
-        ItemDTO item1 = new ItemDTO();
-        ItemDTO item2 = new ItemDTO();
-
-        item1.setCodigo(1);
-        item1.setNome("Pen drive Mininiiiiinho!");
-        item1.setPreco(45);
-
-        item1.setCodigo(2);
-        item1.setNome("Memoria Mininiiiiinho!");
-        item1.setPreco(135);
-
-        Vector<ItemDTO> itens = new Vector<ItemDTO>();
-        itens.add(item1);
-        itens.add(item2);
-
+        
         List<PedidoDTO> pedidos = new LinkedList<PedidoDTO>();
         for(int i = 1; i <= 3;i++){
             PedidoDTO pedido = new PedidoDTO();

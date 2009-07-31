@@ -47,11 +47,10 @@ public class ClienteMgr implements IClienteMgtRemote{
             
 
             if(buscarCliente(cpf) == null){
-                
                 em.persist(cliente);
             }
             else{
-                throw new ClienteException("Já existe cliente cadastrado com o CPF indicado.");                
+                throw new ClienteException("Já existe cliente cadastrado com o CPF indicado.");
             }
         }
         catch(Exception e){
