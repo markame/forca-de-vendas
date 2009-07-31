@@ -5,6 +5,7 @@
 
 package br.com.forcaVendas.client;
 
+import br.com.forcaVendas.cliente.remote.ClienteException;
 import br.com.forcaVendas.dto.ClienteDTO;
 import br.com.forcaVendas.remote.IForcaVendasMgtRemote;
 import javax.naming.NamingException;
@@ -21,7 +22,7 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws NamingException {
+    public static void main(String[] args) throws NamingException, ClienteException {
         //Context initCtx = new InitialContext();
         //Quando vc faz o lookup vc passa o caminho completo da interface local ou remote.
         //ClienteRemote clienteMgr = (ClienteRemote) EJBUtil.getFacade("cliente.session.ClienteRemote");

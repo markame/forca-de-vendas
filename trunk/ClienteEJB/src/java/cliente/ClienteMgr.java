@@ -67,8 +67,10 @@ public class ClienteMgr implements IClienteMgtRemote{
 
         List retorno = em.createNamedQuery("Cliente.findByCpf").setParameter("cpf", cpf).getResultList();
 
-        if(retorno.isEmpty())
+        if(retorno.isEmpty()){
             return null;
+            //throw new ClienteException("Não existe cliente cadastrado com o CPF indicado.");
+        }
         return ClienteDTO.copy((Cliente)retorno.get(0));
 
     }
@@ -120,6 +122,9 @@ public class ClienteMgr implements IClienteMgtRemote{
         try{
             List<Cliente> clientes = em.createNamedQuery("Cliente.findAll").getResultList();
 
+            if(clientes.isEmpty())
+                throw new ClienteException("Não existem clientes cadastrados.");
+
             for(Cliente cliente : clientes){
                 clientesDTO.add(ClienteDTO.copy(cliente));
             }
@@ -132,17 +137,17 @@ public class ClienteMgr implements IClienteMgtRemote{
         return clientesDTO;
     }
 
-    public boolean criarFatura(List<PedidoDTO> pedidos, ClienteDTO cliente)  throws ClienteException{
+    public boolean criarFatura(List<PedidoDTO> pedidos, String cpfCliente)  throws ClienteException{
 
         if(pedidos == null){
             throw new ClienteException("Lista de pedidos nada contém.");
         }
-        if(cliente == null){
-            throw new ClienteException("Cliente inválido");
-        }
+        if(cpfCliente.isEmpty() || cpfCliente == null){
+                throw new ClienteException("CPF inválido");
+         }
 
         try{
-            ClienteDTO client = buscarCliente(cliente.getCpf());
+            ClienteDTO client = buscarCliente(cpfCliente);
 
             if(client == null){
                 throw new ClienteException("Cliente não cadastrado.");                
@@ -171,7 +176,7 @@ public class ClienteMgr implements IClienteMgtRemote{
             fatura = em.find(Fatura.class, id);
 
             if (fatura == null) {
-                return null;
+                throw new ClienteException("Não existe fatura cadastrada com o código indicado.");
             } else {
                 faturaDTO = new FaturaDTO();
 
