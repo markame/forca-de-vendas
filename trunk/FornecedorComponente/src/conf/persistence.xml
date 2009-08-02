@@ -5,6 +5,7 @@
     <jta-data-source>fornecedor</jta-data-source>
     <class>br.com.forcaVendas.dto.Fornecedor</class>
     <class>br.com.forcaVendas.dto.Solicitacao</class>
+    <class>br.com.forcaVendas.dto.ItemDTO</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.jdbc.password" value="root"/>
