@@ -6,19 +6,32 @@
 package br.com.forcaVendas.dto;
 
 import br.com.forcaVendas.dto.interfaces.IItem;
+import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author Henrique
  */
-public class ItemDTO implements IItem{
-
+@Entity
+@Table(name = "item")
+public class ItemDTO implements IItem, Serializable{
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer codigo;
 
+    @Column(unique=true)
     private String nome;
 
+    @Column
     private Float preco;
-    
+
+    @Column
     private Float estoque;
 
     public ItemDTO() {
