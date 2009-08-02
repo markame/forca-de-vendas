@@ -120,10 +120,6 @@ public class ForcaVendasMgr implements IForcaVendasMgtRemote{
         return fornecedorMgtRemote.solicitarItem(itens, empresa, fornecedor);
     }
 
-    public Fornecedor getFornecedor(Integer id) {
-        return fornecedorMgtRemote.getFornecedor(id);
-    }
-
     public EmpresaDTO getEmpresa() throws EmpresaException {
         return empresaMgtRemote.getEmpresa();
     }
@@ -146,4 +142,19 @@ public class ForcaVendasMgr implements IForcaVendasMgtRemote{
         return empresaMgtRemote.fazerPedido(cliente, vendedor, itens);
     }
 
+    public void createFornecedor(Fornecedor fornecedor) {
+        fornecedorMgtRemote.createFornecedor(fornecedor);
+    }
+
+    public void deleteFornecedor(Integer id) {
+        fornecedorMgtRemote.deleteFornecedor(id);
+    }
+
+    public void updateFornecedor(Fornecedor fornecedor) {
+        fornecedorMgtRemote.updateFornecedor(fornecedor);
+    }
+
+    public Fornecedor getFornecedor(Integer id) {
+        return fornecedorMgtRemote.getFornecedor(id);
+    }
 }
