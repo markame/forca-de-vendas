@@ -8,12 +8,15 @@ package br.com.forcaVendas.dto;
 
 import br.com.forcaVendas.dto.interfaces.IFornecedor;
 import java.io.Serializable;
+import java.util.List;
+import java.util.Vector;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -35,6 +38,20 @@ public class Fornecedor implements Serializable, IFornecedor{
     private String nome;
     private String endereco;
     private String telefone;
+    @OneToMany
+	private List<ItemDTO> itens;
+
+    public Fornecedor(){
+        itens=new Vector<ItemDTO>();
+    }
+
+    public List<ItemDTO> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<ItemDTO> itens) {
+        this.itens = itens;
+    }
 
     /**
      * Get the value of telefone
@@ -144,5 +161,7 @@ public class Fornecedor implements Serializable, IFornecedor{
     public String toString() {
         return "fornecedor.Fornecedor[id=" + id + "]";
     }
+
+
 
 }

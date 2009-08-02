@@ -7,6 +7,7 @@ package br.com.forcaVendas.fornecedor.remote;
 
 
 import br.com.forcaVendas.dto.EmpresaDTO;
+import br.com.forcaVendas.dto.ItemDTO;
 import br.com.forcaVendas.dto.Fornecedor;
 import br.com.forcaVendas.dto.Solicitacao;
 import java.util.List;

@@ -25,6 +25,15 @@ public class Solicitacao implements Serializable, ISolicitacao {
     private Integer id;
     private Integer idFornecedor;
     private Integer idEmpresa;
+    private Integer idItem;
+
+    public Integer getIdItem() {
+        return idItem;
+    }
+
+    public void setIdItem(Integer idItem) {
+        this.idItem = idItem;
+    }
 
     /**
      * Get the value of idEmpresa

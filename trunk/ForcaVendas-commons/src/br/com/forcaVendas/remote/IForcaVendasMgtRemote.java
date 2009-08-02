@@ -64,11 +64,33 @@ public interface IForcaVendasMgtRemote {
     public boolean deleteItem(long codigo) throws EmpresaException;
 
     //ISolicitarItem
-    public Solicitacao solicitarItem(List<Integer> itens, EmpresaDTO empresa, Fornecedor fornecedor);
+    public Solicitacao solicitarItem(List<ItemDTO> itens, EmpresaDTO empresa, Fornecedor fornecedor);
 
     //public List<ItemDTO> getItens() throws EmpresaException;
 
     public Fornecedor getFornecedor(Integer id);
+
+    /**
+     * Cria uma Fornecedor
+     * @param fornecedor
+     */
+    public void createFornecedor(Fornecedor fornecedor);
+
+
+    /**
+     * Deleta um Fornecedor
+     * @param id
+     */
+    public void deleteFornecedor(Integer id);
+
+
+    /**
+     * Atualiza um Fornecedor
+     * @param fornecedor
+     */
+    public void updateFornecedor(Fornecedor fornecedor);
+
+
 
     public EmpresaDTO getEmpresa() throws EmpresaException;
 
