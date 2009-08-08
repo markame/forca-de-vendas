@@ -119,19 +119,19 @@ public class Vendedor implements IVendedor, Serializable {
         return "br.com.forcaVendas.empresa.entidade.Vendedor[codigo=" + codigo + "]";
     }
 
-    public static Vendedor copy(IVendedor vend){
-        Vendedor vendedor = null;
+    public static Vendedor copy(IVendedor v){
+        Vendedor copy = null;
 
-        if(vendedor != null){
-            vendedor = new Vendedor();
+        if(v != null){
+            copy = new Vendedor();
 
-            vendedor.setCodigo(vend.getCodigo());
-            vendedor.setCpf(vend.getCpf());
-            vendedor.setEndereco(vend.getEndereco());
-            vendedor.setNome(vend.getNome());
-            vendedor.setSalario(vend.getSalario());
-            vendedor.setTelefone(vend.getTelefone());
+            copy.codigo = v.getCodigo();
+            copy.cpf = v.getCpf();
+            copy.endereco = v.getEndereco();
+            copy.nome = v.getNome();
+            copy.salario = v.getSalario();
+            copy.telefone = v.getTelefone();
         }
-        return vendedor;
+        return copy;
     }
 }

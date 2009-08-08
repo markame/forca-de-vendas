@@ -66,18 +66,18 @@ public class EmpresaDTO implements IEmpresa{
         this.telefone = telefone;
     }
 
-    public static EmpresaDTO copy(IEmpresa empresa){
-        EmpresaDTO empresaDTO = null;
+    public static EmpresaDTO copy(IEmpresa e){
+        EmpresaDTO copy = null;
         
-        if(empresa != null){
-            empresaDTO = new EmpresaDTO();
+        if(e != null){
+            copy = new EmpresaDTO();
 
-            empresaDTO.setCnpj(empresa.getCnpj());
-            empresaDTO.setEndereco(empresa.getEndereco());
-            empresaDTO.setId(empresa.getId());
-            empresaDTO.setNome(empresa.getNome());
-            empresaDTO.setTelefone(empresa.getTelefone());
+            copy.id = e.getId();
+            copy.cnpj = e.getCnpj();
+            copy.endereco = e.getEndereco();
+            copy.nome = e.getNome();
+            copy.telefone = e.getTelefone();
         }
-        return empresaDTO;
+        return copy;
     }
 }

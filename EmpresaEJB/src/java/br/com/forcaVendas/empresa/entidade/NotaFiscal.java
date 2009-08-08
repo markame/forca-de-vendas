@@ -40,7 +40,7 @@ public class NotaFiscal implements INotaFiscal, Serializable {
     
     //Informações sobre a empresa que emite a nota Fiscal
     @Column
-    private String NomeEmissor;
+    private String nomeEmissor;
     @Column
     private String enderecoEmissor;
     @Column
@@ -51,7 +51,7 @@ public class NotaFiscal implements INotaFiscal, Serializable {
 
     //Informações sobre o transportador
     @Column
-    private String NomeTransp;
+    private String nomeTransp;
     @Column
     private String enderecoTransp;
     @Column
@@ -106,11 +106,11 @@ public class NotaFiscal implements INotaFiscal, Serializable {
     {
         this.tipoNota = tipoNota;
         this.fretePorConta = fretePorConta;
-        this.NomeEmissor = NomeEmissor;
+        this.nomeEmissor = NomeEmissor;
         this.enderecoEmissor = enderecoEmissor;
         this.cnpjEmissor = cnpjEmissor;
         this.telefoneEmissor = telefoneEmissor;
-        this.NomeTransp = NomeTransp;
+        this.nomeTransp = NomeTransp;
         this.enderecoTransp = enderecoTransp;
         this.cnpjTransp = cnpjTransp;
         this.telefoneTransp = telefoneTransp;
@@ -134,19 +134,19 @@ public class NotaFiscal implements INotaFiscal, Serializable {
     }
 
     public String getNomeEmissor() {
-        return NomeEmissor;
+        return nomeEmissor;
     }
 
     public void setNomeEmissor(String NomeEmissor) {
-        this.NomeEmissor = NomeEmissor;
+        this.nomeEmissor = NomeEmissor;
     }
 
     public String getNomeTransp() {
-        return NomeTransp;
+        return nomeTransp;
     }
 
     public void setNomeTransp(String NomeTransp) {
-        this.NomeTransp = NomeTransp;
+        this.nomeTransp = NomeTransp;
     }
 
     public Long getCnpjEmissor() {
@@ -293,6 +293,37 @@ public class NotaFiscal implements INotaFiscal, Serializable {
     @Override
     public String toString() {
         return "br.com.forcaVendas.empresa.entidade.NotaFiscal[codigo=" + codigo + "]";
+    }
+
+    public static NotaFiscal copy(INotaFiscal n){
+        NotaFiscal copy = null;
+
+        if(n != null){
+            copy = new NotaFiscal();
+
+            copy.cnpjEmissor = n.getCnpjEmissor();
+            copy.cnpjTransp = n.getCnpjTransp();
+            copy.codigo = n.getCodigo();
+            copy.codigoPedido = n.getCodigoPedido();
+
+            copy.dadosAdicionais = n.getDadosAdicionais();
+            copy.dataEmissao = n.getDataEmissao();
+            copy.enderecoEmissor = n.getEnderecoEmissor();
+            copy.enderecoTransp = n.getEnderecoTransp() ;
+
+            copy.fretePorConta = n.getFretePorConta();
+            copy.nomeEmissor = n.getNomeEmissor();
+            copy.nomeTransp = n.getNomeTransp();
+            copy.telefoneEmissor = n.getTelefoneEmissor();
+            copy.telefoneTransp = n.getTelefoneTransp();
+
+            copy.tipoNota = n.getTipoNota();
+            copy.valorImpostos = n.getValorImpostos();
+            copy.valorProdutos = n.getValorProdutos();
+            copy.valorServicos = n.getValorServicos();
+            copy.valorTotalNota = n.getValorTotalNota();
+        }
+        return copy;
     }
 
 }

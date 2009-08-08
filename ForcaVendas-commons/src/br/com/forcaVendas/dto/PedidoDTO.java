@@ -77,20 +77,19 @@ public class PedidoDTO implements IPedido{
         this.valorTotal = valorTotal;
     }
 
-    public static PedidoDTO copy(IPedido ped){
-        PedidoDTO pedidoDTO = null;
+    public static PedidoDTO copy(IPedido p){
+        PedidoDTO copy = null;
 
-        if(pedidoDTO != null){
-            pedidoDTO = new PedidoDTO();
+        if(p != null){
+            copy = new PedidoDTO();
 
-            pedidoDTO.setCliente(ped.getCliente());
-            pedidoDTO.setCodigo(ped.getCodigo());
-            pedidoDTO.setDataEntrega(ped.getDataEntrega());
-            pedidoDTO.setDataSolicitacao(ped.getDataSolicitacao());
-            pedidoDTO.setValorTotal(ped.getValorTotal());
-            IVendedor vendedor = (IVendedor) VendedorDTO.copy(ped.getVendedor());
-            pedidoDTO.setVendedor(vendedor);
+            copy.cliente = p.getCliente();
+            copy.codigo = p.getCodigo();
+            copy.dataEntrega = p.getDataEntrega();
+            copy.dataSolicitacao = p.getDataSolicitacao();
+            copy.valorTotal = p.getValorTotal();
+            copy.vendedor = VendedorDTO.copy(p.getVendedor());
         }
-        return pedidoDTO;
+        return copy;
     }
 }

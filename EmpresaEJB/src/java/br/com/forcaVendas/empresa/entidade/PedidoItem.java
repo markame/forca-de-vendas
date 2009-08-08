@@ -107,20 +107,19 @@ public class PedidoItem implements IPedidoItem, Serializable {
         return "br.com.forcaVendas.empresa.entidade.PedidoItem[codigo=" + codigo + "]";
     }
 
-    public static PedidoItem copy(IPedidoItem ped){
-        PedidoItem pedidoItem = null;
+    public static PedidoItem copy(IPedidoItem p){
+        PedidoItem copy = null;
 
-        if(pedidoItem != null){
-            pedidoItem = new PedidoItem();
+        if(p != null){
+            copy = new PedidoItem();
 
-            pedidoItem.setCodigo(ped.getCodigo());
-            pedidoItem.setComissao(ped.getComissao());
-            Item item = Item.copy(ped.getItem());
-            pedidoItem.setItem(item);
+            copy.codigo = p.getCodigo();
+            copy.comissao = p.getComissao();
+            copy.item = Item.copy(p.getItem());
+            copy.pedido = p.getPedido();
+            copy.quantidade = p.getQuantidade();
 
-            pedidoItem.setPedido(ped.getPedido());
-            pedidoItem.setQuantidade(ped.getQuantidade());
         }
-        return pedidoItem;
+        return copy;
     }
 }

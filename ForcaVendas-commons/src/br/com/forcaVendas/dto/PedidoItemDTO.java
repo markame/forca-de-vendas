@@ -67,20 +67,18 @@ public class PedidoItemDTO implements IPedidoItem{
         this.quantidade = quantidade;
     }
 
-    public static PedidoItemDTO copy(IPedidoItem ped){
-        PedidoItemDTO pedidoItemDTO = null;
+    public static PedidoItemDTO copy(IPedidoItem p){
+        PedidoItemDTO copy = null;
 
-        if(pedidoItemDTO != null){
-            pedidoItemDTO = new PedidoItemDTO();
+        if(p != null){
+            copy = new PedidoItemDTO();
 
-            pedidoItemDTO.setCodigo(ped.getCodigo());
-            pedidoItemDTO.setComissao(ped.getComissao());
-            ItemDTO item = ItemDTO.copy(ped.getItem());
-            pedidoItemDTO.setItem(item);
-
-            pedidoItemDTO.setPedido(ped.getPedido());
-            pedidoItemDTO.setQuantidade(ped.getQuantidade());
+            copy.codigo = p.getCodigo();
+            copy.comissao = p.getComissao();
+            copy.item = ItemDTO.copy(p.getItem());
+            copy.pedido = p.getPedido();
+            copy.quantidade = p.getQuantidade();
         }
-        return pedidoItemDTO;
+        return copy;
     }
 }
