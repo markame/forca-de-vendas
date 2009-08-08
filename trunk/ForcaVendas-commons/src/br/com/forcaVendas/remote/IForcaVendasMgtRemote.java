@@ -26,7 +26,7 @@ import javax.ejb.Remote;
 @Remote
 public interface IForcaVendasMgtRemote {
 
-    //IAtualizarCliente
+    /*//IAtualizarCliente
     public boolean createCliente(String nome, String endereco, String cpf, String telefone) throws ClienteException;
 
     public ClienteDTO getCliente(String cpf)  throws ClienteException;
@@ -73,21 +73,21 @@ public interface IForcaVendasMgtRemote {
     /**
      * Cria uma Fornecedor
      * @param fornecedor
-     */
+     * /
     public void createFornecedor(Fornecedor fornecedor);
 
 
     /**
      * Deleta um Fornecedor
      * @param id
-     */
+     * /
     public void deleteFornecedor(Integer id);
 
 
     /**
      * Atualiza um Fornecedor
      * @param fornecedor
-     */
+     * /
     public void updateFornecedor(Fornecedor fornecedor);
 
 
@@ -106,5 +106,5 @@ public interface IForcaVendasMgtRemote {
     //orderItem();
 
     //Fazer pedido não foi definido em nenhuma interface
-    public PedidoDTO fazerPedido(long cliente, VendedorDTO vendedor, List<PedidoItemDTO> itens) throws EmpresaException;
+    public PedidoDTO fazerPedido(long cliente, VendedorDTO vendedor, List<PedidoItemDTO> itens) throws EmpresaException;*/
 }

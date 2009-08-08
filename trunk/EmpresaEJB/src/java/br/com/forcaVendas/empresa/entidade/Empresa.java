@@ -2,6 +2,7 @@ package br.com.forcaVendas.empresa.entidade;
 
 import br.com.forcaVendas.dto.interfaces.IEmpresa;
 import java.io.Serializable;
+import java.lang.reflect.Method;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -108,19 +109,20 @@ public class Empresa implements IEmpresa, Serializable {
         return "br.com.forcaVendas.empresa.entidade.Empresa[id=" + id + "]";
     }
 
-    public static Empresa copy(IEmpresa em){
-        Empresa empresa = null;
+    public static Empresa copy(IEmpresa e){
+        Empresa copy = null;
 
-        if(em != null){
-            empresa = new Empresa();
+        if(e != null){
+            copy = new Empresa();
 
-            empresa.setCnpj(em.getCnpj());
-            empresa.setEndereco(em.getEndereco());
-            empresa.setId(em.getId());
-            empresa.setNome(em.getNome());
-            empresa.setTelefone(em.getTelefone());
+            copy.id = e.getId();
+            copy.cnpj = e.getCnpj();
+            copy.endereco = e.getEndereco();
+            copy.nome = e.getNome();
+            copy.telefone = e.getTelefone();
+
         }
-        return empresa;
+        return copy;
     }
 
 }

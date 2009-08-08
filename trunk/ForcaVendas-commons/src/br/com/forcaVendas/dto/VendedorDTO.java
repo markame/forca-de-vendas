@@ -77,19 +77,19 @@ public class VendedorDTO implements IVendedor{
         this.telefone = telefone;
     }
 
-    public static VendedorDTO copy(IVendedor vend){
-        VendedorDTO vendedorDTO = null;
+    public static VendedorDTO copy(IVendedor v){
+        VendedorDTO copy = null;
 
-        if(vendedorDTO != null){
-            vendedorDTO = new VendedorDTO();
+        if(v != null){
+            copy = new VendedorDTO();
 
-            vendedorDTO.setCodigo(vend.getCodigo());
-            vendedorDTO.setCpf(vend.getCpf());
-            vendedorDTO.setEndereco(vend.getEndereco());
-            vendedorDTO.setNome(vend.getNome());
-            vendedorDTO.setSalario(vend.getSalario());
-            vendedorDTO.setTelefone(vend.getTelefone());
+            copy.codigo = v.getCodigo();
+            copy.cpf = v.getCpf();
+            copy.endereco = v.getEndereco();
+            copy.nome = v.getNome();
+            copy.salario = v.getSalario();
+            copy.telefone = v.getTelefone();
         }
-        return vendedorDTO;
+        return copy;
     }
 }

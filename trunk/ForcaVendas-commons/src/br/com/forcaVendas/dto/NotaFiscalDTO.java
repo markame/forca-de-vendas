@@ -22,14 +22,14 @@ public class NotaFiscalDTO implements INotaFiscal{
     private short fretePorConta;
 
     //Informações sobre a empresa que emite a nota Fiscal
-    private String NomeEmissor;
+    private String nomeEmissor;
     private String enderecoEmissor;
     private Long cnpjEmissor;
     private String telefoneEmissor;
 
 
     //Informações sobre o transportador
-    private String NomeTransp;
+    private String nomeTransp;
     private String enderecoTransp;
     private Long cnpjTransp;
     private String telefoneTransp;
@@ -55,19 +55,19 @@ public class NotaFiscalDTO implements INotaFiscal{
     }
 
     public String getNomeEmissor() {
-        return NomeEmissor;
+        return nomeEmissor;
     }
 
     public void setNomeEmissor(String NomeEmissor) {
-        this.NomeEmissor = NomeEmissor;
+        this.nomeEmissor = NomeEmissor;
     }
 
     public String getNomeTransp() {
-        return NomeTransp;
+        return nomeTransp;
     }
 
     public void setNomeTransp(String NomeTransp) {
-        this.NomeTransp = NomeTransp;
+        this.nomeTransp = NomeTransp;
     }
 
     public Long getCnpjEmissor() {
@@ -198,34 +198,34 @@ public class NotaFiscalDTO implements INotaFiscal{
         this.valorTotalNota = valorTotalNota;
     }
 
-    public static NotaFiscalDTO copy(INotaFiscal notaFiscal){
-        NotaFiscalDTO notaFiscalDTO = null;
+    public static NotaFiscalDTO copy(INotaFiscal n){
+        NotaFiscalDTO copy = null;
 
-        if(notaFiscalDTO != null){
-            notaFiscalDTO = new NotaFiscalDTO();
+        if(n != null){
+            copy = new NotaFiscalDTO();
 
-            notaFiscalDTO.setCnpjEmissor(notaFiscal.getCnpjEmissor());
-            notaFiscalDTO.setCnpjTransp(notaFiscal.getCnpjTransp());
-            notaFiscalDTO.setCodigo(notaFiscal.getCodigo());
-            notaFiscalDTO.setCodigoPedido(notaFiscal.getCodigoPedido());
+            copy.cnpjEmissor = n.getCnpjEmissor();
+            copy.cnpjTransp = n.getCnpjTransp();
+            copy.codigo = n.getCodigo();
+            copy.codigoPedido = n.getCodigoPedido();
 
-            notaFiscalDTO.setDadosAdicionais(notaFiscal.getDadosAdicionais());
-            notaFiscalDTO.setDataEmissao(notaFiscal.getDataEmissao());
-            notaFiscalDTO.setEnderecoEmissor(notaFiscal.getEnderecoEmissor());
-            notaFiscalDTO.setEnderecoTransp(notaFiscal.getEnderecoTransp());
+            copy.dadosAdicionais = n.getDadosAdicionais();
+            copy.dataEmissao = n.getDataEmissao();
+            copy.enderecoEmissor = n.getEnderecoEmissor();
+            copy.enderecoTransp = n.getEnderecoTransp() ;
 
-            notaFiscalDTO.setFretePorConta(notaFiscal.getFretePorConta());
-            notaFiscalDTO.setNomeEmissor(notaFiscal.getNomeEmissor());
-            notaFiscalDTO.setNomeTransp(notaFiscal.getNomeTransp());
-            notaFiscalDTO.setTelefoneEmissor(notaFiscal.getTelefoneEmissor());
-            notaFiscalDTO.setTelefoneTransp(notaFiscal.getTelefoneTransp());
+            copy.fretePorConta = n.getFretePorConta();
+            copy.nomeEmissor = n.getNomeEmissor();
+            copy.nomeTransp = n.getNomeTransp();
+            copy.telefoneEmissor = n.getTelefoneEmissor();
+            copy.telefoneTransp = n.getTelefoneTransp();
 
-            notaFiscalDTO.setTipoNota(notaFiscal.getTipoNota());
-            notaFiscalDTO.setValorImpostos(notaFiscal.getValorImpostos());
-            notaFiscalDTO.setValorProdutos(notaFiscal.getValorProdutos());
-            notaFiscalDTO.setValorServicos(notaFiscal.getValorServicos());
-            notaFiscalDTO.setValorTotalNota(notaFiscal.getValorTotalNota());
+            copy.tipoNota = n.getTipoNota();
+            copy.valorImpostos = n.getValorImpostos();
+            copy.valorProdutos = n.getValorProdutos();
+            copy.valorServicos = n.getValorServicos();
+            copy.valorTotalNota = n.getValorTotalNota();
         }
-        return notaFiscalDTO;
+        return copy;
     }
 }

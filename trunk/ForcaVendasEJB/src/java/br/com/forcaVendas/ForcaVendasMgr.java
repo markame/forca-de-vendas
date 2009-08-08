@@ -31,7 +31,7 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class ForcaVendasMgr implements IForcaVendasMgtRemote{
-
+/*
     @EJB
     public IClienteMgtRemote clienteMgtRemote = null;
 
@@ -72,47 +72,58 @@ public class ForcaVendasMgr implements IForcaVendasMgtRemote{
     //Fim de IAtualizarCliente
 
     //IAtualizarVendedor
+    @Deprecated
     public VendedorDTO createVendedor(String nome, String endereco, String telefone, long cpf, float salario) throws EmpresaException {
         return empresaMgtRemote.createVendedor(nome, endereco, telefone, cpf, salario);
     }
 
+    /*@Deprecated
     public VendedorDTO getVendedor(long codigo) throws EmpresaException {
         return empresaMgtRemote.getVendedor(codigo);
-    }
+    }* /
 
+    @Deprecated
     public List<VendedorDTO> getVendedores() throws EmpresaException {
         return empresaMgtRemote.getVendedores();
     }
 
+    @Deprecated
     public boolean deleteVendedor(long codigo) throws EmpresaException {
         return empresaMgtRemote.deleteVendedor(codigo);
     }
 
+    @Deprecated
     public boolean updateVendedor(VendedorDTO vendedor) throws EmpresaException {
         return empresaMgtRemote.updateVendedor(vendedor);
     }
     //Fim de IAtualizarVendedor
 
     //IAtualizarItem
+    @Deprecated
     public ItemDTO createItem(String nome, float preco) throws EmpresaException {
         return empresaMgtRemote.createItem(nome, preco);
     }
 
+    /*@Deprecated
     public ItemDTO getItem(long codigo) throws EmpresaException {
         return empresaMgtRemote.getItem(codigo);
-    }
+    }* /
 
+    @Deprecated
     public List<ItemDTO> getItens() throws EmpresaException {
         return empresaMgtRemote.getItens();
     }
 
+    @Deprecated
     public boolean updateItem(ItemDTO itemDTO) throws EmpresaException {
         return empresaMgtRemote.updateItem(itemDTO);
     }
 
+    /*@Deprecated
     public boolean deleteItem(long codigo) throws EmpresaException {
         return empresaMgtRemote.deleteItem(codigo);
-    }
+    }* /
+    
     //Fim de IAtualizarItem
 
     //ISolicitarItem
@@ -120,12 +131,14 @@ public class ForcaVendasMgr implements IForcaVendasMgtRemote{
         return fornecedorMgtRemote.solicitarItem(itens, empresa, fornecedor);
     }
 
+    @Deprecated
     public EmpresaDTO getEmpresa() throws EmpresaException {
         return empresaMgtRemote.getEmpresa();
     }
     //Fim de ISolicitarItem
 
-    //Fazer pedido não foi definido em nenhuma interface
+    //Fazer pedido não foi definido em nenhuma interface (Foi sim @henrique)
+    /*@Deprecated
     public PedidoDTO fazerPedido(long cliente, VendedorDTO vendedor, List<PedidoItemDTO> itens) throws EmpresaException {
         Vector<Integer> itensFaltaEstoque = new Vector<Integer>();
 
@@ -140,7 +153,7 @@ public class ForcaVendasMgr implements IForcaVendasMgtRemote{
         }
 
         return empresaMgtRemote.fazerPedido(cliente, vendedor, itens);
-    }
+    }* /
 
     public void createFornecedor(Fornecedor fornecedor) {
         fornecedorMgtRemote.createFornecedor(fornecedor);
@@ -156,5 +169,5 @@ public class ForcaVendasMgr implements IForcaVendasMgtRemote{
 
     public Fornecedor getFornecedor(Integer id) {
         return fornecedorMgtRemote.getFornecedor(id);
-    }
+    }*/
 }

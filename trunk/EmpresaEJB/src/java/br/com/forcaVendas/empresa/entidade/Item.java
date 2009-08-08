@@ -30,6 +30,13 @@ public class Item implements IItem, Serializable {
     @Column
     private Float estoque;
 
+    @Column
+    private Integer fornecedor;
+
+    @Column
+    private Float estoqueMinimo;
+
+
     public Item() {
         this.estoque = (float) 0;
     }
@@ -72,6 +79,22 @@ public class Item implements IItem, Serializable {
         this.estoque = estoque;
     }
 
+    public Integer getFornecedor() {
+        return this.fornecedor;
+    }
+
+    public void setFornecedor(int codFornecedor) {
+        this.fornecedor = codFornecedor;
+    }
+
+    public Float getEstoqueMinimo() {
+        return this.estoqueMinimo;
+    }
+
+    public void setEstoqueMinimo(float estoqueMinimo) {
+        this.estoqueMinimo = estoque;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -97,17 +120,19 @@ public class Item implements IItem, Serializable {
         return "br.com.forcaVendas.empresa.entidade.Item[codigo=" + codigo + "]";
     }
 
-    public static Item copy(IItem it){
-        Item item = null;
+    public static Item copy(IItem i){
+        Item copy = null;
 
-        if(it != null){
-            item = new Item();
+        if(i != null){
+            copy = new Item();
 
-            item.setCodigo(it.getCodigo());
-            item.setNome(it.getNome());
-            item.setPreco(it.getPreco());
-            item.setEstoque(it.getEstoque());
+            copy.codigo = i.getCodigo();
+            copy.nome = i.getNome();
+            copy.preco = i.getPreco();
+            copy.estoque = i.getEstoque();
+            copy.estoqueMinimo = i.getEstoqueMinimo();
+            copy.fornecedor = i.getFornecedor();
         }
-        return item;
+        return copy;
     }
 }

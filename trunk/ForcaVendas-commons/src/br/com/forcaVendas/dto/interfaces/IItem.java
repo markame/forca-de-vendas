@@ -24,4 +24,12 @@ public interface IItem extends Serializable {
 
     void setEstoque(float estoque);
 
+    Integer getFornecedor();
+
+    void setFornecedor(int codFornecedor);
+
+    Float getEstoqueMinimo();
+
+    void setEstoqueMinimo(float estoqueMinimo);
+
 }

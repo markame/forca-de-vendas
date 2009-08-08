@@ -124,4 +124,20 @@ public class Pedido implements IPedido, Serializable {
         return "br.com.forcaVendas.empresa.entidade.Pedido[codigo=" + codigo + "]";
     }
 
+    public static Pedido copy(IPedido p){
+        Pedido copy = null;
+
+        if(p != null){
+            copy = new Pedido();
+
+            copy.cliente = p.getCliente();
+            copy.codigo = p.getCodigo();
+            copy.dataEntrega = p.getDataEntrega();
+            copy.dataSolicitacao = p.getDataSolicitacao();
+            copy.valorTotal = p.getValorTotal();
+            copy.vendedor = Vendedor.copy(p.getVendedor());
+        }
+        return copy;
+    }
+
 }

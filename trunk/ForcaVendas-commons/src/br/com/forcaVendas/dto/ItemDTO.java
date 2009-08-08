@@ -7,32 +7,24 @@ package br.com.forcaVendas.dto;
 
 import br.com.forcaVendas.dto.interfaces.IItem;
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  *
  * @author Henrique
  */
-@Entity
-@Table(name = "item")
 public class ItemDTO implements IItem, Serializable{
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
     private Integer codigo;
 
-    @Column(unique=true)
     private String nome;
 
-    @Column
     private Float preco;
 
-    @Column
     private Float estoque;
+
+    private Integer fornecedor;
+    
+    private Float estoqueMinimo;
 
     public ItemDTO() {
     }
@@ -69,20 +61,37 @@ public class ItemDTO implements IItem, Serializable{
         this.estoque = estoque;
     }
 
-
-
-    public static ItemDTO copy(IItem item){
-        ItemDTO itemDTO = null;
-
-        if(item != null){
-            itemDTO = new ItemDTO();
-
-            itemDTO.setCodigo(item.getCodigo());
-            itemDTO.setNome(item.getNome());
-            itemDTO.setPreco(item.getPreco());
-            itemDTO.setEstoque(item.getEstoque());
-        }
-        return itemDTO;
+    public Integer getFornecedor() {
+        return this.fornecedor;
     }
+
+    public void setFornecedor(int codFornecedor) {
+        this.fornecedor = codFornecedor;
+    }
+
+    public Float getEstoqueMinimo() {
+        return this.estoqueMinimo;
+    }
+
+    public void setEstoqueMinimo(float estoqueMinimo) {
+        this.estoqueMinimo = estoque;
+    }
+
+    public static ItemDTO copy(IItem i){
+        ItemDTO copy = null;
+
+        if(i != null){
+            copy = new ItemDTO();
+
+            copy.codigo = i.getCodigo();
+            copy.nome = i.getNome();
+            copy.preco = i.getPreco();
+            copy.estoque = i.getEstoque();
+            copy.estoqueMinimo = i.getEstoqueMinimo();
+            copy.fornecedor = i.getFornecedor();
+        }
+        return copy;
+    }
+
     
 }
