@@ -31,7 +31,7 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class ForcaVendasMgr implements IForcaVendasMgtRemote{
-/*
+
     @EJB
     public IClienteMgtRemote clienteMgtRemote = null;
 
@@ -40,7 +40,7 @@ public class ForcaVendasMgr implements IForcaVendasMgtRemote{
 
     @EJB
     public IFornecedorMgt fornecedorMgtRemote = null;
-
+/*
     //IAtualizarCliente
     public boolean createCliente(String nome, String endereco, String cpf, String telefone) throws ClienteException {
         return clienteMgtRemote.criarCliente(nome, endereco, cpf, telefone);
@@ -70,8 +70,9 @@ public class ForcaVendasMgr implements IForcaVendasMgtRemote{
         return clienteMgtRemote.buscarFatura(id);
     }
     //Fim de IAtualizarCliente
-
+*/
     //IAtualizarVendedor
+    /*
     @Deprecated
     public VendedorDTO createVendedor(String nome, String endereco, String telefone, long cpf, float salario) throws EmpresaException {
         return empresaMgtRemote.createVendedor(nome, endereco, telefone, cpf, salario);
@@ -80,7 +81,7 @@ public class ForcaVendasMgr implements IForcaVendasMgtRemote{
     /*@Deprecated
     public VendedorDTO getVendedor(long codigo) throws EmpresaException {
         return empresaMgtRemote.getVendedor(codigo);
-    }* /
+    }
 
     @Deprecated
     public List<VendedorDTO> getVendedores() throws EmpresaException {
@@ -137,8 +138,7 @@ public class ForcaVendasMgr implements IForcaVendasMgtRemote{
     }
     //Fim de ISolicitarItem
 
-    //Fazer pedido não foi definido em nenhuma interface (Foi sim @henrique)
-    /*@Deprecated
+    
     public PedidoDTO fazerPedido(long cliente, VendedorDTO vendedor, List<PedidoItemDTO> itens) throws EmpresaException {
         Vector<Integer> itensFaltaEstoque = new Vector<Integer>();
 
@@ -153,7 +153,7 @@ public class ForcaVendasMgr implements IForcaVendasMgtRemote{
         }
 
         return empresaMgtRemote.fazerPedido(cliente, vendedor, itens);
-    }* /
+    }
 
     public void createFornecedor(Fornecedor fornecedor) {
         fornecedorMgtRemote.createFornecedor(fornecedor);
@@ -169,5 +169,5 @@ public class ForcaVendasMgr implements IForcaVendasMgtRemote{
 
     public Fornecedor getFornecedor(Integer id) {
         return fornecedorMgtRemote.getFornecedor(id);
-    }*/
+    }
 }
