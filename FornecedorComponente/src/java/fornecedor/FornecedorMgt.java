@@ -7,8 +7,9 @@ package fornecedor;
 
 import br.com.forcaVendas.dto.EmpresaDTO;
 import br.com.forcaVendas.dto.Fornecedor;
+import br.com.forcaVendas.dto.ItemDTO;
 import br.com.forcaVendas.dto.Solicitacao;
-import fornecedor.interfaces.remote.IFornecedorMgt;
+import br.com.forcaVendas.fornecedor.remote.IFornecedorMgt;
 import java.util.List;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -55,6 +56,14 @@ public class FornecedorMgt implements IFornecedorMgt {
     public void updateFornecedor(Fornecedor fornecedor) {
         FornecedorDAO instance = new FornecedorDAO();
         instance.updateFornecedor(fornecedor);
+    }
+
+    public Fornecedor getFornecedorByItemId(Integer itemId) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public Fornecedor getFornecedorByItemId(ItemDTO item) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
  
 }
