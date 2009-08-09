@@ -6,8 +6,8 @@
             <name>EJBModuloFornecedorMgt</name>
             <minimum-ant-version>1.6.5</minimum-ant-version>
             <included-library>libs.ejb3-persistence.classpath</included-library>
-            <included-library>libs.EclipseLink-GlassFish-V3.classpath</included-library>
             <included-library>file.reference.derby.jar</included-library>
+            <included-library>libs.EclipseLink-GlassFish-v3-Prelude.classpath</included-library>
             <included-library>file.reference.derbyclient.jar</included-library>
             <included-library>reference.ForcaVendas-commons.jar</included-library>
             <source-roots>
