@@ -11,13 +11,13 @@ import br.com.forcaVendas.dto.ItemDTO;
 import br.com.forcaVendas.dto.Fornecedor;
 import br.com.forcaVendas.dto.Solicitacao;
 import java.util.List;
-import javax.ejb.Local;
+import javax.ejb.Remote;
 
 /**
  *
  * @author Nelson Alves
  */
-@Local
+@Remote
 public interface IFornecedorMgt {
     public Fornecedor getFornecedor(Integer id);
 
@@ -49,4 +49,17 @@ public interface IFornecedorMgt {
      * @param fornecedor
      */
     public void updateFornecedor(Fornecedor fornecedor);
+
+    /**
+     Obtem o fornecedor para um determinado item pelo codigo do item
+     @param itemId id do item
+     * @return fornecedor para aquele item
+     */
+    public Fornecedor getFornecedorByItemId(Integer itemId);
+    /**
+     Obtem o fornecedor para um determinado item
+     @param item
+     * @return fornecedor para aquele item
+     */
+    public Fornecedor getFornecedorByItemId(ItemDTO item);
 }
