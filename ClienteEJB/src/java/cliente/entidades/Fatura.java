@@ -7,16 +7,18 @@ package cliente.entidades;
 
 import br.com.forcaVendas.dto.interfaces.IFatura;
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -25,12 +27,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "cliente_schema.fatura")
 @SequenceGenerator(name = "sequence_fatura", sequenceName = "cliente_schema.fatura_sequence")
-/*@NamedQueries({
-    @NamedQuery(name = "Fatura.findAll", query = "SELECT f FROM Fatura f"),
-    @NamedQuery(name = "Fatura.findById", query = "SELECT f FROM Fatura f WHERE f.id = :id"),
-    @NamedQuery(name = "Fatura.findById_Pedido", query = "SELECT f FROM Fatura f WHERE f.id_pedido = :id_pedido"),
-    @NamedQuery(name = "Fatura.findByCpf_Cliente", query = "SELECT f FROM Fatura f WHERE f.cpf_cliente = :cpf_cliente")
-})*/
+@NamedQueries({
+    @NamedQuery(name = "Fatura.findAll", query = "SELECT f FROM Fatura f")
+})
 public class Fatura implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -38,18 +37,18 @@ public class Fatura implements Serializable {
     @Column(name = "id")
     private Integer id;
     
-    @Column(name = "id_pedido", nullable=false)
-    private Integer idPedido;
-    
     @Column(name = "cpf_cliente", nullable=false)
     private String cpfCliente;
+
+    @Column(name = "mes", nullable=false)
+    private Integer mes;
 
     public Fatura() {
     }
 
-    public Fatura(Integer idPedido, String cpfCliente) {
-        this.idPedido = idPedido;
+    public Fatura(String cpfCliente, Integer mes) {
         this.cpfCliente = cpfCliente;
+        this.mes = mes;
     }
 
     public Integer getId() {
@@ -68,14 +67,14 @@ public class Fatura implements Serializable {
         this.cpfCliente = cpfCliente;
     }
 
-    public Integer getIdPedido() {
-        return idPedido;
+    public Integer getMes() {
+        return mes;
     }
 
-    public void setIdPedido(Integer idPedido) {
-        this.idPedido = idPedido;
+    public void setMes(Integer mesFatura) {
+        this.mes = mesFatura;
     }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -102,15 +101,15 @@ public class Fatura implements Serializable {
     }
 
     public static Fatura copy(IFatura fat){
-        Fatura fatura = null;
+        Fatura copy = null;
 
         if(fat != null){
-            fatura = new Fatura();
+            copy = new Fatura();
 
-            fatura.setId(fatura.getId());
-            fatura.setCpfCliente(fatura.getCpfCliente());
-            fatura.setIdPedido(fatura.getIdPedido());
+            copy.setId(fat.getId());
+            copy.setCpfCliente(fat.getCpfCliente());
+            copy.setMes(fat.getMes());
         }
-        return fatura;
+        return copy;
     }
 }

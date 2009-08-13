@@ -7,7 +7,7 @@ package br.com.forcaVendas.remote;
 
 import br.com.forcaVendas.cliente.remote.ClienteException;
 import br.com.forcaVendas.dto.ClienteDTO;
-import br.com.forcaVendas.dto.FaturaDTO;
+import br.com.forcaVendas.dto.LinkFaturaPedidoDTO;
 import br.com.forcaVendas.dto.PedidoDTO;
 import java.util.List;
 
@@ -27,8 +27,8 @@ public interface IAtualizarClienteRemote {
 
     public boolean deletarCliente(String cpf)  throws ClienteException;
 
-    public boolean  criarFatura(List<PedidoDTO> pedidos, ClienteDTO cliente)  throws ClienteException;
+    public boolean  criarFatura(List<PedidoDTO> pedidos, String cpfCliente)  throws ClienteException;
 
-    public FaturaDTO buscarFatura(Integer id)  throws ClienteException;
+    public List<LinkFaturaPedidoDTO> buscarFatura(String cpfCliente, int mes)  throws ClienteException;
 
 }

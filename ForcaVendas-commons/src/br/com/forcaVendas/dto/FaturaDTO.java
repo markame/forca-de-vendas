@@ -28,8 +28,8 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "Fatura.findAll", query = "SELECT f FROM Fatura f"),
     @NamedQuery(name = "Fatura.findById", query = "SELECT f FROM Fatura f WHERE f.id = :id"),
-    @NamedQuery(name = "Fatura.findById_Pedido", query = "SELECT f FROM Fatura f WHERE f.id_pedido = :id_pedido"),
-    @NamedQuery(name = "Fatura.findByCpf_Cliente", query = "SELECT f FROM Fatura f WHERE f.cpf_cliente = :cpf_cliente")
+    //@NamedQuery(name = "Fatura.findByCliente_Mes", query = "SELECT f FROM Fatura f WHERE f.cpf_cliente = :cpf_cliente AND f.mes = :mes"),
+    @NamedQuery(name = "Fatura.findByCliente_CpfCliente", query = "SELECT f FROM Fatura f WHERE f.cpf_cliente = :cpf_cliente")
 })
 public class FaturaDTO implements IFatura {
     private static final long serialVersionUID = 1L;
@@ -38,11 +38,11 @@ public class FaturaDTO implements IFatura {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "id_pedido", nullable=false)
-    private Integer idPedido;
-
     @Column(name = "cpf_cliente", nullable=false)
     private String cpfCliente;
+
+    @Column(name = "mes", nullable=false)
+    private Integer mes;
 
     public FaturaDTO() {
     }
@@ -63,25 +63,25 @@ public class FaturaDTO implements IFatura {
         this.cpfCliente = cpfCliente;
     }
 
-    public Integer getIdPedido() {
-        return idPedido;
+    public Integer getMes() {
+        return this.mes;
     }
 
-    public void setIdPedido(Integer idPedido) {
-        this.idPedido = idPedido;
+    public void setMes(Integer mes) {
+        this.mes = mes;
     }
 
     public static FaturaDTO copy(IFatura fatura){
-        FaturaDTO faturaDTO = null;
+        FaturaDTO copy = null;
 
-        if(faturaDTO != null){
-            faturaDTO = new FaturaDTO();
+        if(fatura != null){
+            copy = new FaturaDTO();
 
-            faturaDTO.setCpfCliente(fatura.getCpfCliente());
-            faturaDTO.setId(fatura.getId());
-            faturaDTO.setIdPedido(fatura.getIdPedido());
+            copy.setCpfCliente(fatura.getCpfCliente());
+            copy.setId(fatura.getId());
+            copy.setMes(fatura.getMes());
             
         }
-        return faturaDTO;
-    }
+        return copy;
+    }    
 }

@@ -169,5 +169,5 @@ public class ForcaVendasMgr implements IForcaVendasMgtRemote{
 
     public Fornecedor getFornecedor(Integer id) {
         return fornecedorMgtRemote.getFornecedor(id);
-    }
+    }*/
 }

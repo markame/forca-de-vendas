@@ -7,7 +7,7 @@ package clientecomponente;
 import br.com.forcaVendas.cliente.remote.ClienteException;
 import br.com.forcaVendas.cliente.remote.IClienteMgtRemote;
 import br.com.forcaVendas.dto.ClienteDTO;
-import br.com.forcaVendas.dto.FaturaDTO;
+import br.com.forcaVendas.dto.LinkFaturaPedidoDTO;
 import br.com.forcaVendas.dto.PedidoDTO;
 import cliente.entidades.Cliente;
 import java.util.LinkedList;
@@ -25,7 +25,7 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args){
+    public static void main(String[] args) {
         //Context initCtx = new InitialContext();
         //Quando vc faz o lookup vc passa o caminho completo da interface local ou remote.
         //ClienteRemote clienteMgr = (ClienteRemote) EJBUtil.getFacade("cliente.session.ClienteRemote");
@@ -73,8 +73,7 @@ public class Main {
                                 "\nCPF: " + dto.getCpf());
                     } catch (NullPointerException e) {
                         JOptionPane.showMessageDialog(null, "Não existe cliente cadastrado com o CPF indicado.");
-                    }
-                    catch(ClienteException e){
+                    } catch (ClienteException e) {
                         JOptionPane.showMessageDialog(null, e.getMessage());
                     }
                     break;
@@ -82,24 +81,28 @@ public class Main {
                     try {
                         String cpf2 = JOptionPane.showInputDialog(null, "Informe o CPF do cliente: ");
                         ClienteDTO dto = clienteMgr.buscarCliente(cpf2);
-                        String novoNome = JOptionPane.showInputDialog(null, "Cliente a atualizar: " +
-                                "\nNome atual: " + dto.getNome() +
-                                "\nNovo nome: ");
-                        String novoEndereco = JOptionPane.showInputDialog(null, "Cliente a atualizar: " +
-                                "\nEndereco atual: " + dto.getEndereco() +
-                                "\nNovo endereço: ");
-                        String novoTelefone = JOptionPane.showInputDialog(null, "Cliente a atualizar: " +
-                                "\nTelefone atual: " + dto.getTelefone() +
-                                "\nNovo telefone: ");
-                        String novoCpf = JOptionPane.showInputDialog(null, "Cliente a atualizar: " +
-                                "\nCPF atual: " + dto.getCpf() +
-                                "\nNovo CPF: ");
-                        dto.setNome(novoNome);
-                        dto.setEndereco(novoEndereco);
-                        dto.setCpf(novoCpf);
-                        dto.setTelefone(novoTelefone);
-                        clienteMgr.editarCliente(dto);
-                        JOptionPane.showMessageDialog(null, "Cliente atualizado com sucesso");
+                        if (dto != null) {
+                            String novoNome = JOptionPane.showInputDialog(null, "Cliente a atualizar: " +
+                                    "\nNome atual: " + dto.getNome() +
+                                    "\nNovo nome: ");
+                            String novoEndereco = JOptionPane.showInputDialog(null, "Cliente a atualizar: " +
+                                    "\nEndereco atual: " + dto.getEndereco() +
+                                    "\nNovo endereço: ");
+                            String novoTelefone = JOptionPane.showInputDialog(null, "Cliente a atualizar: " +
+                                    "\nTelefone atual: " + dto.getTelefone() +
+                                    "\nNovo telefone: ");
+                            String novoCpf = JOptionPane.showInputDialog(null, "Cliente a atualizar: " +
+                                    "\nCPF atual: " + dto.getCpf() +
+                                    "\nNovo CPF: ");
+                            dto.setNome(novoNome);
+                            dto.setEndereco(novoEndereco);
+                            dto.setCpf(novoCpf);
+                            dto.setTelefone(novoTelefone);
+                            clienteMgr.editarCliente(dto);
+                            JOptionPane.showMessageDialog(null, "Cliente atualizado com sucesso");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Não existe cliente cadastrado com o CPF indicado.");
+                        }
                     } catch (ClienteException e) {
                         JOptionPane.showMessageDialog(null, e.getMessage());
                     }
@@ -137,28 +140,31 @@ public class Main {
                     break;
                 case 6: //Buscar fatura
                     try {
-                        int codFatura = Integer.parseInt(JOptionPane.showInputDialog(null, "Informe o código da fatura: "));
-                        FaturaDTO faturaDTO = clienteMgr.buscarFatura(codFatura);
-                        JOptionPane.showMessageDialog(null, "Fatura buscado: " +
-                                "\nCódigo da fatura: " + faturaDTO.getId() +
-                                "\nCódigo do pedido: " + faturaDTO.getIdPedido() +
-                                "\nCPF do cliente: " + faturaDTO.getCpfCliente());
+                        String cpf2 = JOptionPane.showInputDialog(null, "Informe o CPF do cliente: ");
+                        int codFatura = Integer.parseInt(JOptionPane.showInputDialog(null, "Informe o mês da fatura: "));
+                        List<LinkFaturaPedidoDTO> faturaDTO = clienteMgr.buscarFatura(cpf2, codFatura);
+                        for (LinkFaturaPedidoDTO i : faturaDTO) {
+                            JOptionPane.showMessageDialog(null, "Fatura buscada: " +
+                                    "\nCódigo da fatura: " + i.getIdFatura() +
+                                    "\nCódigo do pedido: " + i.getIdPedido());
+                        }
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(null, "Informe um número para o mês!");
                     } catch (ClienteException e) {
                         JOptionPane.showMessageDialog(null, e.getMessage());
                     }
                     break;
                 case 7: //listar todos os clientes
-                    try{
+                    try {
                         List<ClienteDTO> clientes = clienteMgr.getClientes();
                         String c = "";
 
-                        for(ClienteDTO clienteDTO : clientes){
+                        for (ClienteDTO clienteDTO : clientes) {
                             c = c.concat("Nome: " + clienteDTO.getNome() + " / CPF: " + clienteDTO.getCpf() + "\n");
                         }
                         JOptionPane.showMessageDialog(null, c);
-                        
-                    }
-                    catch(ClienteException e){
+
+                    } catch (ClienteException e) {
                         JOptionPane.showMessageDialog(null, e.getMessage());
                     }
                     break;

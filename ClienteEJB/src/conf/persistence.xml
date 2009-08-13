@@ -5,6 +5,7 @@
     <jta-data-source>clienteEJB_DS</jta-data-source>
     <class>cliente.entidades.Cliente</class>
     <class>cliente.entidades.Fatura</class>
+    <class>cliente.entidades.LinkFaturaPedido</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
     </properties>

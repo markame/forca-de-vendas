@@ -6,7 +6,7 @@
 package br.com.forcaVendas.cliente.remote;
 
 import br.com.forcaVendas.dto.ClienteDTO;
-import br.com.forcaVendas.dto.FaturaDTO;
+import br.com.forcaVendas.dto.LinkFaturaPedidoDTO;
 import br.com.forcaVendas.dto.PedidoDTO;
 import java.util.List;
 import javax.ejb.Remote;
@@ -30,5 +30,5 @@ public interface IClienteMgtRemote {
 
     public boolean  criarFatura(List<PedidoDTO> pedidos, String cpfCliente)  throws ClienteException;
 
-    public FaturaDTO buscarFatura(Integer id)  throws ClienteException;
+    public List<LinkFaturaPedidoDTO> buscarFatura(String cpfCliente, int mes)  throws ClienteException;
 }
