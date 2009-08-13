@@ -81,5 +81,6 @@ public class FornecedorDAO {
 
         return (Fornecedor)q.getSingleResult();
     }
+    
 
 }

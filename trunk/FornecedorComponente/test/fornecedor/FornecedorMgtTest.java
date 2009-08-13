@@ -8,6 +8,7 @@ package fornecedor;
 
 import br.com.forcaVendas.dto.EmpresaDTO;
 import br.com.forcaVendas.dto.Fornecedor;
+import br.com.forcaVendas.dto.ItemDTO;
 import br.com.forcaVendas.dto.Solicitacao;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,15 @@ public class FornecedorMgtTest {
         fornecedor1.setId(1);
         fornecedor1.setNome("UEFS");
         fornecedor1.setTelefone("91181703");
+        ItemDTO item1 =new ItemDTO();
+        item1.setCodigo(2);
+        item1.setEstoque(50);
+        item1.setEstoqueMinimo(50);
+        item1.setFornecedor(fornecedor1.getId());
+        item1.setNome("papel higienico");
+        item1.setPreco(new Float(2.5));
+
+        fornecedor1.getItens().add(item1);
 
         //cria fornecedor 2
         this.fornecedor2 = new Fornecedor();
@@ -57,7 +67,7 @@ public class FornecedorMgtTest {
         fornecedor2.setId(2);
         fornecedor2.setNome("SBC");
         fornecedor2.setTelefone("32352103");
-
+        //fornecedor2.getItens().add(item1);
         //cria uma empresa
         this.empresa = new EmpresaDTO();
         empresa.setCnpj(123098456);
@@ -91,6 +101,7 @@ public class FornecedorMgtTest {
 
         int id = 1;
         Fornecedor result = instance.getFornecedor(id);
+
         assertEquals(this.fornecedor1, result);
     }
 
@@ -150,6 +161,18 @@ public class FornecedorMgtTest {
         FornecedorMgt instance = new FornecedorMgt();
         instance.deleteFornecedor(id);
 
+    }
+    @Test
+    public void testGetFornecedorByItem(){
+        FornecedorMgt instance = new FornecedorMgt();
+        ItemDTO item1 =new ItemDTO();
+        item1.setCodigo(2);
+        item1.setEstoque(50);
+        item1.setEstoqueMinimo(50);
+        item1.setFornecedor(fornecedor1.getId());
+        item1.setNome("papel higienico");
+        item1.setPreco(new Float(2.5));
+        assertNotNull(instance.getFornecedorByItem(item1));
     }
 
 

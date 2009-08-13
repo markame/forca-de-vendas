@@ -25,15 +25,24 @@ public class FornecedorMgt implements IFornecedorMgt {
      /**
      * @see IFornecedorMgt
      */
+
+    private FornecedorDAO fornecedorDao;
+    private SolicitacaoDAO solicitacaoDao;
+
+    public FornecedorMgt(){
+       fornecedorDao=new FornecedorDAO();
+       solicitacaoDao=new SolicitacaoDAO();
+    }
+
     public void deleteFornecedor(Integer id) {
 
-        FornecedorDAO instance = new FornecedorDAO();
-        instance.deleteFornecedor(id);
+        
+        fornecedorDao.deleteFornecedor(id);
     }
 
     public Fornecedor getFornecedor(Integer id) {
-        FornecedorDAO instance = new FornecedorDAO();
-        return instance.getFornecedor(id);
+        
+        return fornecedorDao.getFornecedor(id);
     }
 
     public Solicitacao solicitarItem(List<Integer> itens, EmpresaDTO empresa, Fornecedor fornecedor) {
@@ -42,28 +51,38 @@ public class FornecedorMgt implements IFornecedorMgt {
         solicitacao.setIdFornecedor(fornecedor.getId());
 
         //persiste a solicitação
-        SolicitacaoDAO instance = new SolicitacaoDAO();
-        instance.createSolicitacao(solicitacao);
+        
+        solicitacaoDao.createSolicitacao(solicitacao);
 
         return solicitacao;
     }
 
     public void createFornecedor(Fornecedor fornecedor) {
-        FornecedorDAO instance = new FornecedorDAO();
-        instance.createFornecedor(fornecedor);
+        
+        fornecedorDao.createFornecedor(fornecedor);
     }
 
     public void updateFornecedor(Fornecedor fornecedor) {
-        FornecedorDAO instance = new FornecedorDAO();
-        instance.updateFornecedor(fornecedor);
+        
+        fornecedorDao.updateFornecedor(fornecedor);
     }
 
     public Fornecedor getFornecedorByItemId(Integer itemId) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<Fornecedor> fornecedores= fornecedorDao.getFornecedores();
+        for(Fornecedor temp:fornecedores){
+            if(temp.isItemFornecedor(itemId))
+                return temp;
+        }
+        return null;
     }
 
-    public Fornecedor getFornecedorByItemId(ItemDTO item) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Fornecedor getFornecedorByItem(ItemDTO item) {
+         List<Fornecedor> fornecedores= fornecedorDao.getFornecedores();
+        for(Fornecedor temp:fornecedores){
+            if(temp.isItemFornecedor(item))
+                return temp;
+        }
+        return null;
     }
  
 }
