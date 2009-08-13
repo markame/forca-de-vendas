@@ -15,14 +15,14 @@ public interface IFatura extends Serializable{
 
     public abstract String getCpfCliente();
 
-    public abstract Integer getIdPedido();
-
     public abstract Integer getId();
+
+    public abstract Integer getMes();
 
     public abstract void setId(Integer id);
 
     public abstract void setCpfCliente(String cpf);
 
-    public abstract void setIdPedido(Integer idPedido);
+    public abstract void setMes(Integer mes);
 
 }

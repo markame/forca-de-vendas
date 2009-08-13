@@ -127,18 +127,18 @@ public class Cliente implements ICliente, Serializable {
     }
 
     public static Cliente copy(ICliente client){
-        Cliente cliente = null;
+        Cliente copy = null;
 
         if(client != null){
-            cliente = new Cliente();
+            copy = new Cliente();
 
-            cliente.setCpf(cliente.getCpf());
-            cliente.setEndereco(cliente.getEndereco());
-            cliente.setId(cliente.getId());
-            cliente.setNome(cliente.getNome());
-            cliente.setTelefone(cliente.getTelefone());
+            copy.setCpf(client.getCpf());
+            copy.setEndereco(client.getEndereco());
+            copy.setId(client.getId());
+            copy.setNome(client.getNome());
+            copy.setTelefone(client.getTelefone());
         }
-        return cliente;
+        return copy;
     }
 
 }

@@ -8,7 +8,7 @@ package br.com.forcaVendas;
 import br.com.forcaVendas.cliente.remote.ClienteException;
 import br.com.forcaVendas.cliente.remote.IClienteMgtRemote;
 import br.com.forcaVendas.dto.ClienteDTO;
-import br.com.forcaVendas.dto.FaturaDTO;
+import br.com.forcaVendas.dto.LinkFaturaPedidoDTO;
 import br.com.forcaVendas.dto.PedidoDTO;
 import br.com.forcaVendas.remote.IAtualizarClienteRemote;
 import java.util.List;
@@ -46,12 +46,12 @@ public class AtualizarCliente implements IAtualizarClienteRemote{
         return clienteMgtRemote.editarCliente(cliente);
     }
 
-    public boolean criarFatura(List<PedidoDTO> pedidos, ClienteDTO cliente) throws ClienteException {
-        return clienteMgtRemote.criarFatura(pedidos, cliente);
+    public boolean criarFatura(List<PedidoDTO> pedidos, String cpfCliente) throws ClienteException {
+        return clienteMgtRemote.criarFatura(pedidos, cpfCliente);
     }
 
-    public FaturaDTO buscarFatura(Integer id) throws ClienteException {
-        return clienteMgtRemote.buscarFatura(id);
+    public List<LinkFaturaPedidoDTO> buscarFatura(String cpfCliente, int mes) throws ClienteException {
+        return clienteMgtRemote.buscarFatura(cpfCliente, mes);
     }
     //Fim de IAtualizarCliente
 
