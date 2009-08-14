@@ -144,10 +144,11 @@ public class FornecedorMgtTest {
     public void testSolicitarItem() {
         System.out.println("solicitarItem");
         List<Integer> itens = new ArrayList<Integer>();
-        itens.add(12); itens.add(32);
+        itens.add(2);// itens.add(32);
         FornecedorMgt instance = new FornecedorMgt();
-        Solicitacao result = instance.solicitarItem(itens, empresa, fornecedor1);
-        assertEquals(solicitacao, result);
+        List<Solicitacao> result = instance.solicitarItem(itens, empresa);
+        //assertEquals(solicitacao, result);
+        assertFalse(result.isEmpty());
 
     }
 

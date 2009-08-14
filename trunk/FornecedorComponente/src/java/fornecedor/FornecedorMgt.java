@@ -10,6 +10,7 @@ import br.com.forcaVendas.dto.Fornecedor;
 import br.com.forcaVendas.dto.ItemDTO;
 import br.com.forcaVendas.dto.Solicitacao;
 import br.com.forcaVendas.fornecedor.remote.IFornecedorMgt;
+import java.util.LinkedList;
 import java.util.List;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -45,16 +46,27 @@ public class FornecedorMgt implements IFornecedorMgt {
         return fornecedorDao.getFornecedor(id);
     }
 
-    public Solicitacao solicitarItem(List<Integer> itens, EmpresaDTO empresa, Fornecedor fornecedor) {
-        Solicitacao solicitacao = new Solicitacao();
-        solicitacao.setIdEmpresa(empresa.getId());
-        solicitacao.setIdFornecedor(fornecedor.getId());
+    public List<Solicitacao> solicitarItem(List<Integer> itens, EmpresaDTO empresa) {
+        LinkedList<Solicitacao> solicitacoes=new LinkedList<Solicitacao>();
+        for(Integer id:itens){
+            Solicitacao solicitacao = new Solicitacao();
+            solicitacao.setIdEmpresa(empresa.getId());
+            Fornecedor fornecedor=this.getFornecedorByItemId(id);
+            if(fornecedor!=null){
+                solicitacao.setIdFornecedor(fornecedor.getId());
+                solicitacaoDao.createSolicitacao(solicitacao);
+                solicitacoes.add(solicitacao);
+            }
+            else
+                System.out.println("fornecedor nao encontrado");
+        }
+        
 
         //persiste a solicitação
         
-        solicitacaoDao.createSolicitacao(solicitacao);
+        
 
-        return solicitacao;
+        return solicitacoes;
     }
 
     public void createFornecedor(Fornecedor fornecedor) {
