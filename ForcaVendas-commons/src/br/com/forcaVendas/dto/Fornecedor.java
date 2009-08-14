@@ -10,6 +10,7 @@ import br.com.forcaVendas.dto.interfaces.IFornecedor;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Vector;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -38,8 +39,9 @@ public class Fornecedor implements Serializable, IFornecedor{
     private String nome;
     private String endereco;
     private String telefone;
-    @OneToMany
-	private List<ItemDTO> itens;
+    @OneToMany(cascade=CascadeType.ALL)
+
+    private List<ItemDTO> itens;
 
     public Fornecedor(){
         itens=new Vector<ItemDTO>();
@@ -162,6 +164,22 @@ public class Fornecedor implements Serializable, IFornecedor{
         return "fornecedor.Fornecedor[id=" + id + "]";
     }
 
+/*nome horrivel para um metodo*/
+    public boolean isItemFornecedor(ItemDTO item){
+        for(ItemDTO temp:itens){
+            if(temp.getCodigo().equals(item.getCodigo()))
+                return true;
+        }
+        return false;
+    }
 
+    /*nome horrivel para um metodo*/
+    public boolean isItemFornecedor(Integer item){
+        for(ItemDTO temp:itens){
+            if(temp.getCodigo().equals(item))
+                return true;
+        }
+        return false;
+    }
 
 }
