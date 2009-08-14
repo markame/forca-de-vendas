@@ -28,7 +28,7 @@ public interface IFornecedorMgt {
      * @param fornecedor
      * @return solicitacao
      */
-    public Solicitacao solicitarItem(List<Integer> itens, EmpresaDTO empresa, Fornecedor fornecedor);
+    public List<Solicitacao> solicitarItem(List<Integer> itens, EmpresaDTO empresa);
 
     /**
      * Cria uma Fornecedor
@@ -61,5 +61,5 @@ public interface IFornecedorMgt {
      @param item
      * @return fornecedor para aquele item
      */
-    public Fornecedor getFornecedorByItemId(ItemDTO item);
+    public Fornecedor getFornecedorByItem(ItemDTO item);
 }
