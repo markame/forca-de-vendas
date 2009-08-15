@@ -7,7 +7,6 @@ import javax.persistence.FlushModeType;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.swing.JOptionPane;
 
 /**
  *
