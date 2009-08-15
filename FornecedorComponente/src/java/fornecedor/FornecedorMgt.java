@@ -46,14 +46,23 @@ public class FornecedorMgt implements IFornecedorMgt {
         return fornecedorDao.getFornecedor(id);
     }
 
-    public List<Solicitacao> solicitarItem(List<Integer> itens, EmpresaDTO empresa) {
+    public List<Solicitacao> solicitarItem(List<ItemDTO> itens, EmpresaDTO empresa) {
         LinkedList<Solicitacao> solicitacoes=new LinkedList<Solicitacao>();
-        for(Integer id:itens){
+        for(ItemDTO item:itens){
             Solicitacao solicitacao = new Solicitacao();
             solicitacao.setIdEmpresa(empresa.getId());
-            Fornecedor fornecedor=this.getFornecedorByItemId(id);
+            Fornecedor fornecedor=this.getFornecedorByItem(item);
             if(fornecedor!=null){
+
+                float quantidadeSolicitada = item.getEstoqueMinimo();
+
+                if(item.getEstoque() < 0){
+                    float quantidadeFaltante = - item.getEstoque();
+                    quantidadeSolicitada = quantidadeSolicitada + quantidadeFaltante;
+                }
                 solicitacao.setIdFornecedor(fornecedor.getId());
+                solicitacao.setQuantidade(quantidadeSolicitada);
+                solicitacao.setItem(item.getCodigo());
                 solicitacaoDao.createSolicitacao(solicitacao);
                 solicitacoes.add(solicitacao);
             }
