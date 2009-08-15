@@ -8,10 +8,12 @@ package br.com.forcaVendas.dto;
 
 import br.com.forcaVendas.dto.interfaces.ISolicitacao;
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -25,14 +27,15 @@ public class Solicitacao implements Serializable, ISolicitacao {
     private Integer id;
     private Integer idFornecedor;
     private Integer idEmpresa;
-    private Integer idItem;
+    @OneToOne(cascade=CascadeType.ALL)
+    private ItemDTO item;
 
-    public Integer getIdItem() {
-        return idItem;
+    public ItemDTO getItem() {
+        return item;
     }
 
-    public void setIdItem(Integer idItem) {
-        this.idItem = idItem;
+    public void setItem(ItemDTO newItem) {
+        this.item = newItem;
     }
 
     /**
