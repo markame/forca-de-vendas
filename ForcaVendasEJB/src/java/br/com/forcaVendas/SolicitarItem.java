@@ -1,13 +1,13 @@
 package br.com.forcaVendas;
 
 import br.com.forcaVendas.dto.EmpresaDTO;
+import br.com.forcaVendas.dto.ItemDTO;
 import br.com.forcaVendas.dto.Solicitacao;
 import br.com.forcaVendas.dto.interfaces.IEmpresa;
 import br.com.forcaVendas.dto.interfaces.IItem;
 import br.com.forcaVendas.empresa.remote.EmpresaException;
 import br.com.forcaVendas.empresa.remote.IEmpresaMgtRemote;
 import br.com.forcaVendas.fornecedor.remote.IFornecedorMgt;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 
@@ -28,11 +28,9 @@ public class SolicitarItem {
     public IEmpresaMgtRemote empresaMgtRemote = null;
 
 
-    public List<Solicitacao> solicitarItem(List<IItem> itens, IEmpresa empresa) throws EmpresaException{
-        List<Integer> codigoItens = new ArrayList();
+    public List<Solicitacao> solicitarItem(List<ItemDTO> itens, IEmpresa empresa) throws EmpresaException{
+        //validar cada item de acordo as necessidades do fornecedor
         for(IItem item: itens){
-            //TODO validar cada item de acordo as necessidades do fornecedor
-
             //TODO criar exceção para estes casos
             if(item == null)
                 throw new EmpresaException(this.getClass().getName() +": Item nulo");
@@ -43,24 +41,31 @@ public class SolicitarItem {
             if(item.getEstoqueMinimo() == null || item.getEstoqueMinimo() <= 0)
                 throw new EmpresaException(this.getClass().getName() +": Item com estoque mínimo inválido");
 
-            codigoItens.add(item.getCodigo());
         }
 
         List<Solicitacao> solicitacoes = null;
-        solicitacoes = fornecedorMgtRemote.solicitarItem(codigoItens, EmpresaDTO.copy(empresa));
+        solicitacoes = fornecedorMgtRemote.solicitarItem(itens, EmpresaDTO.copy(empresa));
 
 
-        //TODO atualizar com estoques com as quantidades pedidas
+        //atualizar com estoques com as quantidades pedidas
         int codigo;
         float quantidade;
 
+        EmpresaException exception = null;
         for(Solicitacao solic : solicitacoes){
-            codigo = solic.getIdItem();
-            quantidade = 1; //TODO
+            try{
+                codigo = solic.getIdItem();
+                quantidade = solic.getQuantidade();
 
-            empresaMgtRemote.incrementarEstoqueItem(codigo, quantidade);
+                empresaMgtRemote.incrementarEstoqueItem(codigo, quantidade);
+            }catch(EmpresaException eex){
+                exception = eex;
+                eex.printStackTrace();
+            }
         }
 
+        if(exception != null)
+                throw exception;
 
         return solicitacoes;
     }

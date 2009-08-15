@@ -13,7 +13,6 @@ import br.com.forcaVendas.dto.ItemDTO;
 import br.com.forcaVendas.dto.PedidoDTO;
 import br.com.forcaVendas.dto.PedidoItemDTO;
 import br.com.forcaVendas.dto.VendedorDTO;
-import br.com.forcaVendas.dto.interfaces.IItem;
 import br.com.forcaVendas.empresa.remote.EmpresaException;
 import br.com.forcaVendas.empresa.remote.IEmpresaMgtRemote;
 import br.com.forcaVendas.remote.IFazerPedidoRemote;
@@ -34,9 +33,6 @@ import javax.ejb.EJB;
  * @author Henrique
  */
 public class FazerPedido implements IFazerPedidoRemote{
-
-    //Definir aqui se posível ou não vender com estoque negativo
-    public static final boolean PERMITIDO_PEDIDO_COM_ESTOQUE_NEGATIVO = true;
 
     @EJB
     public IClienteMgtRemote clienteMgtRemote = null;
@@ -75,13 +71,13 @@ public class FazerPedido implements IFazerPedidoRemote{
                         "Quantidade não pode ser negativa");
         }
 
-        if(! PERMITIDO_PEDIDO_COM_ESTOQUE_NEGATIVO){
+        /*if(! PERMITIDO_PEDIDO_COM_ESTOQUE_NEGATIVO){
             if(item.getEstoque() < quantidade){
                 throw new EmpresaException(this.getClass().getName() + ": " +
                         "Não é permitido venda de produtos com estoque negativo." +
                         " Item: " + item.getNome() + " Quantidade: " + quantidade);
             }
-        }
+        }*/
 
         PedidoItemDTO pedidoItem = new PedidoItemDTO();
         pedidoItem.setItem(item);
@@ -93,39 +89,27 @@ public class FazerPedido implements IFazerPedidoRemote{
     }
 
     public PedidoDTO fazerPedido(ClienteDTO cliente, VendedorDTO vendedor, List<PedidoItemDTO> pedidoItens) throws EmpresaException {
-        List<IItem> itensFaltaEstoque = new ArrayList<IItem>();
+        List<ItemDTO> itensEstoqueAbaixoMinimo = new ArrayList<ItemDTO>();
 
         for(PedidoItemDTO pedidoItem : pedidoItens){
             ItemDTO item = empresaMgtRemote.getItem(pedidoItem.getItem().getCodigo());
 
-            //se tem menos em estoque do que foi pedido
-            if(item.getEstoque() < pedidoItem.getQuantidade()){
-                //estas alterações não serão persistidas no banco
-                float estoque = item.getEstoque();
-                item.setEstoque(estoque - pedidoItem.getQuantidade());
+            //calcula o novo estoque
+            //estas alterações não serão persistidas no banco
+            float estoque = item.getEstoque();
+            item.setEstoque(estoque - pedidoItem.getQuantidade());
 
-                itensFaltaEstoque.add(item);
+            //se o estoque vai ficar menor que o estoque mínimo
+            if(item.getEstoque() < item.getEstoqueMinimo()){
+                itensEstoqueAbaixoMinimo.add(item);
             }
         }
         
-        if(!itensFaltaEstoque.isEmpty()){
-            if(PERMITIDO_PEDIDO_COM_ESTOQUE_NEGATIVO){
-                //faz a solicitação
-                EmpresaDTO empresa = empresaMgtRemote.getEmpresa();
+        if(!itensEstoqueAbaixoMinimo.isEmpty()){
+            //faz a solicitação
+            EmpresaDTO empresa = empresaMgtRemote.getEmpresa();
 
-                solicitarItem.solicitarItem(itensFaltaEstoque, empresa);
-
-                
-            }else{
-                StringBuilder itensFaltantes = new StringBuilder();
-                for(IItem item : itensFaltaEstoque){
-                    itensFaltantes.append(item.getNome() + ", ");
-                }
-
-                throw new EmpresaException(this.getClass().getName() + ": " +
-                        "Não é permitido venda de produtos com estoque negativo." +
-                        " Itens: " + itensFaltantes.substring(0, itensFaltantes.length()-3));
-            }
+            solicitarItem.solicitarItem(itensEstoqueAbaixoMinimo, empresa);
         }
 
         //Só pode fazer o pedido depois de solicitar os itens faltantes
