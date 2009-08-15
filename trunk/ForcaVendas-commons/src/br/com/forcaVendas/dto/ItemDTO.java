@@ -7,6 +7,7 @@ package br.com.forcaVendas.dto;
 
 import br.com.forcaVendas.dto.interfaces.IItem;
 import java.io.Serializable;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,7 +16,7 @@ import javax.persistence.Id;
  *
  * @author Henrique
  */
-
+@Entity
 public class ItemDTO implements IItem, Serializable{
 
 
