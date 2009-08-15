@@ -143,8 +143,15 @@ public class FornecedorMgtTest {
     @Test
     public void testSolicitarItem() {
         System.out.println("solicitarItem");
-        List<Integer> itens = new ArrayList<Integer>();
-        itens.add(2);// itens.add(32);
+        List<ItemDTO> itens = new ArrayList<ItemDTO>();
+        ItemDTO item1 =new ItemDTO();
+        item1.setCodigo(2);
+        item1.setEstoque(50);
+        item1.setEstoqueMinimo(50);
+        item1.setFornecedor(fornecedor1.getId());
+        item1.setNome("papel higienico");
+        item1.setPreco(new Float(2.5));
+        itens.add(item1);
         FornecedorMgt instance = new FornecedorMgt();
         List<Solicitacao> result = instance.solicitarItem(itens, empresa);
         //assertEquals(solicitacao, result);
