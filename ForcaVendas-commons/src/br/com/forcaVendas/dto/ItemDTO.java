@@ -34,6 +34,14 @@ public class ItemDTO implements IItem, Serializable{
     private Float estoqueMinimo;
 
     public ItemDTO() {
+        this.estoque = (float) 0;
+        this.estoqueMinimo = (float) 10; //valor Default, deve ser alterado pelo usuário depois
+    }
+
+    public ItemDTO(String nome, float preco) {
+        this();
+        this.nome = nome;
+        this.preco = preco;
     }
 
     public Integer getCodigo() {
