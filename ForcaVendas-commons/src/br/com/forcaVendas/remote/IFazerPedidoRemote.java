@@ -13,7 +13,16 @@ import br.com.forcaVendas.dto.VendedorDTO;
 import br.com.forcaVendas.empresa.remote.EmpresaException;
 import java.util.List;
 
+
 /**
+ * Interface Externa para realização de pedidos (a idéia é que para realizar um pedido seja utilizada apenas esta interface)
+ *
+ * Seqüência:
+ * 1.Selecionar Cliente
+ * 2.Selecionar Vendedor
+ * 3.Adicionar um item de cada vez até que todos sejam adicionados
+ * 4.Realizar pedido (utilizando o resultado das etapas anteriores)
+ *
  *
  * @author Henrique
  */

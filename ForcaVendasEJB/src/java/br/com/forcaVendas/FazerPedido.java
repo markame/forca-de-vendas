@@ -16,7 +16,6 @@ import br.com.forcaVendas.dto.VendedorDTO;
 import br.com.forcaVendas.dto.interfaces.IItem;
 import br.com.forcaVendas.empresa.remote.EmpresaException;
 import br.com.forcaVendas.empresa.remote.IEmpresaMgtRemote;
-import br.com.forcaVendas.fornecedor.remote.IFornecedorMgt;
 import br.com.forcaVendas.remote.IFazerPedidoRemote;
 import java.util.ArrayList;
 import java.util.List;
@@ -101,6 +100,10 @@ public class FazerPedido implements IFazerPedidoRemote{
 
             //se tem menos em estoque do que foi pedido
             if(item.getEstoque() < pedidoItem.getQuantidade()){
+                //estas alterações não serão persistidas no banco
+                float estoque = item.getEstoque();
+                item.setEstoque(estoque + pedidoItem.getQuantidade());
+
                 itensFaltaEstoque.add(item);
             }
         }

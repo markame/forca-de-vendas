@@ -6,6 +6,7 @@ import br.com.forcaVendas.dto.NotaFiscalDTO;
 import br.com.forcaVendas.dto.PedidoDTO;
 import br.com.forcaVendas.dto.PedidoItemDTO;
 import br.com.forcaVendas.dto.VendedorDTO;
+import br.com.forcaVendas.dto.interfaces.IItem;
 import br.com.forcaVendas.empresa.remote.IEmpresaMgtRemote;
 import br.com.forcaVendas.empresa.entidade.Empresa;
 import br.com.forcaVendas.empresa.entidade.Item;
@@ -236,15 +237,14 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
             jpa.insert(pedido);
 
             //salvando itens do pedido
-            Item item;
+            IItem item;
             for(PedidoItem pItem : itens){
                 jpa.insert(pItem);
-
+                
+                
                 //atualiza quantidade em estoque, sendo que é possível o estoque ficar negativo
-                item = Item.copy(pItem.getItem());
-                final float estoque = item.getEstoque() - pItem.getQuantidade();
-                item.setEstoque(estoque);
-                jpa.update(item);
+                item = pItem.getItem();
+                this.decrementarEstoqueItem(item.getCodigo(), pItem.getQuantidade());
             }
 
         }catch(Exception ex){
@@ -354,6 +354,63 @@ public class EmpresaMgr implements IEmpresaMgtRemote {
         }
 
         return ItemDTO.copy(item);
+    }
+
+    /**
+     * toda adição de estoque deve ser feita aqui
+     *
+     * @param codigo
+     * @param quantidade
+     * @return
+     * @throws EmpresaException
+     */
+    public ItemDTO incrementarEstoqueItem(int codigo, float quantidade) throws EmpresaException {
+        return this.atualizarEstoque(true, codigo, quantidade);
+    }
+
+    /**
+     * toda remoção de estoque deve ser feita aqui
+     *
+     * @param codigo
+     * @param quantidade
+     * @return
+     * @throws EmpresaException
+     */
+    public ItemDTO decrementarEstoqueItem(int codigo, float quantidade) throws EmpresaException {
+        return this.atualizarEstoque(false, codigo, quantidade);
+    }
+
+    /**
+     * impede que a quantidade em estoque seja alterada
+     * simultaneamente por duas rotinas diferentes
+     * 
+     * @param increment: define se é operação de incremento ou decremento
+     * @param codigo
+     * @param quantidade
+     * @return
+     * @throws EmpresaException
+     */
+    private synchronized ItemDTO atualizarEstoque(boolean increment, int codigo, float quantidade) throws EmpresaException {
+        ItemDTO item = this.getItem(codigo);
+        if (quantidade <= 0) {
+            throw new EmpresaException("Quantidade Inválida: " + quantidade);
+        }
+        if (item == null) {
+            throw new EmpresaException("Item não encontrado - código: " + codigo);
+        }
+        float estoque = 0;
+        if (item.getEstoque() != null) {
+            estoque = item.getEstoque();
+        }
+
+        if(increment)
+            estoque = estoque + quantidade;
+        else
+            estoque = estoque - quantidade;
+
+        item.setEstoque(estoque);
+        this.updateItem(item);
+        return item;
     }
 
     public ItemDTO getItem(int codigo) throws EmpresaException {

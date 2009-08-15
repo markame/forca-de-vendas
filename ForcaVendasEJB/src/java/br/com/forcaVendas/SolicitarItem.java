@@ -5,6 +5,7 @@ import br.com.forcaVendas.dto.Solicitacao;
 import br.com.forcaVendas.dto.interfaces.IEmpresa;
 import br.com.forcaVendas.dto.interfaces.IItem;
 import br.com.forcaVendas.empresa.remote.EmpresaException;
+import br.com.forcaVendas.empresa.remote.IEmpresaMgtRemote;
 import br.com.forcaVendas.fornecedor.remote.IFornecedorMgt;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,10 @@ public class SolicitarItem {
     @EJB
     public IFornecedorMgt fornecedorMgtRemote = null;
 
+    @EJB
+    public IEmpresaMgtRemote empresaMgtRemote = null;
+
+
     public List<Solicitacao> solicitarItem(List<IItem> itens, IEmpresa empresa) throws EmpresaException{
         List<Integer> codigoItens = new ArrayList();
         for(IItem item: itens){
@@ -35,6 +40,8 @@ public class SolicitarItem {
             if(item.getCodigo() == null)
                 throw new EmpresaException(this.getClass().getName() +": Item com código inválido");
 
+            if(item.getEstoqueMinimo() == null || item.getEstoqueMinimo() <= 0)
+                throw new EmpresaException(this.getClass().getName() +": Item com estoque mínimo inválido");
 
             codigoItens.add(item.getCodigo());
         }
@@ -44,6 +51,15 @@ public class SolicitarItem {
 
 
         //TODO atualizar com estoques com as quantidades pedidas
+        int codigo;
+        float quantidade;
+
+        for(Solicitacao solic : solicitacoes){
+            codigo = solic.getIdItem();
+            quantidade = 1; //TODO
+
+            empresaMgtRemote.incrementarEstoqueItem(codigo, quantidade);
+        }
 
 
         return solicitacoes;
