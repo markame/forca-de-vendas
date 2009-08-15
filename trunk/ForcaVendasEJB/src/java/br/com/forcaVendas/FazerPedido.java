@@ -102,7 +102,7 @@ public class FazerPedido implements IFazerPedidoRemote{
             if(item.getEstoque() < pedidoItem.getQuantidade()){
                 //estas alterações não serão persistidas no banco
                 float estoque = item.getEstoque();
-                item.setEstoque(estoque + pedidoItem.getQuantidade());
+                item.setEstoque(estoque - pedidoItem.getQuantidade());
 
                 itensFaltaEstoque.add(item);
             }
