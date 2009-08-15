@@ -39,12 +39,13 @@ public class Item implements IItem, Serializable {
 
     public Item() {
         this.estoque = (float) 0;
+        this.estoqueMinimo = (float) 10; //valor Default, deve ser alterado pelo usuário depois
     }
 
     public Item(String nome, float preco) {
+        this();
         this.nome = nome;
         this.preco = preco;
-        this.estoque = (float) 0;
     }
 
     public Integer getCodigo() {
