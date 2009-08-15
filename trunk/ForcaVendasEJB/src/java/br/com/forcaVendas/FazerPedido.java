@@ -13,6 +13,7 @@ import br.com.forcaVendas.dto.ItemDTO;
 import br.com.forcaVendas.dto.PedidoDTO;
 import br.com.forcaVendas.dto.PedidoItemDTO;
 import br.com.forcaVendas.dto.VendedorDTO;
+import br.com.forcaVendas.dto.interfaces.IItem;
 import br.com.forcaVendas.empresa.remote.EmpresaException;
 import br.com.forcaVendas.empresa.remote.IEmpresaMgtRemote;
 import br.com.forcaVendas.fornecedor.remote.IFornecedorMgt;
@@ -44,8 +45,12 @@ public class FazerPedido implements IFazerPedidoRemote{
     @EJB
     public IEmpresaMgtRemote empresaMgtRemote = null;
 
-    @EJB
-    public IFornecedorMgt fornecedorMgtRemote = null;
+    private SolicitarItem solicitarItem;
+
+    public FazerPedido() {
+        solicitarItem = new SolicitarItem();
+    }
+
 
     public ClienteDTO getCliente(String cpf) throws ClienteException {
         return clienteMgtRemote.buscarCliente(cpf);
@@ -89,7 +94,7 @@ public class FazerPedido implements IFazerPedidoRemote{
     }
 
     public PedidoDTO fazerPedido(ClienteDTO cliente, VendedorDTO vendedor, List<PedidoItemDTO> pedidoItens) throws EmpresaException {
-        List<ItemDTO> itensFaltaEstoque = new ArrayList<ItemDTO>();
+        List<IItem> itensFaltaEstoque = new ArrayList<IItem>();
 
         for(PedidoItemDTO pedidoItem : pedidoItens){
             ItemDTO item = empresaMgtRemote.getItem(pedidoItem.getItem().getCodigo());
@@ -105,17 +110,12 @@ public class FazerPedido implements IFazerPedidoRemote{
                 //faz a solicitação
                 EmpresaDTO empresa = empresaMgtRemote.getEmpresa();
 
-                List<Integer> codigoItens = new ArrayList();
-                for(ItemDTO item: itensFaltaEstoque){
-                    codigoItens.add(item.getCodigo());
-                }
-
-                fornecedorMgtRemote.solicitarItem(codigoItens, empresa);
+                solicitarItem.solicitarItem(itensFaltaEstoque, empresa);
 
                 
             }else{
                 StringBuilder itensFaltantes = new StringBuilder();
-                for(ItemDTO item : itensFaltaEstoque){
+                for(IItem item : itensFaltaEstoque){
                     itensFaltantes.append(item.getNome() + ", ");
                 }
 
@@ -125,6 +125,7 @@ public class FazerPedido implements IFazerPedidoRemote{
             }
         }
 
+        //Só pode fazer o pedido depois de solicitar os itens faltantes
         return empresaMgtRemote.fazerPedido(cliente.getId(), vendedor, pedidoItens);
     }
 
