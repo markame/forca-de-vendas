@@ -8,31 +8,44 @@ package br.com.forcaVendas;
 import br.com.forcaVendas.cliente.remote.ClienteException;
 import br.com.forcaVendas.cliente.remote.IClienteMgtRemote;
 import br.com.forcaVendas.dto.ClienteDTO;
+import br.com.forcaVendas.dto.EmpresaDTO;
 import br.com.forcaVendas.dto.ItemDTO;
 import br.com.forcaVendas.dto.PedidoDTO;
 import br.com.forcaVendas.dto.PedidoItemDTO;
 import br.com.forcaVendas.dto.VendedorDTO;
 import br.com.forcaVendas.empresa.remote.EmpresaException;
 import br.com.forcaVendas.empresa.remote.IEmpresaMgtRemote;
+import br.com.forcaVendas.fornecedor.remote.IFornecedorMgt;
 import br.com.forcaVendas.remote.IFazerPedidoRemote;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 
 /**
+ * Interface Externa para realização de pedidos (a idéia é que para realizar um pedido seja utilizada apenas esta interface)
+ *
+ * Seqüência:
+ * 1.Selecionar Cliente
+ * 2.Selecionar Vendedor
+ * 3.Adicionar um item de cada vez até que todos sejam adicionados
+ * 4.Realizar pedido (utilizando o resultado das etapas anteriores)
+ *
  *
  * @author Henrique
  */
 public class FazerPedido implements IFazerPedidoRemote{
 
     //Definir aqui se posível ou não vender com estoque negativo
-    public static final boolean PERMITIDO_PEDIDO_COM_ESTOQUE_NEGATIVO = false;
+    public static final boolean PERMITIDO_PEDIDO_COM_ESTOQUE_NEGATIVO = true;
 
     @EJB
     public IClienteMgtRemote clienteMgtRemote = null;
 
     @EJB
     public IEmpresaMgtRemote empresaMgtRemote = null;
+
+    @EJB
+    public IFornecedorMgt fornecedorMgtRemote = null;
 
     public ClienteDTO getCliente(String cpf) throws ClienteException {
         return clienteMgtRemote.buscarCliente(cpf);
@@ -89,13 +102,16 @@ public class FazerPedido implements IFazerPedidoRemote{
         
         if(!itensFaltaEstoque.isEmpty()){
             if(PERMITIDO_PEDIDO_COM_ESTOQUE_NEGATIVO){
-                /*TODO solicitar item
-                 * porém necessita especificar:
-                 *        o fornecedor
-                 *        a quantidade (que não necessariamente é a mesma do pedido)
-                 */
+                //faz a solicitação
+                EmpresaDTO empresa = empresaMgtRemote.getEmpresa();
 
-                throw new UnsupportedOperationException("Not yet implemented");
+                List<Integer> codigoItens = new ArrayList();
+                for(ItemDTO item: itensFaltaEstoque){
+                    codigoItens.add(item.getCodigo());
+                }
+
+                fornecedorMgtRemote.solicitarItem(codigoItens, empresa);
+
                 
             }else{
                 StringBuilder itensFaltantes = new StringBuilder();
