@@ -30,5 +30,12 @@ public interface IClienteMgtRemote {
 
     public boolean  criarFatura(List<PedidoDTO> pedidos, String cpfCliente)  throws ClienteException;
 
-    public List<LinkFaturaPedidoDTO> buscarFatura(String cpfCliente, int mes)  throws ClienteException;
+    /**
+     * 
+     * @param cpfCliente
+     * @param mes
+     * @return uma lista de String em que cada posição do Vector tem o código do pedido
+     * @throws ClienteException
+     */
+    public List<String> buscarFatura(String cpfCliente, int mes)  throws ClienteException;
 }

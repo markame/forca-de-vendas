@@ -12,16 +12,16 @@ import br.com.forcaVendas.dto.PedidoDTO;
 import cliente.entidades.Cliente;
 import cliente.entidades.Fatura;
 import cliente.entidades.LinkFaturaPedido;
-import com.sun.codemodel.JOp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.FlushModeType;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -166,7 +166,6 @@ public class ClienteMgr implements IClienteMgtRemote {
             int mes = new Date().getMonth() + 1;
             int codFatura = 0;
 
-
             /*List<Fatura> retorno = em.createNamedQuery("Fatura.findByCliente_Mes").
             setParameter("cpf_cliente", client.getCpf()).
             setParameter("mes", mes).getResultList();*/
@@ -203,11 +202,18 @@ public class ClienteMgr implements IClienteMgtRemote {
                 //codFatura = retorno.get(0).getId();
                 //}
             } else {
-                Fatura fatura = new Fatura(client.getCpf(), mes);
+
+                String valores = "";
+                for (int i = 0; i < pedidos.size(); i++) {
+                    valores = valores.concat("" + pedidos.get(i).getCodigo() + "-");
+                }
+                valores = valores.substring(0, valores.length() - 1);
+
+                Fatura fatura = new Fatura(client.getCpf(), mes, valores);
                 System.out.println("Criou a fatura...");
                 em.persist(fatura);
                 System.out.println("Salvou a fatura...");
-                List<Fatura> retorno21 = em.createNamedQuery("Fatura.findAll").getResultList();
+                /*List<Fatura> retorno21 = em.createNamedQuery("Fatura.findAll").getResultList();
                 List<Fatura> retorno11 = new Vector<Fatura>();
 
                 for (Fatura i : retorno21) {
@@ -216,25 +222,28 @@ public class ClienteMgr implements IClienteMgtRemote {
                         retorno11.add(i);
                     }
                 }
-                codFatura = retorno11.get(0).getId();
+                codFatura = retorno11.get(0).getId();*/
                 //throw new ClienteException("Problemas na geração da Fatura!!!");
             }
 
-            System.out.println("Antes do FOR de pedidos...");
+
+            /*System.out.println("Antes do FOR de pedidos...");
             for (PedidoDTO pedido : pedidos) {
                 //Fatura fatura = new Fatura(pedido.getCodigo().intValue(), client.getCpf(), pedido.getDataSolicitacao());
                 LinkFaturaPedido link = new LinkFaturaPedido(pedido.getCodigo(), codFatura);
-                em.persist(link);                
+                //em.persist(link);
                 System.out.println("Salvou a os links...");
             }
-            System.out.println("Return true...");
+            System.out.println("Return true...");*/
             return true;
         } catch (Exception e) {
             throw new ClienteException(e);
         }
     }
 
-    public List<LinkFaturaPedidoDTO> buscarFatura(String cpfCliente, int mes) throws ClienteException {
+    public List<String> buscarFatura(String cpfCliente, int mes) throws ClienteException {
+
+        List<String> pedidosDTO = new Vector<String>();
 
         if (cpfCliente == null || cpfCliente.isEmpty()) {
             throw new ClienteException("CPF inválido");
@@ -243,63 +252,36 @@ public class ClienteMgr implements IClienteMgtRemote {
             throw new ClienteException("Mês inválido");
         }
 
-        //LinkFaturaPedido faturaPedido = null;
-        List<LinkFaturaPedidoDTO> faturaPedidoDTO = new Vector<LinkFaturaPedidoDTO>();
         try {
 
-            /*List<Fatura> retorno = em.createNamedQuery("Fatura.findByCliente_Mes").
-            setParameter("cpf_cliente", cpfCliente).
-            setParameter("mes", mes).getResultList();*/
-            List<Fatura> retorno2 = em.createNamedQuery("Fatura.findAll").getResultList();
+            List<Fatura> fatura = em.createNamedQuery("Fatura.findAll").getResultList();
 
-            if (retorno2 == null || retorno2.isEmpty()) {
+            if (fatura == null || fatura.isEmpty()) {
                 throw new ClienteException("Não existe fatura cadastrada com o CPF de cliente para o respectivo mês indicados.");
             }
 
-            List<Fatura> retorno = new Vector<Fatura>();
+            String pedidos = "";
 
-            for (Fatura i : retorno2) {
+            for (Fatura i : fatura) {
                 if (i.getCpfCliente().equalsIgnoreCase(cpfCliente) &&
                         i.getMes() == mes) {
-                    retorno.add(i);
+                    pedidos = i.getPedidos();
                 }
             }
 
-            if (retorno == null || retorno.isEmpty()) {
+            if (pedidos == null || pedidos.isEmpty()) {
                 throw new ClienteException("Não existe fatura cadastrada com o CPF de cliente para o respectivo mês indicados.");
             }
-
-            //faturaPedido = em.find(LinkFaturaPedido.class, id);
-
-            /*List<LinkFaturaPedido> pedidos = em.createNamedQuery("LinkFaturaPedido.findById_Fatura").
-            setParameter("id_fatura", retorno.get(0).getId()).getResultList();*/
-            List<LinkFaturaPedido> retorno4 = em.createNamedQuery("LinkFaturaPedido.findAll").getResultList();
-
-            if (retorno4 == null || retorno4.isEmpty()) {
-                throw new ClienteException("Não existe fatura cadastrada com o CPF de cliente para o respectivo mês indicados.");
-            }
-
-            List<LinkFaturaPedido> pedidos = new Vector<LinkFaturaPedido>();
-
-            for (LinkFaturaPedido i : retorno4) {
-                if (i.getIdFatura() == retorno.get(0).getId()) {
-                    pedidos.add(i);
+            else{
+                String[] osPedidos = pedidos.split("-");
+                for(int i = 0; i < osPedidos.length; i++){
+                    pedidosDTO.add(osPedidos[i]);
                 }
             }
+            return pedidosDTO;
 
-            for (LinkFaturaPedido i : pedidos) {
-
-                LinkFaturaPedidoDTO dto = new LinkFaturaPedidoDTO();
-
-                //faturaPedidoDTO = new LinkFaturaPedidoDTO();
-
-                dto.setIdFatura(i.getIdFatura());
-                dto.setIdPedido(i.getIdPedido());
-                faturaPedidoDTO.add(dto);
-            }
         } catch (Exception e) {
             throw new ClienteException(e);
         }
-        return faturaPedidoDTO;
     }
 }

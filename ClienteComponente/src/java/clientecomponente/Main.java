@@ -142,12 +142,12 @@ public class Main {
                     try {
                         String cpf2 = JOptionPane.showInputDialog(null, "Informe o CPF do cliente: ");
                         int codFatura = Integer.parseInt(JOptionPane.showInputDialog(null, "Informe o mês da fatura: "));
-                        List<LinkFaturaPedidoDTO> faturaDTO = clienteMgr.buscarFatura(cpf2, codFatura);
-                        for (LinkFaturaPedidoDTO i : faturaDTO) {
+                        List<String> faturaPedidos = clienteMgr.buscarFatura(cpf2, codFatura);
+                        //for (LinkFaturaPedidoDTO i : faturaDTO) {
                             JOptionPane.showMessageDialog(null, "Fatura buscada: " +
-                                    "\nCódigo da fatura: " + i.getIdFatura() +
-                                    "\nCódigo do pedido: " + i.getIdPedido());
-                        }
+                                    //"\nCódigo da fatura: " + i.getIdFatura() +
+                                    "\nCódigos dos pedidos: " + faturaPedidos.toString());
+                        //}
                     } catch (NumberFormatException e) {
                         JOptionPane.showMessageDialog(null, "Informe um número para o mês!");
                     } catch (ClienteException e) {

@@ -7,7 +7,7 @@ package cliente.entidades;
 
 import br.com.forcaVendas.dto.interfaces.IFatura;
 import java.io.Serializable;
-import java.util.Date;
+import java.util.Vector;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +18,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
 
 /**
  *
@@ -43,18 +42,30 @@ public class Fatura implements Serializable {
     @Column(name = "mes", nullable=false)
     private Integer mes;
 
+    @Column(name = "pedidos", nullable=false)
+    private String pedidos;
+
     public Fatura() {
     }
 
-    public Fatura(String cpfCliente, Integer mes) {
+    public Fatura(String cpfCliente, Integer mes, String pedidos) {
         this.cpfCliente = cpfCliente;
         this.mes = mes;
+        this.pedidos = pedidos;
     }
 
     public Integer getId() {
         return id;
     }
 
+    public String getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(String pedidos) {
+        this.pedidos = pedidos;
+    }
+    
     public void setId(Integer id) {
         this.id = id;
     }
