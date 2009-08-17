@@ -135,8 +135,8 @@ public class ClienteMgrTest {
         ClienteDTO cliente = null;        
         boolean expResult = false;
         ClienteMgr instance = new ClienteMgr();
-        boolean result = instance.criarFatura(pedidos, cliente);
-        assertEquals(expResult, result);
+//        boolean result = instance.criarFatura(pedidos, cliente);
+//        assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -150,8 +150,8 @@ public class ClienteMgrTest {
         Integer id = null;        
         FaturaDTO expResult = null;
         ClienteMgr instance = new ClienteMgr();
-        FaturaDTO result = instance.buscarFatura(id);
-        assertEquals(expResult, result);
+//        FaturaDTO result = instance.buscarFatura(id);
+//        assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
