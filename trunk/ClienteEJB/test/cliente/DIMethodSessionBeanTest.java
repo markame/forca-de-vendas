@@ -7,6 +7,7 @@ package cliente;
 
 import br.com.forcaVendas.cliente.remote.ClienteException;
 import com.bm.testsuite.BaseSessionBeanFixture;
+import javax.ejb.EJB;
 
 /**
  *
@@ -28,6 +29,7 @@ public class DIMethodSessionBeanTest extends BaseSessionBeanFixture<ClienteMgr>{
     /**
 	 * Test the dpendency injection.
 	 */
+    @EJB
 	public void testDependencyInjection() {
 
         try {

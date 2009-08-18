@@ -7,12 +7,14 @@ package cliente;
 import com.bm.testsuite.BaseSessionBeanFixture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 
 /**
  *
  * @author João
  */
 public class BaseSessionBeanFixtureTest extends BaseSessionBeanFixture<BaseSessionBeanFixtureTest> {
+
 
     private static final Class[] usedBeans = {ClienteMgr.class};
 
@@ -30,6 +32,7 @@ public class BaseSessionBeanFixtureTest extends BaseSessionBeanFixture<BaseSessi
     /**
      * Testmethod.
      */
+    @EJB
     public void testBean() {
         BaseSessionBeanFixtureTest toTest = this.getBeanToTest();
 
